@@ -1,0 +1,10 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+node_modules/
+storage/
+.vercel/
+.tmp/
+npm-debug.log*
+pnpm-debug.log*

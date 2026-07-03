@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Aha IMDb Top 250：浏览高分电影，标记看过、想看和收藏，进入详情页看摘要、口碑与相关推荐。">
+    <meta name="theme-color" content="#111827">
+    <title>Aha IMDb Top 250</title>
+    <link rel="icon" type="image/svg+xml" href="/icons/aha-logo.svg">
+    <link rel="apple-touch-icon" href="/icons/aha-logo.svg">
+    <link rel="stylesheet" href="/styles.css">
+    <script defer src="https://umami.qiaomu.ai/script.js" data-website-id="aha-qiaomu-ai" data-domains="aha.qiaomu.ai"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="site-header">
+        <a class="brand" href="/" aria-label="Aha IMDb Top 250 首页">
+          <img class="brand-icon" src="/icons/aha-logo.svg" alt="" aria-hidden="true">
+          <span>
+            <strong>Aha IMDb Top 250</strong>
+            <small>乔木电影清单</small>
+          </span>
+        </a>
+        <nav class="chrome-actions" aria-label="站点操作">
+          <a class="icon-link tooltip" data-tooltip="GitHub" href="https://github.com/joeseesun/" target="_blank" rel="noreferrer" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.18-3.37-1.18a2.65 2.65 0 0 0-1.11-1.46c-.91-.62.07-.61.07-.61a2.1 2.1 0 0 1 1.53 1.03 2.13 2.13 0 0 0 2.91.83 2.14 2.14 0 0 1 .64-1.34c-2.22-.25-4.56-1.11-4.56-4.94a3.87 3.87 0 0 1 1.03-2.69 3.6 3.6 0 0 1 .1-2.65s.84-.27 2.75 1.03A9.47 9.47 0 0 1 12 6.99a9.47 9.47 0 0 1 2.5.34c1.9-1.3 2.74-1.03 2.74-1.03.37.84.4 1.8.1 2.65a3.86 3.86 0 0 1 1.03 2.69c0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.86v2.58c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+          </a>
+          <a class="icon-link tooltip" data-tooltip="X" href="https://x.com/vista8" target="_blank" rel="noreferrer" aria-label="X">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.2 3h3.2l-7 8 8.2 10h-6.4l-5-6.2L4.6 21H1.4l7.5-8.6L1 3h6.6l4.5 5.5L17.2 3Zm-1.1 16.2h1.8L6.6 4.7H4.7l11.4 14.5Z"/></svg>
+          </a>
+          <button class="icon-button tooltip" type="button" data-open-modal="reward" data-tooltip="打赏" aria-label="打赏">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7h-2.4a3 3 0 0 0 .4-1.5A2.5 2.5 0 0 0 13.6 4L12 6.1 10.4 4A2.5 2.5 0 0 0 6 5.5c0 .54.14 1.05.4 1.5H4a2 2 0 0 0-2 2v2h20V9a2 2 0 0 0-2-2ZM8.5 4.8c.34 0 .66.16.86.43L10.7 7H8.5a1.1 1.1 0 0 1 0-2.2Zm7 2.2h-2.2l1.34-1.77a1.08 1.08 0 0 1 .86-.43 1.1 1.1 0 0 1 0 2.2ZM3 13v6a2 2 0 0 0 2 2h6v-8H3Zm10 8h6a2 2 0 0 0 2-2v-6h-8v8Z"/></svg>
+          </button>
+          <button class="icon-button tooltip" type="button" data-open-modal="follow" data-tooltip="关注" aria-label="关注">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h3.7l3.1 2.3a2 2 0 0 0 2.4 0l3.1-2.3H20a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2ZM8 11a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"/></svg>
+          </button>
+          <button class="user-button" type="button" id="accountButton">登录</button>
+        </nav>
+      </header>
+
+      <main class="page-stack">
+        <section class="hero-section" aria-labelledby="pageTitle">
+          <div>
+            <p class="eyebrow">Movie list</p>
+            <h1 id="pageTitle">IMDb Top 250</h1>
+          </div>
+          <form class="search-form" id="searchForm">
+            <label class="sr-only" for="searchInput">搜索电影</label>
+            <input id="searchInput" name="q" autocomplete="off" placeholder="搜索电影、导演、关键词">
+            <button type="submit" aria-label="搜索">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 4a6.5 6.5 0 0 1 5.14 10.48l4.44 4.44-1.42 1.42-4.44-4.44A6.5 6.5 0 1 1 10.5 4Zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9Z"/></svg>
+            </button>
+            <button class="ghost-button" type="button" id="resetButton">Top 250</button>
+          </form>
+        </section>
+
+        <div class="status-bar">
+          <span id="statusText">正在读取电影清单。</span>
+        </div>
+
+        <section class="home-view" id="homeView">
+          <section class="leaderboard-grid" aria-label="首页榜单">
+            <article class="leaderboard-panel">
+              <div class="section-head">
+                <p class="eyebrow">watch log</p>
+                <h2>看过榜</h2>
+              </div>
+              <div class="leaderboard-list" id="watchedBoard"></div>
+            </article>
+            <article class="leaderboard-panel">
+              <div class="section-head">
+                <p class="eyebrow">favorites</p>
+                <h2>收藏榜</h2>
+              </div>
+              <div class="leaderboard-list" id="favoriteBoard"></div>
+            </article>
+          </section>
+
+          <section aria-label="电影列表">
+            <div class="movie-grid" id="movieGrid"></div>
+            <div class="load-more-row">
+              <button class="ghost-button" type="button" id="loadMoreButton" hidden>加载更多</button>
+            </div>
+            <div class="scroll-sentinel" id="scrollSentinel" aria-hidden="true"></div>
+          </section>
+        </section>
+
+        <article class="detail-page" id="detailView" hidden></article>
+      </main>
+
+      <footer class="site-footer">
+        <a href="https://tuijian.qiaomu.ai/" target="_blank" rel="noreferrer">乔木推荐</a>
+        <span>向阳乔木出品</span>
+      </footer>
+    </div>
+
+    <div class="modal-backdrop" id="modalBackdrop" hidden>
+      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <button class="modal-close" type="button" id="modalClose" aria-label="关闭">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6.4 5 12.6 12.6-1.4 1.4L5 6.4 6.4 5Zm12.6 1.4L6.4 19 5 17.6 17.6 5 19 6.4Z"/></svg>
+        </button>
+        <h2 id="modalTitle"></h2>
+        <div id="modalBody"></div>
+      </section>
+    </div>
+
+    <template id="rewardTemplate">
+      <div class="qr-layout">
+        <img src="/assets/qiaomu_reward_qr.png" alt="打赏支持二维码" loading="lazy">
+      </div>
+    </template>
+
+    <template id="followTemplate">
+      <div class="qr-layout">
+        <img src="/assets/qiaomu_wechat_public_account_qr.jpg" alt="向阳乔木推荐看二维码" loading="lazy">
+        <p>微信公众号：向阳乔木推荐看</p>
+        <div class="modal-links">
+          <a href="https://github.com/joeseesun/" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="https://x.com/vista8" target="_blank" rel="noreferrer">X</a>
+        </div>
+      </div>
+    </template>
+
+    <template id="authTemplate">
+      <div class="auth-box">
+        <div class="segmented" role="tablist" aria-label="账号操作">
+          <button type="button" data-auth-mode="login" class="active">登录</button>
+          <button type="button" data-auth-mode="register">注册</button>
+        </div>
+        <form id="authForm" class="auth-form">
+          <label>
+            <span>邮箱</span>
+            <input name="email" type="email" autocomplete="email" required>
+          </label>
+          <label>
+            <span>密码</span>
+            <input name="password" type="password" autocomplete="current-password" minlength="8" required>
+          </label>
+          <button type="submit" class="primary-button">继续</button>
+          <p class="form-message" id="authMessage"></p>
+        </form>
+      </div>
+    </template>
+
+    <div class="toast" id="toast" hidden></div>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

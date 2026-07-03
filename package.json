@@ -1,0 +1,19 @@
+{
+  "name": "aha-imdb-top250",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Qiaomu IMDb Top 250 movie guide with favorites, watch states, detail research, and leaderboards.",
+  "license": "MIT",
+  "author": "向阳乔木 <https://qiaomu.ai>",
+  "type": "module",
+  "scripts": {
+    "dev": "node server/index.mjs",
+    "check": "node scripts/check.mjs",
+    "lint": "node scripts/check.mjs",
+    "build": "node scripts/check.mjs",
+    "warm-cache": "node scripts/warm-cache.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
