@@ -149,6 +149,18 @@ export function posterProxyPath(imdbID) {
   return imdbID ? `/api/posters/${imdbID}.webp` : "";
 }
 
+async function fetchImageBytes(url, source) {
+  const response = await fetch(url, {
+    signal: AbortSignal.timeout(9000),
+    headers: {
+      Accept: "image/*",
+      "User-Agent": "QiaomuMovieGuide/1.0 https://movie.qiaomu.ai"
+    }
+  });
+  if (!response.ok) throw new Error(`${source} Poster HTTP ${response.status}`);
+  return Buffer.from(await response.arrayBuffer());
+}
+
 export async function fetchPoster(imdbID) {
   const cachedPath = path.join(POSTER_CACHE_DIR, `${imdbID}.webp`);
   try {
@@ -163,15 +175,16 @@ export async function fetchPoster(imdbID) {
 
   const url = privatePosterUrl(imdbID);
   if (!url) throw new Error("OMDB_API_KEY is not configured");
-  const response = await fetch(url, {
-    signal: AbortSignal.timeout(9000),
-    headers: {
-      Accept: "image/*",
-      "User-Agent": "QiaomuMovieGuide/1.0 https://movie.qiaomu.ai"
-    }
-  });
-  if (!response.ok) throw new Error(`OMDb Poster HTTP ${response.status}`);
-  const bytes = await sharp(Buffer.from(await response.arrayBuffer()))
+  let sourceBytes;
+  try {
+    sourceBytes = await fetchImageBytes(url, "OMDb");
+  } catch (error) {
+    const cachedMovie = await getCachedMovie(imdbID);
+    const fallbackUrl = clean(cachedMovie?.posterOriginal);
+    if (!/^https?:\/\//.test(fallbackUrl)) throw error;
+    sourceBytes = await fetchImageBytes(fallbackUrl, "Original");
+  }
+  const bytes = await sharp(sourceBytes)
     .resize({ width: POSTER_WIDTH, withoutEnlargement: true })
     .webp({ quality: POSTER_QUALITY, effort: 4 })
     .toBuffer();
