@@ -4,14 +4,14 @@
 
 ![乔木电影清单桌面截图](docs/assets/aha-desktop.png)
 
-> 一个面向用户的电影清单网站：默认浏览 IMDb Top 250，支持搜索、详情页、看过/想看/收藏、看过榜和收藏榜。  
-> A self-hosted movie guide for IMDb Top 250, with search, detail pages, watch states, favorites, and leaderboards.
+> 一个面向用户的电影清单网站：默认浏览 IMDb Top 250，支持搜索、详情页、看过/想看和收藏。
+> A self-hosted movie guide for IMDb Top 250, with search, detail pages, watch states, and favorites.
 
 [Live Site](https://movie.qiaomu.ai) · [License](LICENSE)
 
 ## 这是什么
 
-乔木电影清单是乔木的中文电影清单站。用户不登录也能浏览、搜索、标记看过和想看；收藏需要注册登录。每个电影详情页提供摘要、口碑、创作线索和相关电影推荐。
+乔木电影清单是乔木的中文电影清单站。用户不登录也能浏览、搜索、标记看过和想看；收藏需要注册登录。每个电影详情页提供中文片名、观影入口、口碑、创作线索和相关电影推荐。
 
 ## 核心能力
 
@@ -21,10 +21,11 @@
 | 独立详情页 | 每部电影都有中文片名、摘要、评分口碑、主创资料和相关电影 |
 | SEO 页面 | 详情页输出独立 meta、canonical、结构化数据和 sitemap |
 | WebP 海报缓存 | 海报由服务端压缩为低分辨率 WebP 并持久缓存 |
-| 看过 / 想看 | 游客可直接标记，计入看过榜 |
-| 收藏 | 注册登录后收藏电影，计入收藏榜 |
+| 看过 / 想看 | 游客可直接标记，方便记录观影状态 |
+| 收藏 | 注册登录后收藏电影 |
 | 搜索 | 可从默认榜单之外查找更多电影 |
 | 移动端布局 | 手机和桌面都按正式网页宽度排版 |
+| 榜单数据 | 看过榜和收藏榜接口保留，首页默认隐藏，等运营一段时间后恢复 |
 
 ## 截图
 
@@ -49,9 +50,12 @@ PUBLIC_BASE_URL="https://movie.qiaomu.ai"
 LEGACY_HOSTS="aha.qiaomu.ai"
 DEEPSEEK_API_KEY=""
 DEEPSEEK_MODEL="deepseek-v4-flash"
+EDITORIAL_LLM_API_KEY=""
+EDITORIAL_LLM_BASE_URL="https://api.z.ai/api/coding/paas/v4"
+EDITORIAL_LLM_MODEL="glm-5.2"
 ```
 
-`OMDB_API_KEY` 和 `SESSION_SECRET` 是生产必需项。`DEEPSEEK_API_KEY` 可选；没有可用 key 时，网站仍会基于电影字段展示具体资料。
+`OMDB_API_KEY` 和 `SESSION_SECRET` 是生产必需项。翻译和深度观影内容模型是可选项；没有可用 key 时，网站仍会基于电影字段展示具体资料。
 
 ## 命令
 
@@ -61,7 +65,7 @@ pnpm build
 pnpm warm-cache
 ```
 
-`warm-cache` 默认预热 IMDb Top 250 电影详情和 WebP 海报缓存；可用 `WARM_LIMIT`、`WARM_DETAILS=0`、`WARM_POSTERS=0` 控制范围。
+`warm-cache` 默认预热 IMDb Top 250 电影详情、深度观影内容和 WebP 海报缓存；可用 `WARM_LIMIT`、`WARM_DETAILS=0`、`WARM_POSTERS=0` 控制范围。
 
 ## 架构
 

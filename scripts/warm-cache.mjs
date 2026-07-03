@@ -14,12 +14,15 @@ for (let offset = 0; movies.length < limit; offset += pageSize) {
 }
 
 let detailCount = 0;
+let editorialCount = 0;
 let posterCount = 0;
 let posterErrors = 0;
 if (warmDetails || warmPosters) {
-  for (const movie of movies) {
+  for (const [index, movie] of movies.entries()) {
     if (warmDetails) {
-      await getMovie(movie.imdbID, { generateAi, enrichResearch: true });
+      const detailed = await getMovie(movie.imdbID, { generateAi, enrichResearch: true });
+      movies[index] = detailed;
+      if (detailed.editorial?.hook) editorialCount += 1;
       detailCount += 1;
     }
     if (warmPosters) {
@@ -37,6 +40,7 @@ console.log(JSON.stringify({
   ok: true,
   count: movies.length,
   details: detailCount,
+  editorial: editorialCount,
   posters: posterCount,
   posterErrors,
   generated: movies.filter((movie) => movie.why && !movie.why.fallback).length,
