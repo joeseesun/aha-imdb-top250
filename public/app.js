@@ -34,6 +34,7 @@ const els = {
   movieGrid: document.querySelector("#movieGrid"),
   loadMoreButton: document.querySelector("#loadMoreButton"),
   scrollSentinel: document.querySelector("#scrollSentinel"),
+  leaderboardGrid: document.querySelector("#leaderboardGrid"),
   watchedBoard: document.querySelector("#watchedBoard"),
   favoriteBoard: document.querySelector("#favoriteBoard"),
   modalBackdrop: document.querySelector("#modalBackdrop"),
@@ -222,6 +223,7 @@ function actionControls(movie, variant = "card") {
 }
 
 function cardCopy(movie) {
+  if (movie?.editorial?.hook) return movie.editorial.hook;
   if (movie?.why?.headline) return movie.why.headline;
   const plot = cn(movie, "plot") || "";
   if (hasCjk(plot)) return plot;
@@ -290,6 +292,68 @@ function researchBox(section) {
   `;
 }
 
+function listMarkup(items = []) {
+  const rows = items.filter(Boolean).map((item) => `<li>${escapeHtml(item)}</li>`).join("");
+  return rows ? `<ul>${rows}</ul>` : "";
+}
+
+function insightBox(title, items = []) {
+  const rows = listMarkup(items);
+  if (!rows) return "";
+  return `
+    <section class="research-box">
+      <h3>${escapeHtml(title)}</h3>
+      ${rows}
+    </section>
+  `;
+}
+
+function editorialFitBox(editorial) {
+  if (!editorial) return "";
+  const items = [
+    editorial.bestFor ? `适合：${editorial.bestFor}` : "",
+    editorial.caution ? `可能不适合：${editorial.caution}` : "",
+    editorial.rewatchPoint ? `二刷看点：${editorial.rewatchPoint}` : ""
+  ].filter(Boolean);
+  if (!items.length) return "";
+  return `
+    <section class="research-box">
+      <h3>适合谁看</h3>
+      ${listMarkup(items)}
+    </section>
+  `;
+}
+
+function editorialMarkup(movie) {
+  const editorial = movie?.editorial;
+  if (!editorial?.hook || !editorial?.intro) return "";
+  return `
+    <section class="editorial-section" aria-label="观影入口">
+      <div class="editorial-lede">
+        <p class="eyebrow">观影入口</p>
+        <h3>${escapeHtml(editorial.title || `${displayTitle(movie)}真正值得看的地方`)}</h3>
+        <p>${escapeHtml(editorial.intro)}</p>
+      </div>
+      <p class="editorial-hook">${escapeHtml(editorial.hook)}</p>
+      <div class="editorial-grid">
+        ${insightBox("先看这些", editorial.watchPoints || [])}
+        ${insightBox("放进语境", editorial.contextNotes || [])}
+        ${insightBox("创作看点", editorial.craftNotes || [])}
+      </div>
+    </section>
+  `;
+}
+
+function legacyWhyBox(movie, points) {
+  return `
+    <section class="research-box">
+      <h3>观看入口</h3>
+      <p>${escapeHtml(movie.why?.headline || "暂无看点。")}</p>
+      ${points ? `<ul>${points}</ul>` : ""}
+    </section>
+  `;
+}
+
 function relatedMarkup(movie) {
   const related = movie?.research?.related || [];
   if (!related.length) return "";
@@ -330,6 +394,7 @@ function renderDetail() {
   const title = displayTitle(movie);
   const original = originalTitle(movie);
   const points = (movie.why?.points || []).map((point) => `<li>${escapeHtml(point)}</li>`).join("");
+  const hasEditorial = Boolean(movie.editorial?.hook && movie.editorial?.intro);
   els.detailView.hidden = false;
   els.detailView.innerHTML = `
     <button class="back-button" type="button" data-action="home">${backIcon()}<span>返回榜单</span></button>
@@ -345,15 +410,11 @@ function renderDetail() {
         <div class="rating-row">${ratingMarkup(movie)}</div>
       </div>
     </section>
+    ${editorialMarkup(movie)}
     <div class="detail-grid">
-      ${researchBox(movie.research?.summary)}
-      <section class="research-box">
-        <h3>为什么值得看</h3>
-        <p>${escapeHtml(movie.why?.headline || "暂无看点。")}</p>
-        ${points ? `<ul>${points}</ul>` : ""}
-      </section>
+      ${hasEditorial ? editorialFitBox(movie.editorial) : `${researchBox(movie.research?.summary)}${legacyWhyBox(movie, points)}`}
       ${researchBox(movie.research?.audience)}
-      ${researchBox(movie.research?.craft)}
+      ${hasEditorial ? "" : researchBox(movie.research?.craft)}
       <section class="research-box fact-box">
         <h3>影片资料</h3>
         <p>${escapeHtml(plotForDetail(movie))}</p>
@@ -439,6 +500,7 @@ async function loadSession() {
 }
 
 async function loadLeaderboards() {
+  if (!els.leaderboardGrid || els.leaderboardGrid.hidden) return;
   const data = await api("/api/leaderboards?limit=6");
   state.leaderboards = {
     watched: data.watched || [],

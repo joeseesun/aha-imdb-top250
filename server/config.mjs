@@ -15,16 +15,19 @@ export const config = {
   omdbApiKey: process.env.OMDB_API_KEY || "",
   deepseekApiKey: process.env.DEEPSEEK_API_KEY || "",
   deepseekBaseUrl: (process.env.DEEPSEEK_BASE_URL || "https://api.deepseek.com").replace(/\/+$/, ""),
-  deepseekModel: process.env.DEEPSEEK_MODEL || "deepseek-v4-flash"
+  deepseekModel: process.env.DEEPSEEK_MODEL || "deepseek-v4-flash",
+  editorialApiKey: process.env.EDITORIAL_LLM_API_KEY || process.env.ZAI_API_KEY || "",
+  editorialBaseUrl: (process.env.EDITORIAL_LLM_BASE_URL || process.env.ZAI_BASE_URL || "https://api.z.ai/api/coding/paas/v4").replace(/\/+$/, ""),
+  editorialModel: process.env.EDITORIAL_LLM_MODEL || process.env.ZAI_MODEL || "glm-5.2"
 };
 
 export function runtimeStatus() {
   return {
-    omdb: Boolean(config.omdbApiKey),
-    deepseek: Boolean(config.deepseekApiKey),
-    storage: config.storageDir,
-    publicBaseUrl: config.publicBaseUrl,
-    model: config.deepseekModel
+    movieData: Boolean(config.omdbApiKey),
+    translation: Boolean(config.deepseekApiKey),
+    editorial: Boolean(config.editorialApiKey),
+    storage: Boolean(config.storageDir),
+    publicBaseUrl: config.publicBaseUrl
   };
 }
 

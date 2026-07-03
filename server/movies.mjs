@@ -12,11 +12,42 @@ const AI_CACHE_MAX_MS = 1000 * 60 * 60 * 24 * 120;
 const OLD_RULE_PROVIDER = "规则" + "兜底";
 const OLD_GENERIC_HEADLINE = ["值得看", "因为它经得起时间和观众反复校验。"].join("，");
 const OLD_COORDINATE_FRAGMENT = ["清晰的", "口碑坐标"].join("");
+const GENERIC_EDITORIAL_FRAGMENTS = [
+  "经得起时间",
+  "经得起反复",
+  "高分所以值得",
+  "不容错过",
+  "必看经典",
+  "经典之作",
+  "伟大作品"
+];
+const SPOILER_EDITORIAL_FRAGMENTS = [
+  "凶手",
+  "真凶",
+  "幕后黑手",
+  "真正身份",
+  "原来是",
+  "结局",
+  "最后场景",
+  "逃脱方式",
+  "死亡归宿",
+  "海报",
+  "石锤"
+];
+const DUBIOUS_EDITORIAL_FRAGMENTS = [
+  "长期写作",
+  "一贯",
+  "通常",
+  "少有的",
+  "prison fiction"
+];
 const TOP_TOTAL = top250.length;
 const RESEARCH_CACHE_MAX_MS = 1000 * 60 * 60 * 24 * 30;
 const RESEARCH_VERSION = 5;
+const EDITORIAL_CACHE_MAX_MS = 1000 * 60 * 60 * 24 * 180;
+const EDITORIAL_VERSION = 7;
 const DETAIL_CACHE_MAX_MS = 1000 * 60 * 60 * 24 * 120;
-const DETAIL_VERSION = 3;
+const DETAIL_VERSION = 4;
 const POSTER_CACHE_DIR = path.join(config.storageDir, "posters");
 const POSTER_WIDTH = 360;
 const POSTER_QUALITY = 72;
@@ -237,7 +268,7 @@ async function fetchJson(url, source) {
     signal: AbortSignal.timeout(9000),
     headers: {
       Accept: "application/json",
-      "User-Agent": "AhaMovieGuide/1.0 https://aha.qiaomu.ai"
+      "User-Agent": "QiaomuMovieGuide/1.0 https://movie.qiaomu.ai"
     }
   });
   const text = await response.text();
@@ -366,6 +397,14 @@ function normalizeChinesePayload(parsed, movie) {
   };
 }
 
+function normalizeTextArray(value, maxItems = 4, minLength = 8) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map(clean)
+    .filter((item) => item.length >= minLength)
+    .slice(0, maxItems);
+}
+
 function migrateWhyOnly(movie) {
   if (movie.cn && movie.why) return { cn: movie.cn, why: movie.why };
   if (!movie.why) return null;
@@ -466,6 +505,128 @@ function displayMovieTitle(movie) {
   const cnTitle = clean(movie.cn?.title);
   if (hasCjk(cnTitle)) return cnTitle;
   return clean(movie.titleCn) || clean(movie.chart?.titleCn) || clean(movie.title);
+}
+
+function buildEditorialPrompt(movie) {
+  const title = displayMovieTitle(movie);
+  const original = clean(movie.title);
+  return [
+    "你是乔木电影清单的中文电影编辑。你的任务不是复述剧情，也不是写泛泛好评，而是给一个普通观众真正有增量的观影入口。",
+    "请基于电影公共知识和下方基础资料来写；事实性剧情入口、主创、年份以基础资料为锚点。不要输出技术说明，不要提模型，不要说“高分所以值得看”。",
+    "约束：假设用户还没看过；不剧透结局、死亡归宿、凶手身份、关键反转、逃脱方式、关键道具用途或最后场景；不要虚构具体奖项或幕后事实；不要使用你不能确定的人名、理论名、学派名、冷僻术语或装饰性名词；不要做“某导演/作者长期如何、通常如何、少有如何”这类宏观归纳；除片名、人名外尽量不用英文术语。不确定就写成可观察的叙事/表演/影像事实。",
+    "每句话都要能帮助用户决定是否看、看什么、怎么看；不要写空泛判断，不要写“经典”“伟大”“经得起检验”这类无增量句子。",
+    "只输出严格 JSON，不要 Markdown，不要多余解释。",
+    "JSON 结构：",
+    "{",
+    "  \"hook\":\"一句抓人的具体推荐，不超过 70 字\",",
+    "  \"intro\":\"120-180 字，说明这部片真正的观看入口和独特价值\",",
+    "  \"watchPoints\":[\"4 条具体观看角度，每条 45-90 字\"],",
+    "  \"contextNotes\":[\"2-3 条可公开核验的发行、改编、类型位置或观众传播语境，不写创作者画像\"],",
+    "  \"craftNotes\":[\"2-3 条表演、摄影、剪辑、声音、叙事结构等创作看点\"],",
+    "  \"bestFor\":\"适合什么样的观众或观影心情\",",
+    "  \"caution\":\"什么观众可能不适合，具体说明，不要劝退式空话\",",
+    "  \"rewatchPoint\":\"二刷时可以回看的一个非剧透观察方向，不要点出关键道具、结局、反转或解谜线索\"",
+    "}",
+    "",
+    JSON.stringify({
+      movieName: title,
+      originalTitle: original !== title ? original : "",
+      year: movie.chart?.year || movie.year || "",
+      director: movie.director || movie.chart?.director || "",
+      writer: movie.writer || "",
+      actors: movie.actors || movie.chart?.actors || "",
+      genre: movie.genre || movie.chart?.genre || "",
+      plot: movie.plot || movie.chart?.plot || ""
+    })
+  ].join("\n");
+}
+
+function normalizeEditorialPayload(parsed, movie) {
+  const title = displayMovieTitle(movie);
+  const watchPoints = normalizeTextArray(parsed?.watchPoints, 4);
+  const contextNotes = normalizeTextArray(parsed?.contextNotes, 3);
+  const craftNotes = normalizeTextArray(parsed?.craftNotes, 3);
+  const hook = clean(parsed?.hook);
+  const intro = clean(parsed?.intro);
+  if (!hook || !intro || watchPoints.length < 3) {
+    throw new Error("Editorial payload is incomplete");
+  }
+  const allText = [hook, intro, ...watchPoints, ...contextNotes, ...craftNotes, parsed?.bestFor, parsed?.caution, parsed?.rewatchPoint]
+    .map(clean)
+    .join("\n");
+  if (GENERIC_EDITORIAL_FRAGMENTS.some((fragment) => allText.includes(fragment))) {
+    throw new Error("Editorial payload contains generic filler");
+  }
+  if (SPOILER_EDITORIAL_FRAGMENTS.some((fragment) => allText.includes(fragment))) {
+    throw new Error("Editorial payload contains spoiler fragments");
+  }
+  if (DUBIOUS_EDITORIAL_FRAGMENTS.some((fragment) => allText.includes(fragment))) {
+    throw new Error("Editorial payload contains dubious broad claims");
+  }
+  return {
+    title: `《${title}》真正值得看的地方`,
+    hook,
+    intro,
+    watchPoints,
+    contextNotes,
+    craftNotes,
+    bestFor: clean(parsed?.bestFor),
+    caution: clean(parsed?.caution),
+    rewatchPoint: clean(parsed?.rewatchPoint),
+    version: EDITORIAL_VERSION,
+    generatedAt: new Date().toISOString()
+  };
+}
+
+async function generateEditorialWithGlm(movie) {
+  if (!config.editorialApiKey) return null;
+  const response = await fetch(`${config.editorialBaseUrl}/chat/completions`, {
+    method: "POST",
+    signal: AbortSignal.timeout(60000),
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${config.editorialApiKey}`
+    },
+    body: JSON.stringify({
+      model: config.editorialModel,
+      thinking: { type: "disabled" },
+      reasoning_effort: "none",
+      response_format: { type: "json_object" },
+      messages: [
+        { role: "system", content: "你只输出有效 JSON，不输出 Markdown。" },
+        { role: "user", content: buildEditorialPrompt(movie) }
+      ],
+      temperature: 0.5,
+      max_tokens: 2200
+    })
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(data?.error?.message || `Editorial model HTTP ${response.status}`);
+  }
+  const content = clean(data?.choices?.[0]?.message?.content);
+  if (!content) {
+    throw new Error("Editorial model returned empty content");
+  }
+  return normalizeEditorialPayload(JSON.parse(content), movie);
+}
+
+function editorialIsFresh(movie) {
+  return movie.editorial?.version === EDITORIAL_VERSION
+    && movie.editorial?.generatedAt
+    && isFresh(movie.editorial.generatedAt, EDITORIAL_CACHE_MAX_MS)
+    && clean(movie.editorial.hook)
+    && normalizeTextArray(movie.editorial.watchPoints, 4).length >= 3;
+}
+
+async function ensureEditorial(movie) {
+  if (editorialIsFresh(movie)) return movie.editorial;
+  try {
+    return await generateEditorialWithGlm(movie);
+  } catch {
+    return editorialIsFresh(movie) ? movie.editorial : null;
+  }
 }
 
 function intersect(left, right) {
@@ -659,6 +820,7 @@ function detailIsFresh(movie, { requireResearch = false } = {}) {
   if (!isFresh(movie.detailGeneratedAt, DETAIL_CACHE_MAX_MS)) return false;
   if (!generatedTextIsReusable(movie)) return false;
   if (requireResearch && !researchIsFresh(movie)) return false;
+  if (requireResearch && config.editorialApiKey && !editorialIsFresh(movie)) return false;
   return true;
 }
 
@@ -689,9 +851,14 @@ export async function getMovie(imdbID, { generateAi = true, rank = null, chart =
   }
 
   if (enrichResearch) {
+    const [research, editorial] = await Promise.all([
+      runDetailResearchAgents(movie),
+      ensureEditorial(movie)
+    ]);
     movie = {
       ...movie,
-      research: await runDetailResearchAgents(movie)
+      research,
+      ...(editorial ? { editorial } : {})
     };
   }
 
