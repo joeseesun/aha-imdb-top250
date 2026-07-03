@@ -28,7 +28,6 @@ const els = {
   accountButton: document.querySelector("#accountButton"),
   searchForm: document.querySelector("#searchForm"),
   searchInput: document.querySelector("#searchInput"),
-  resetButton: document.querySelector("#resetButton"),
   statusText: document.querySelector("#statusText"),
   homeView: document.querySelector("#homeView"),
   detailView: document.querySelector("#detailView"),
@@ -79,12 +78,22 @@ function cn(movie, key) {
 }
 
 function displayTitle(movie) {
-  return cn(movie, "title") || movie?.chart?.title || movie?.title || "Untitled";
+  const cnTitle = cn(movie, "title");
+  if (hasCjk(cnTitle)) return cnTitle;
+  return movie?.titleCn || movie?.chart?.titleCn || cnTitle || movie?.chart?.title || movie?.title || "Untitled";
 }
 
 function originalTitle(movie) {
   const title = displayTitle(movie);
   return movie?.title && movie.title !== title ? movie.title : "";
+}
+
+function setDocumentMeta(title, description, path = window.location.pathname) {
+  document.title = title;
+  const descriptionTag = document.querySelector("meta[name='description']");
+  if (descriptionTag) descriptionTag.setAttribute("content", description);
+  const canonical = document.querySelector("link[rel='canonical']");
+  if (canonical) canonical.setAttribute("href", `${window.location.origin}${path}`);
 }
 
 function displayYear(movie) {
@@ -287,7 +296,7 @@ function relatedMarkup(movie) {
   return `
     <section class="related-section">
       <div class="section-head">
-        <p class="eyebrow">next watch</p>
+        <p class="eyebrow">延伸观看</p>
         <h2>相关电影</h2>
       </div>
       <div class="related-grid">
@@ -327,7 +336,7 @@ function renderDetail() {
     <section class="detail-hero">
       <div class="detail-poster poster">${posterMarkup(movie)}</div>
       <div class="detail-copy">
-        <p class="eyebrow">${movie.rank ? `IMDb Top #${movie.rank}` : "Movie detail"}</p>
+        <p class="eyebrow">${movie.rank ? `IMDb Top #${movie.rank}` : "电影详情"}</p>
         <h2>${escapeHtml(title)}</h2>
         ${original ? `<p class="original-title">${escapeHtml(original)}</p>` : ""}
         <div class="meta">${escapeHtml([displayYear(movie), cn(movie, "rated"), cn(movie, "runtime"), movie.imdbRating ? `IMDb ${movie.imdbRating}` : ""].filter(Boolean).join(" · "))}</div>
@@ -443,6 +452,7 @@ function showHome({ replace = false } = {}) {
   state.detail = null;
   els.homeView.hidden = false;
   els.detailView.hidden = true;
+  setDocumentMeta("IMDb Top 250 | 乔木电影清单", "浏览 IMDb Top 250 高分电影，查看中文片名、影片摘要、用户口碑、相关电影推荐，并标记看过、想看和收藏。", "/");
   if (replace) window.history.replaceState({}, "", "/");
 }
 
@@ -498,6 +508,7 @@ async function selectMovie(imdbID, { push = true } = {}) {
   mergeMovie(data.movie);
   renderDetail();
   renderMovies();
+  setDocumentMeta(`${displayTitle(data.movie)} | 乔木电影清单`, `${displayTitle(data.movie)}：查看影片摘要、用户口碑、相关电影推荐，并标记看过、想看或收藏。`, `/movie/${imdbID}`);
   setStatus(`${displayTitle(data.movie)} 已载入。`);
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -629,12 +640,6 @@ els.searchForm.addEventListener("submit", async (event) => {
   } catch (error) {
     setStatus(`加载失败：${error.message}`);
   }
-});
-
-els.resetButton.addEventListener("click", () => {
-  els.searchInput.value = "";
-  showHome();
-  loadMovies().catch((error) => setStatus(`加载失败：${error.message}`));
 });
 
 els.loadMoreButton.addEventListener("click", () => {

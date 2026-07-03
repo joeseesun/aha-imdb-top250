@@ -1,8 +1,10 @@
-import { listTopMovies } from "../server/movies.mjs";
+import { fetchPoster, getMovie, listTopMovies } from "../server/movies.mjs";
 
 const limit = Number(process.env.WARM_LIMIT || 250);
 const pageSize = 48;
 const generateAi = process.env.WARM_AI !== "0";
+const warmDetails = process.env.WARM_DETAILS !== "0";
+const warmPosters = process.env.WARM_POSTERS !== "0";
 
 const movies = [];
 for (let offset = 0; movies.length < limit; offset += pageSize) {
@@ -11,9 +13,32 @@ for (let offset = 0; movies.length < limit; offset += pageSize) {
   movies.push(...batch);
 }
 
+let detailCount = 0;
+let posterCount = 0;
+let posterErrors = 0;
+if (warmDetails || warmPosters) {
+  for (const movie of movies) {
+    if (warmDetails) {
+      await getMovie(movie.imdbID, { generateAi, enrichResearch: true });
+      detailCount += 1;
+    }
+    if (warmPosters) {
+      try {
+        await fetchPoster(movie.imdbID);
+        posterCount += 1;
+      } catch {
+        posterErrors += 1;
+      }
+    }
+  }
+}
+
 console.log(JSON.stringify({
   ok: true,
   count: movies.length,
+  details: detailCount,
+  posters: posterCount,
+  posterErrors,
   generated: movies.filter((movie) => movie.why && !movie.why.fallback).length,
   fallback: movies.filter((movie) => movie.why?.fallback).length
 }, null, 2));

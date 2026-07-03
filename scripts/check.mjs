@@ -14,7 +14,9 @@ const requiredFiles = [
   "server/auth.mjs",
   "server/store.mjs",
   "server/movies.mjs",
+  "server/seo.mjs",
   "server/data/top250-imdb.json",
+  "scripts/enrich-chinese-titles.mjs",
   "scripts/warm-cache.mjs"
 ];
 
@@ -28,7 +30,9 @@ const scripts = [
   "server/auth.mjs",
   "server/store.mjs",
   "server/movies.mjs",
+  "server/seo.mjs",
   "scripts/check.mjs",
+  "scripts/enrich-chinese-titles.mjs",
   "scripts/warm-cache.mjs",
   "public/app.js"
 ];
@@ -59,6 +63,10 @@ const checks = [
   ["favorites UI", app.includes("/api/favorites/")],
   ["Top 250 seed count", top250.length === 250],
   ["Top 250 unique ids", new Set(top250.map((movie) => movie.imdbID)).size === 250],
+  ["Top 250 Chinese titles", top250.every((movie) => movie.titleCn)],
+  ["poster proxy uses webp", app.includes(".webp") || (await readFile(path.join(root, "server/movies.mjs"), "utf8")).includes(".webp")],
+  ["no reset top button", !html.includes("resetButton") && !app.includes("resetButton")],
+  ["SEO marker", html.includes("<!-- SEO_HEAD -->")],
   ["no provider strip", !html.includes("providerStrip") && !app.includes("renderProviders")],
   ["no public provider names", !/\b(OMDb|DeepSeek)\b/.test(`${html}\n${app}`)],
   ["no old top50 copy", !/Top50|Top 50|top50/.test(`${html}\n${app}`)],
