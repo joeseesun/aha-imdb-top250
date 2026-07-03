@@ -1,4 +1,7 @@
 import top250 from "./data/top250-imdb.json" with { type: "json" };
+import fs from "node:fs/promises";
+import path from "node:path";
+import sharp from "sharp";
 import { config, runtimeStatus } from "./config.mjs";
 import { getCachedMovie, saveCachedMovie } from "./store.mjs";
 
@@ -12,6 +15,11 @@ const OLD_COORDINATE_FRAGMENT = ["清晰的", "口碑坐标"].join("");
 const TOP_TOTAL = top250.length;
 const RESEARCH_CACHE_MAX_MS = 1000 * 60 * 60 * 24 * 30;
 const RESEARCH_VERSION = 5;
+const DETAIL_CACHE_MAX_MS = 1000 * 60 * 60 * 24 * 120;
+const DETAIL_VERSION = 3;
+const POSTER_CACHE_DIR = path.join(config.storageDir, "posters");
+const POSTER_WIDTH = 360;
+const POSTER_QUALITY = 72;
 
 function clean(value) {
   if (!value || value === "N/A") return "";
@@ -97,6 +105,7 @@ function chartFromRow(row) {
   return {
     rank: row.rank,
     title: row.title,
+    titleCn: row.titleCn,
     year: row.year,
     imdbRating: row.imdbRating,
     runtime: row.runtime,
@@ -119,6 +128,7 @@ function mergeChart(movie, chart) {
   return {
     ...movie,
     rank: chart.rank || movie.rank,
+    titleCn: clean(movie.titleCn) || clean(chart.titleCn),
     chart
   };
 }
@@ -131,28 +141,46 @@ function isFresh(iso, maxMs = CACHE_MAX_MS) {
 
 function privatePosterUrl(imdbID) {
   if (!config.omdbApiKey || !imdbID) return "";
-  const params = new URLSearchParams({ i: imdbID, h: "600", apikey: config.omdbApiKey });
+  const params = new URLSearchParams({ i: imdbID, h: "500", apikey: config.omdbApiKey });
   return `${IMG_BASE}?${params}`;
 }
 
 export function posterProxyPath(imdbID) {
-  return imdbID ? `/api/posters/${imdbID}.jpg` : "";
+  return imdbID ? `/api/posters/${imdbID}.webp` : "";
 }
 
 export async function fetchPoster(imdbID) {
+  const cachedPath = path.join(POSTER_CACHE_DIR, `${imdbID}.webp`);
+  try {
+    return {
+      contentType: "image/webp",
+      bytes: await fs.readFile(cachedPath),
+      cached: true
+    };
+  } catch (error) {
+    if (error.code !== "ENOENT") throw error;
+  }
+
   const url = privatePosterUrl(imdbID);
   if (!url) throw new Error("OMDB_API_KEY is not configured");
   const response = await fetch(url, {
     signal: AbortSignal.timeout(9000),
     headers: {
       Accept: "image/*",
-      "User-Agent": "AhaMovieGuide/1.0 https://aha.qiaomu.ai"
+      "User-Agent": "QiaomuMovieGuide/1.0 https://movie.qiaomu.ai"
     }
   });
   if (!response.ok) throw new Error(`OMDb Poster HTTP ${response.status}`);
+  const bytes = await sharp(Buffer.from(await response.arrayBuffer()))
+    .resize({ width: POSTER_WIDTH, withoutEnlargement: true })
+    .webp({ quality: POSTER_QUALITY, effort: 4 })
+    .toBuffer();
+  await fs.mkdir(POSTER_CACHE_DIR, { recursive: true });
+  await fs.writeFile(cachedPath, bytes);
   return {
-    contentType: response.headers.get("content-type") || "image/jpeg",
-    bytes: Buffer.from(await response.arrayBuffer())
+    contentType: "image/webp",
+    bytes,
+    cached: false
   };
 }
 
@@ -162,6 +190,7 @@ function formatMovie(raw, rank = null) {
     imdbID: raw.imdbID,
     rank: rank || raw.rank || null,
     title: clean(raw.Title),
+    titleCn: clean(raw.titleCn || raw.TitleCn || raw.zhTitle || raw.titleZh),
     year: clean(raw.Year),
     rated: clean(raw.Rated),
     released: clean(raw.Released),
@@ -244,6 +273,7 @@ export async function searchOmdb(query) {
 }
 
 function fallbackChinese(movie, error = "") {
+  const title = clean(movie.titleCn) || clean(movie.chart?.titleCn) || movie.title;
   const genre = chineseGenre(movie.genre) || movie.genre || "电影";
   const director = compactPeople(movie.director, 2);
   const actors = compactPeople(movie.actors, 3);
@@ -260,7 +290,7 @@ function fallbackChinese(movie, error = "") {
   const generatedAt = new Date().toISOString();
   return {
     cn: {
-      title: movie.title,
+      title,
       plot: movie.plot,
       genre,
       rated: movie.rated,
@@ -361,6 +391,7 @@ function buildPrompt(movie) {
     JSON.stringify({
       imdbID: movie.imdbID,
       title: movie.title,
+      titleCn: movie.titleCn || movie.chart?.titleCn || "",
       year: movie.year,
       rated: movie.rated,
       released: movie.released,
@@ -418,6 +449,12 @@ function attachChinese(movie, payload) {
   };
 }
 
+function displayMovieTitle(movie) {
+  const cnTitle = clean(movie.cn?.title);
+  if (hasCjk(cnTitle)) return cnTitle;
+  return clean(movie.titleCn) || clean(movie.chart?.titleCn) || clean(movie.title);
+}
+
 function intersect(left, right) {
   const rightSet = new Set(right.map((item) => item.toLowerCase()));
   return left.filter((item) => rightSet.has(item.toLowerCase()));
@@ -458,7 +495,7 @@ function genrePhrase(value) {
 }
 
 async function buildSummaryAgent(movie) {
-  const title = movie.cn?.title || movie.title;
+  const title = displayMovieTitle(movie);
   const translatedPlot = hasCjk(movie.cn?.plot) ? clean(movie.cn?.plot) : "";
   const director = compactPeople(movie.cn?.director || movie.director, 2);
   const actors = compactPeople(movie.cn?.actors || movie.actors, 3);
@@ -512,6 +549,7 @@ async function buildCraftAgent(movie) {
 }
 
 function relatedReason(movie, candidate, shared) {
+  const candidateTitle = clean(candidate.titleCn) || candidate.title;
   const candidatePlot = hasCjk(candidate.plot) ? sentenceSubject(candidate.plot, 82) : "";
   const sharedDirector = shared.directors[0];
   const sharedActor = shared.actors[0];
@@ -519,21 +557,21 @@ function relatedReason(movie, candidate, shared) {
   const candidateGenre = genrePhrase(candidate.genre);
   const candidateActors = compactPeople(candidate.actors, 2);
   if (sharedDirector) {
-    return `同由 ${sharedDirector} 执导，可以对照他在《${candidate.title}》里怎样处理${sharedGenre || candidateGenre || "人物关系"}和节奏。`;
+    return `同由 ${sharedDirector} 执导，可以对照他在《${candidateTitle}》里怎样处理${sharedGenre || candidateGenre || "人物关系"}和节奏。`;
   }
   if (sharedActor) {
-    return `${sharedActor} 同时出现在两部片里，《${candidate.title}》能顺着表演和人物气质继续看。`;
+    return `${sharedActor} 同时出现在两部片里，《${candidateTitle}》能顺着表演和人物气质继续看。`;
   }
   if (shared.genres.length && candidatePlot) {
-    return `同属${shared.genres.slice(0, 2).join("、")}，《${candidate.title}》把焦点转到“${candidatePlot}”。`;
+    return `同属${shared.genres.slice(0, 2).join("、")}，《${candidateTitle}》把焦点转到“${candidatePlot}”。`;
   }
   if (shared.genres.length && candidateActors) {
-    return `同属${sharedGenre}，《${candidate.title}》换成 ${candidateActors} 的表演组合，适合比较同类型的不同气质。`;
+    return `同属${sharedGenre}，《${candidateTitle}》换成 ${candidateActors} 的表演组合，适合比较同类型的不同气质。`;
   }
   if (candidatePlot) {
-    return `《${candidate.title}》的入口是“${candidatePlot}”，和本片一样适合看人物如何被处境推着走。`;
+    return `《${candidateTitle}》的入口是“${candidatePlot}”，和本片一样适合看人物如何被处境推着走。`;
   }
-  return `《${candidate.title}》和本片在榜单位置、类型气质上接近，适合作为下一部延伸观看。`;
+  return `《${candidateTitle}》和本片在榜单位置、类型气质上接近，适合作为下一部延伸观看。`;
 }
 
 async function buildRelatedAgent(movie) {
@@ -562,6 +600,7 @@ async function buildRelatedAgent(movie) {
     imdbID: candidate.imdbID,
     rank: candidate.rank,
     title: candidate.title,
+    titleCn: candidate.titleCn,
     year: candidate.year,
     poster: posterProxyPath(candidate.imdbID),
     meta: [candidate.year, genrePhrase(candidate.genre), candidate.imdbRating ? `IMDb ${candidate.imdbRating}` : ""].filter(Boolean).join(" · "),
@@ -589,6 +628,27 @@ async function runDetailResearchAgents(movie) {
   };
 }
 
+function researchIsFresh(movie) {
+  return movie.research?.version === RESEARCH_VERSION
+    && movie.research?.generatedAt
+    && isFresh(movie.research.generatedAt, RESEARCH_CACHE_MAX_MS);
+}
+
+function generatedTextIsReusable(movie) {
+  if (!movie.cn || !movie.why) return false;
+  if (hasOldGenericFallback(movie)) return false;
+  if (config.deepseekApiKey && (movie.cn.fallback || movie.why.fallback || movie.cn.error || movie.why.error)) return false;
+  return true;
+}
+
+function detailIsFresh(movie, { requireResearch = false } = {}) {
+  if (movie.detailVersion !== DETAIL_VERSION) return false;
+  if (!isFresh(movie.detailGeneratedAt, DETAIL_CACHE_MAX_MS)) return false;
+  if (!generatedTextIsReusable(movie)) return false;
+  if (requireResearch && !researchIsFresh(movie)) return false;
+  return true;
+}
+
 export async function getMovie(imdbID, { generateAi = true, rank = null, chart = null, enrichResearch = false } = {}) {
   const cached = await getCachedMovie(imdbID);
   let movie = cached && isFresh(cached.omdbFetchedAt) ? cached : null;
@@ -598,10 +658,11 @@ export async function getMovie(imdbID, { generateAi = true, rank = null, chart =
   const chartPayload = chart || chartFromRow(findChartRow(imdbID));
   if (rank) movie.rank = rank;
   movie = mergeChart(movie, chartPayload);
-  if (!movie.poster || movie.poster === movie.posterOriginal) movie.poster = posterProxyPath(movie.imdbID);
+  movie.poster = posterProxyPath(movie.imdbID);
 
   if (generateAi) {
-    if (!hasFreshAi(movie)) {
+    const freshDetail = detailIsFresh(movie, { requireResearch: enrichResearch });
+    if (!freshDetail && (!generatedTextIsReusable(movie) || !hasFreshAi(movie))) {
       try {
         movie = attachChinese(movie, await generateChineseWithDeepSeek(movie));
       } catch (error) {
@@ -619,6 +680,13 @@ export async function getMovie(imdbID, { generateAi = true, rank = null, chart =
       ...movie,
       research: await runDetailResearchAgents(movie)
     };
+  }
+
+  if (generateAi) {
+    movie.detailVersion = DETAIL_VERSION;
+    movie.detailGeneratedAt = movie.detailGeneratedAt && detailIsFresh(movie, { requireResearch: enrichResearch })
+      ? movie.detailGeneratedAt
+      : new Date().toISOString();
   }
 
   return saveCachedMovie(movie);

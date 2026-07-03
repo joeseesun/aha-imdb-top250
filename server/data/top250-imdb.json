@@ -12,7 +12,8 @@
     "plot": "A wrongfully convicted banker forms a close friendship with a hardened convict over a quarter century while retaining his humanity through simple acts of compassion.",
     "awards": "Nominated for 7 Oscars. 21 wins & 42 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "肖申克的救赎"
   },
   {
     "rank": 2,
@@ -27,7 +28,8 @@
     "plot": "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
     "awards": "Won 3 Oscars. 31 wins & 31 nominations total",
     "country": "United States",
-    "language": "English, Italian, Latin"
+    "language": "English, Italian, Latin",
+    "titleCn": "教父"
   },
   {
     "rank": 3,
@@ -42,7 +44,8 @@
     "plot": "When a menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman, James Gordon and Harvey Dent must work together to put an end to the madness.",
     "awards": "Won 2 Oscars. 163 wins & 165 nominations total",
     "country": "United States, United Kingdom",
-    "language": "English, Mandarin"
+    "language": "English, Mandarin",
+    "titleCn": "蝙蝠侠：黑暗骑士"
   },
   {
     "rank": 4,
@@ -57,7 +60,8 @@
     "plot": "The early life and career of Vito Corleone in 1920s New York City is portrayed, while his son, Michael, expands and tightens his grip on the family crime syndicate.",
     "awards": "Won 6 Oscars. 17 wins & 21 nominations total",
     "country": "United States",
-    "language": "English, Italian, Spanish, Latin, Sicilian"
+    "language": "English, Italian, Spanish, Latin, Sicilian",
+    "titleCn": "教父2"
   },
   {
     "rank": 5,
@@ -72,7 +76,8 @@
     "plot": "The jury in a New York City murder trial is frustrated by a single member whose skeptical caution forces them to more carefully consider the evidence before jumping to a hasty verdict.",
     "awards": "Nominated for 3 Oscars. 16 wins & 12 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "十二怒汉"
   },
   {
     "rank": 6,
@@ -87,7 +92,8 @@
     "plot": "Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.",
     "awards": "Won 11 Oscars. 215 wins & 124 nominations total",
     "country": "New Zealand, United States",
-    "language": "English, Quenya, Old English, Sindarin"
+    "language": "English, Quenya, Old English, Sindarin",
+    "titleCn": "指环王：王者归来"
   },
   {
     "rank": 7,
@@ -102,7 +108,8 @@
     "plot": "In German-occupied Poland during World War II, industrialist Oskar Schindler gradually becomes concerned for his Jewish workforce after witnessing their persecution by the Nazis.",
     "awards": "Won 7 Oscars. 91 wins & 49 nominations total",
     "country": "United States",
-    "language": "English, Hebrew, German, Polish, Latin"
+    "language": "English, Hebrew, German, Polish, Latin",
+    "titleCn": "辛德勒的名单"
   },
   {
     "rank": 8,
@@ -117,7 +124,8 @@
     "plot": "A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.",
     "awards": "Won 4 Oscars. 126 wins & 127 nominations total",
     "country": "New Zealand, United States",
-    "language": "English, Sindarin"
+    "language": "English, Sindarin",
+    "titleCn": "指环王：护戒使者"
   },
   {
     "rank": 9,
@@ -132,7 +140,8 @@
     "plot": "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
     "awards": "Won 1 Oscar. 69 wins & 72 nominations total",
     "country": "United States",
-    "language": "English, Spanish, French"
+    "language": "English, Spanish, French",
+    "titleCn": "低俗小说"
   },
   {
     "rank": 10,
@@ -147,7 +156,8 @@
     "plot": "A bounty-hunting scam joins two men in an uneasy alliance against a third in a race to find a fortune in gold buried in a remote cemetery.",
     "awards": "2 wins & 5 nominations total",
     "country": "Italy, Spain, West Germany, United States",
-    "language": "English, Italian"
+    "language": "English, Italian",
+    "titleCn": "黃昏三鑣客"
   },
   {
     "rank": 11,
@@ -162,7 +172,8 @@
     "plot": "While Frodo and Sam edge closer to Mordor with the help of the shifty Gollum, the divided fellowship makes a stand against Sauron's new ally, Saruman, and his hordes of Isengard.",
     "awards": "Won 2 Oscars. 132 wins & 139 nominations total",
     "country": "New Zealand, United States",
-    "language": "English, Sindarin, Old English"
+    "language": "English, Sindarin, Old English",
+    "titleCn": "指环王：双塔奇兵"
   },
   {
     "rank": 12,
@@ -177,7 +188,8 @@
     "plot": "The history of the United States from the 1950s to the '70s unfolds from the perspective of an Alabama man with an IQ of 75, who yearns to be reunited with his childhood sweetheart.",
     "awards": "Won 6 Oscars. 51 wins & 74 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "阿甘正传"
   },
   {
     "rank": 13,
@@ -192,7 +204,8 @@
     "plot": "An insomniac office worker and a devil-may-care soap maker form an underground fight club that evolves into much more.",
     "awards": "Nominated for 1 Oscar. 12 wins & 38 nominations total",
     "country": "United States, Germany",
-    "language": "English"
+    "language": "English",
+    "titleCn": "搏击俱乐部"
   },
   {
     "rank": 14,
@@ -207,7 +220,8 @@
     "plot": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO, but his tragic past may doom the project and his team to disaster.",
     "awards": "Won 4 Oscars. 160 wins & 220 nominations total",
     "country": "United Kingdom, United States",
-    "language": "English, Japanese, French"
+    "language": "English, Japanese, French",
+    "titleCn": "盗梦空间"
   },
   {
     "rank": 15,
@@ -222,7 +236,8 @@
     "plot": "After the Empire overpowers the Rebel Alliance, Luke Skywalker begins training with Jedi Master Yoda, while Darth Vader and bounty hunter Boba Fett pursue his friends across the galaxy.",
     "awards": "Won 1 Oscar. 27 wins & 21 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "星球大战V：帝国反击战"
   },
   {
     "rank": 16,
@@ -237,7 +252,8 @@
     "plot": "When a beautiful stranger leads computer hacker Neo to a forbidding underworld, he discovers the shocking truth--the life he knows is the elaborate deception of an evil cyber-intelligence.",
     "awards": "Won 4 Oscars. 42 wins & 52 nominations total",
     "country": "United States, Australia",
-    "language": "English"
+    "language": "English",
+    "titleCn": "黑客帝国"
   },
   {
     "rank": 17,
@@ -252,7 +268,8 @@
     "plot": "When Earth becomes uninhabitable in the future, a farmer and ex-NASA pilot, Joseph Cooper, is tasked to pilot a spacecraft, along with a team of researchers, to find a new planet for humans.",
     "awards": "Won 1 Oscar. 45 wins & 148 nominations total",
     "country": "United States, United Kingdom, Canada",
-    "language": "English"
+    "language": "English",
+    "titleCn": "星际穿越"
   },
   {
     "rank": 18,
@@ -267,7 +284,8 @@
     "plot": "The story of Henry Hill and his life in the mafia, covering his relationship with his wife Karen and his mob partners Jimmy Conway and Tommy DeVito.",
     "awards": "Won 1 Oscar. 44 wins & 38 nominations total",
     "country": "United States",
-    "language": "English, Italian, Hebrew, Yiddish"
+    "language": "English, Italian, Hebrew, Yiddish",
+    "titleCn": "盜亦有道"
   },
   {
     "rank": 19,
@@ -282,7 +300,8 @@
     "plot": "A rebellious convict is sent to a psychiatric hospital for evaluation in 1963 Oregon, and encourages his docile companions to take more control of their lives and defy the tyrannical head nurse.",
     "awards": "Won 5 Oscars. 38 wins & 15 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "飞越疯人院"
   },
   {
     "rank": 20,
@@ -297,7 +316,8 @@
     "plot": "Two detectives try to track down a serial killer who chooses his victims based on the Seven Deadly Sins.",
     "awards": "Nominated for 1 Oscar. 29 wins & 44 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "七宗罪"
   },
   {
     "rank": 21,
@@ -312,7 +332,8 @@
     "plot": "An angel is sent from Heaven to help a desperately frustrated businessman see the value of his own life.",
     "awards": "Nominated for 5 Oscars. 11 wins & 7 nominations total",
     "country": "United States",
-    "language": "English, French"
+    "language": "English, French",
+    "titleCn": "风云人物"
   },
   {
     "rank": 22,
@@ -327,7 +348,8 @@
     "plot": "A young F.B.I. cadet must receive the help of an incarcerated and manipulative cannibal killer to help catch another serial killer, a madman who skins his victims.",
     "awards": "Won 5 Oscars. 71 wins & 50 nominations total",
     "country": "United States",
-    "language": "English, Latin"
+    "language": "English, Latin",
+    "titleCn": "沉默的羔羊"
   },
   {
     "rank": 23,
@@ -342,7 +364,8 @@
     "plot": "Following the Normandy Landings, a group of U.S. soldiers go behind enemy lines to retrieve a paratrooper whose comrades have been killed in action.",
     "awards": "Won 5 Oscars. 79 wins & 75 nominations total",
     "country": "United States",
-    "language": "English, French, German, Czech"
+    "language": "English, French, German, Czech",
+    "titleCn": "拯救大兵瑞恩"
   },
   {
     "rank": 24,
@@ -357,7 +380,8 @@
     "plot": "Farmers from a village exploited by bandits hire a veteran samurai for protection, and he gathers six other samurai to join him.",
     "awards": "Nominated for 2 Oscars. 5 wins & 9 nominations total",
     "country": "Japan",
-    "language": "Japanese"
+    "language": "Japanese",
+    "titleCn": "七武士"
   },
   {
     "rank": 25,
@@ -372,7 +396,8 @@
     "plot": "A death row guard learns that a gentle giant in his charge possesses a mysterious gift.",
     "awards": "Nominated for 4 Oscars. 15 wins & 37 nominations total",
     "country": "United States",
-    "language": "English, French"
+    "language": "English, French",
+    "titleCn": "绿里奇迹"
   },
   {
     "rank": 26,
@@ -387,7 +412,8 @@
     "plot": "In the slums of Rio, two kids' paths diverge as one struggles to become a photographer and the other a kingpin.",
     "awards": "Nominated for 4 Oscars. 76 wins & 50 nominations total",
     "country": "Brazil",
-    "language": "Portuguese"
+    "language": "Portuguese",
+    "titleCn": "无法无天"
   },
   {
     "rank": 27,
@@ -402,7 +428,8 @@
     "plot": "When an open-minded Jewish waiter and his son become victims of the Holocaust, he uses a perfect mixture of will, humor and imagination to protect his son from the dangers around their camp.",
     "awards": "Won 3 Oscars. 72 wins & 52 nominations total",
     "country": "Italy",
-    "language": "Italian, German, English"
+    "language": "Italian, German, English",
+    "titleCn": "美麗人生"
   },
   {
     "rank": 28,
@@ -417,7 +444,8 @@
     "plot": "A cyborg from the future, identical to the one who failed to kill Sarah Connor, must now protect her ten-year-old son John from an even more advanced and powerful cyborg.",
     "awards": "Won 4 Oscars. 39 wins & 33 nominations total",
     "country": "United States, France",
-    "language": "English, Spanish"
+    "language": "English, Spanish",
+    "titleCn": "终结者2：审判日"
   },
   {
     "rank": 29,
@@ -432,7 +460,8 @@
     "plot": "Marty McFly, a 17-year-old high school student, is accidentally sent 30 years into the past in a time-traveling DeLorean invented by his close friend, the maverick scientist Doc Brown.",
     "awards": "Won 1 Oscar. 27 wins & 25 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "回到未来"
   },
   {
     "rank": 30,
@@ -447,7 +476,8 @@
     "plot": "Luke Skywalker joins forces with a Jedi Knight, a cocky pilot, a Wookiee and two droids to save the galaxy from the Empire's world-destroying battle station, while also attempting to rescue Princess Leia from the mysterious Darth ...",
     "awards": "Won 6 Oscars. 70 wins & 31 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "星際大戰四部曲：曙光乍現"
   },
   {
     "rank": 31,
@@ -462,7 +492,8 @@
     "plot": "A female assassin seeks revenge on her former lover and squad members, all of whom left her for dead.",
     "awards": ". See the Top 250 movies as rated by IMDb users",
     "country": "United States",
-    "language": "English, Japanese, Mandarin, French, Cantonese, Spanish"
+    "language": "English, Japanese, Mandarin, French, Cantonese, Spanish",
+    "titleCn": "標殺令：終極血腥版"
   },
   {
     "rank": 32,
@@ -477,7 +508,8 @@
     "plot": "During her family's move to the suburbs, a sullen 10-year-old girl wanders into a world ruled by gods, witches and spirits, and where humans are changed into beasts.",
     "awards": "Won 1 Oscar. 58 wins & 31 nominations total",
     "country": "Japan, United States",
-    "language": "Japanese, English"
+    "language": "Japanese, English",
+    "titleCn": "千与千寻"
   },
   {
     "rank": 33,
@@ -492,7 +524,8 @@
     "plot": "A former Roman General sets out to exact vengeance against the corrupt emperor who murdered his family and sent him into slavery.",
     "awards": "Won 5 Oscars. 61 wins & 105 nominations total",
     "country": "United States, United Kingdom, Malta, Morocco",
-    "language": "English"
+    "language": "English",
+    "titleCn": "角斗士"
   },
   {
     "rank": 34,
@@ -507,7 +540,8 @@
     "plot": "During WWII, acclaimed Polish musician Wladyslaw faces various struggles as he loses contact with his family. As the situation worsens, he hides in the ruins of Warsaw in order to survive.",
     "awards": "Won 3 Oscars. 57 wins & 74 nominations total",
     "country": "France, Poland, Germany, United Kingdom, United States",
-    "language": "English, German, Russian"
+    "language": "English, German, Russian",
+    "titleCn": "钢琴家"
   },
   {
     "rank": 35,
@@ -522,22 +556,24 @@
     "plot": "Greed and class discrimination threaten the newly formed symbiotic relationship between the wealthy Park family and the destitute Kim clan.",
     "awards": "Won 4 Oscars. 309 wins & 261 nominations total",
     "country": "South Korea",
-    "language": "Korean, English"
+    "language": "Korean, English",
+    "titleCn": "寄生虫"
   },
   {
     "rank": 36,
-    "imdbID": "tt30832933",
+    "imdbID": "tt0095327",
     "title": "Grave of the Fireflies",
     "year": 1988,
     "imdbRating": 8.5,
-    "runtime": "",
-    "genre": "Talk-Show",
-    "director": "",
-    "actors": "",
-    "plot": "",
-    "awards": "",
-    "country": "",
-    "language": ""
+    "runtime": "88 min",
+    "genre": "Animation, Drama, War",
+    "director": "Isao Takahata",
+    "actors": "Tsutomu Tatsumi, Ayano Shiraishi, Akemi Yamaguchi",
+    "plot": "A young boy and his little sister struggle to survive in Japan during World War II.",
+    "awards": "3 wins total",
+    "country": "Japan",
+    "language": "Japanese",
+    "titleCn": "萤火虫之墓"
   },
   {
     "rank": 37,
@@ -552,7 +588,8 @@
     "plot": "A secretary on the run for embezzlement takes refuge at a secluded California motel owned by a repressed man and his overbearing mother.",
     "awards": "Nominated for 4 Oscars. 8 wins & 14 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "惊魂记"
   },
   {
     "rank": 38,
@@ -567,7 +604,8 @@
     "plot": "When a ronin requesting seppuku at a feudal lord's palace is told of the brutal suicide of another ronin who previously visited, he reveals how their pasts are intertwined - and in doing so challenges the clan's integrity.",
     "awards": "9 wins & 3 nominations total",
     "country": "Japan",
-    "language": "Japanese"
+    "language": "Japanese",
+    "titleCn": "切腹"
   },
   {
     "rank": 39,
@@ -582,7 +620,8 @@
     "plot": "Lion prince Simba and his father are targeted by his bitter uncle, who wants to ascend the throne himself.",
     "awards": "Won 2 Oscars. 43 wins & 35 nominations total",
     "country": "United States",
-    "language": "English, Swahili, Xhosa, Zulu"
+    "language": "English, Swahili, Xhosa, Zulu",
+    "titleCn": "狮子王"
   },
   {
     "rank": 40,
@@ -597,7 +636,8 @@
     "plot": "An undercover cop and a mole in the police attempt to identify each other while infiltrating an Irish gang in South Boston.",
     "awards": "Won 4 Oscars. 100 wins & 141 nominations total",
     "country": "United States, Hong Kong",
-    "language": "English, Cantonese"
+    "language": "English, Cantonese",
+    "titleCn": "无间道风云"
   },
   {
     "rank": 41,
@@ -612,7 +652,8 @@
     "plot": "A promising young drummer enrolls at a cut-throat music conservatory where his dreams of greatness are mentored by an instructor who will stop at nothing to realize a student's potential.",
     "awards": "Won 3 Oscars. 100 wins & 144 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "爆裂鼓手"
   },
   {
     "rank": 42,
@@ -627,7 +668,8 @@
     "plot": "Two friends and fellow magicians become bitter enemies after a sudden tragedy. As they devote themselves to this rivalry, they make sacrifices that bring them fame but, with terrible consequences.",
     "awards": "Nominated for 2 Oscars. 6 wins & 44 nominations total",
     "country": "United Kingdom, United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "致命魔术"
   },
   {
     "rank": 43,
@@ -642,7 +684,8 @@
     "plot": "A European-American man is released from prison and now a changed man and hopes to prevent his younger brother from following in his footsteps.",
     "awards": "Nominated for 1 Oscar. 4 wins & 15 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "野兽良民"
   },
   {
     "rank": 44,
@@ -657,7 +700,8 @@
     "plot": "When her family is murdered by a group of corrupt officers led by the tyrannical Norman Stansfield, a young 12-year-old girl enlists the help of an Italian-American hitman to seek revenge.",
     "awards": "5 wins & 16 nominations total",
     "country": "France, United States",
-    "language": "English, Italian, French"
+    "language": "English, Italian, French",
+    "titleCn": "这个杀手不太冷"
   },
   {
     "rank": 45,
@@ -672,7 +716,8 @@
     "plot": "Traveling across the multiverse, Miles Morales meets a new team of Spider-People, made up of heroes from different dimensions. But when the heroes clash over how to deal with a new threat, Miles finds himself at a crossroads.",
     "awards": "Nominated for 1 Oscar. 107 wins & 164 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "蜘蛛侠：纵横宇宙（上）"
   },
   {
     "rank": 46,
@@ -687,7 +732,8 @@
     "plot": "Salvatore, a famous film director, returns to his hometown for the funeral of the local theater's film projectionist, Alfredo. He reminisces about his life as a young boy falling in love with cinema.",
     "awards": "Won 1 Oscar. 25 wins & 33 nominations total",
     "country": "Italy, France",
-    "language": "Italian"
+    "language": "Italian",
+    "titleCn": "天堂电影院"
   },
   {
     "rank": 47,
@@ -702,7 +748,8 @@
     "plot": "A cynical expatriate American cafe owner struggles to decide whether or not to help his former lover and her fugitive husband escape the Nazis in French Morocco.",
     "awards": "Won 3 Oscars. 18 wins & 12 nominations total",
     "country": "United States",
-    "language": "English, French, German, Italian, Russian"
+    "language": "English, French, German, Italian, Russian",
+    "titleCn": "卡萨布兰卡"
   },
   {
     "rank": 48,
@@ -717,7 +764,8 @@
     "plot": "After he becomes a quadriplegic from a paragliding accident, an aristocrat hires a young man from the projects to be his caregiver.",
     "awards": "Nominated for 1 BAFTA Award. 38 wins & 40 nominations total",
     "country": "France",
-    "language": "French, English"
+    "language": "French, English",
+    "titleCn": "无法触碰"
   },
   {
     "rank": 49,
@@ -732,7 +780,8 @@
     "plot": "The sole survivor of a pier shoot-out tells the story of how a notorious criminal influenced the events that began with five criminals meeting in a seemingly random police lineup.",
     "awards": "Won 2 Oscars. 37 wins & 17 nominations total",
     "country": "United States, Germany",
-    "language": "English, Hungarian, Spanish, French"
+    "language": "English, Hungarian, Spanish, French",
+    "titleCn": "非常嫌疑犯"
   },
   {
     "rank": 50,
@@ -747,7 +796,8 @@
     "plot": "With the help of a German bounty-hunter, a freed slave sets out to rescue his wife from a brutal plantation owner in Mississippi.",
     "awards": "Won 2 Oscars. 58 wins & 158 nominations total",
     "country": "United States",
-    "language": "English, German, French, Italian"
+    "language": "English, German, French, Italian",
+    "titleCn": "被解放的姜戈"
   },
   {
     "rank": 51,
@@ -762,7 +812,8 @@
     "plot": "After investigating a mysterious transmission of unknown origin, the crew of a commercial spacecraft encounters a deadly lifeform.",
     "awards": "Won 1 Oscar. 19 wins & 22 nominations total",
     "country": "United Kingdom, United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "异形"
   },
   {
     "rank": 52,
@@ -777,7 +828,8 @@
     "plot": "A bored photographer recovering from a broken leg passes the time by watching his neighbors and begins to suspect one of them of murder.",
     "awards": "Nominated for 4 Oscars. 7 wins & 14 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "后窗"
   },
   {
     "rank": 53,
@@ -792,22 +844,24 @@
     "plot": "The Tramp struggles to live in modern industrial society with the help of a young homeless woman.",
     "awards": "6 wins & 1 nomination total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "摩登時代"
   },
   {
     "rank": 54,
-    "imdbID": "tt21749726",
+    "imdbID": "tt0064116",
     "title": "Once Upon a Time in the West",
     "year": 1968,
     "imdbRating": 8.5,
-    "runtime": "",
-    "genre": "",
-    "director": "",
-    "actors": "",
-    "plot": "",
-    "awards": "",
-    "country": "",
-    "language": ""
+    "runtime": "145 min",
+    "genre": "Drama, Western",
+    "director": "Sergio Leone",
+    "actors": "Henry Fonda, Charles Bronson, Claudia Cardinale",
+    "plot": "A mysterious stranger with a harmonica teams up with a notorious desperado to protect a beautiful widow and her land from a ruthless assassin in the employ of a railroad tycoon.",
+    "awards": "6 wins & 5 nominations total",
+    "country": "Italy, United States",
+    "language": "English, Spanish, Italian",
+    "titleCn": "西部往事"
   },
   {
     "rank": 55,
@@ -822,7 +876,8 @@
     "plot": "With the aid of a wealthy erratic tippler, a dewy-eyed tramp who has fallen in love with a blind flower girl accumulates money to be able to help her medically.",
     "awards": "6 wins total",
     "country": "United States",
-    "language": "None, English"
+    "language": "None, English",
+    "titleCn": "城市之光"
   },
   {
     "rank": 56,
@@ -837,7 +892,8 @@
     "plot": "A robot who is responsible for cleaning a waste-covered Earth meets another robot and falls in love with her. Together, they set out on a journey that will alter the fate of mankind.",
     "awards": "Won 1 Oscar. 96 wins & 95 nominations total",
     "country": "United States, Japan",
-    "language": "English"
+    "language": "English",
+    "titleCn": "机器人瓦力"
   },
   {
     "rank": 57,
@@ -852,7 +908,8 @@
     "plot": "A U.S. Army officer serving in Vietnam is tasked with assassinating a renegade Special Forces Colonel who sees himself as a god.",
     "awards": "Won 2 Oscars. 21 wins & 33 nominations total",
     "country": "United States",
-    "language": "English, French, Vietnamese"
+    "language": "English, French, Vietnamese",
+    "titleCn": "现代启示录"
   },
   {
     "rank": 58,
@@ -867,7 +924,8 @@
     "plot": "A former insurance investigator who now suffers from anterograde amnesia uses notes and tattoos to hunt down his wife's murderer.",
     "awards": "Nominated for 2 Oscars. 57 wins & 59 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "记忆碎片"
   },
   {
     "rank": 59,
@@ -882,7 +940,8 @@
     "plot": "The Avengers and their allies must be willing to sacrifice all in an attempt to defeat the powerful Thanos before his blitz of devastation and ruin puts an end to the universe.",
     "awards": "Nominated for 1 Oscar. 48 wins & 80 nominations total",
     "country": "United States, Norway",
-    "language": "English"
+    "language": "English",
+    "titleCn": "复仇者联盟3：无限战争"
   },
   {
     "rank": 60,
@@ -897,7 +956,8 @@
     "plot": "Paul Atreides unites with the Fremen while on a warpath of revenge against the conspirators who destroyed his family. Facing a choice between the love of his life and the fate of the universe, he endeavors to prevent a terrible fu...",
     "awards": "Won 2 Oscars. 125 wins & 376 nominations total",
     "country": "United States, Canada, United Arab Emirates, Hungary, Italy, New Zealand, Jordan, Gambia",
-    "language": "English"
+    "language": "English",
+    "titleCn": "沙丘2"
   },
   {
     "rank": 61,
@@ -912,7 +972,8 @@
     "plot": "In 1936, archaeologist Indiana Jones is tasked by Army Intelligence to help locate a legendary ancient power, the Ark of Covenant, before the Nazis get it first.",
     "awards": "Won 4 Oscars. 41 wins & 24 nominations total",
     "country": "United States",
-    "language": "English, German, Spanish, Nepali, Hebrew, Arabic"
+    "language": "English, German, Spanish, Nepali, Hebrew, Arabic",
+    "titleCn": "夺宝奇兵"
   },
   {
     "rank": 62,
@@ -927,7 +988,8 @@
     "plot": "Teen Miles Morales becomes the Spider-Man of his universe and must join with five spider-powered individuals from other dimensions to stop a threat for all realities.",
     "awards": "Won 1 Oscar. 85 wins & 60 nominations total",
     "country": "Canada, United States",
-    "language": "English, Spanish"
+    "language": "English, Spanish",
+    "titleCn": "蜘蛛人：新宇宙"
   },
   {
     "rank": 63,
@@ -942,7 +1004,8 @@
     "plot": "In 1984 East Berlin, an agent of the secret police conducting surveillance on a writer and his lover finds himself becoming increasingly absorbed by their lives.",
     "awards": "Won 1 Oscar. 80 wins & 38 nominations total",
     "country": "Germany, France",
-    "language": "German"
+    "language": "German",
+    "titleCn": "窃听风暴"
   },
   {
     "rank": 64,
@@ -957,7 +1020,8 @@
     "plot": "A screenwriter develops a dangerous relationship with a faded film star determined to make a triumphant return.",
     "awards": "Won 3 Oscars. 21 wins & 20 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "日落大道"
   },
   {
     "rank": 65,
@@ -972,7 +1036,8 @@
     "plot": "A veteran British barrister must defend his client in a murder trial that has surprise after surprise.",
     "awards": "Nominated for 6 Oscars. 3 wins & 15 nominations total",
     "country": "United States",
-    "language": "English, German"
+    "language": "English, German",
+    "titleCn": "控方证人"
   },
   {
     "rank": 66,
@@ -987,7 +1052,8 @@
     "plot": "A colonel defends three of his soldiers in a court-martial after they abandon a suicidal attack.",
     "awards": "Nominated for 1 BAFTA Award5 wins & 3 nominations total",
     "country": "United States",
-    "language": "English, German, Latin"
+    "language": "English, German, Latin",
+    "titleCn": "光荣之路"
   },
   {
     "rank": 67,
@@ -1002,7 +1068,8 @@
     "plot": "A family heads to an isolated hotel for the winter, where a sinister presence influences the father into violence. At the same time, his psychic son sees horrifying forebodings from both the past and the future.",
     "awards": "6 wins & 9 nominations total",
     "country": "United Kingdom, United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "闪灵"
   },
   {
     "rank": 68,
@@ -1017,7 +1084,8 @@
     "plot": "Dictator Adenoid Hynkel tries to expand his empire while a poor Jewish barber tries to avoid persecution from Hynkel's regime.",
     "awards": "Nominated for 5 Oscars. 7 wins & 6 nominations total",
     "country": "United States",
-    "language": "English, Esperanto, Latin"
+    "language": "English, Esperanto, Latin",
+    "titleCn": "大独裁者"
   },
   {
     "rank": 69,
@@ -1032,7 +1100,8 @@
     "plot": "In Nazi-occupied France during World War II, a plan to assassinate Nazi leaders by a group of Jewish U.S. soldiers coincides with a theatre owner's vengeful plans for the same.",
     "awards": "Won 1 Oscar. 134 wins & 173 nominations total",
     "country": "United States, Germany",
-    "language": "English, German, French, Italian"
+    "language": "English, German, French, Italian",
+    "titleCn": "无良杂牌军"
   },
   {
     "rank": 70,
@@ -1047,7 +1116,8 @@
     "plot": "Decades after surviving the Nostromo incident, Ellen Ripley is sent out to re-establish contact with a terraforming colony but finds herself battling the Alien Queen and her offspring.",
     "awards": "Won 2 Oscars. 20 wins & 25 nominations total",
     "country": "United Kingdom, United States",
-    "language": "English, Spanish"
+    "language": "English, Spanish",
+    "titleCn": "异形2"
   },
   {
     "rank": 71,
@@ -1062,7 +1132,8 @@
     "plot": "The real-life story of IPS Officer Manoj Kumar Sharma and IRS Officer Shraddha Joshi.",
     "awards": "31 wins & 40 nominations total",
     "country": "India",
-    "language": "Hindi, English"
+    "language": "Hindi, English",
+    "titleCn": "第12次失敗"
   },
   {
     "rank": 72,
@@ -1077,7 +1148,8 @@
     "plot": "An executive of a Yokohama shoe company becomes a victim of extortion when his chauffeur's son is kidnapped by mistake and held for ransom.",
     "awards": "3 wins & 3 nominations total",
     "country": "Japan",
-    "language": "Japanese"
+    "language": "Japanese",
+    "titleCn": "天國與地獄"
   },
   {
     "rank": 73,
@@ -1092,7 +1164,8 @@
     "plot": "After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.",
     "awards": "Nominated for 1 Oscar. 71 wins & 132 nominations total",
     "country": "United States",
-    "language": "English, Japanese, Xhosa, German"
+    "language": "English, Japanese, Xhosa, German",
+    "titleCn": "复仇者联盟4"
   },
   {
     "rank": 74,
@@ -1107,7 +1180,8 @@
     "plot": "A therapist counsels Will Hunting, a janitor with a genius IQ.",
     "awards": "Won 2 Oscars. 25 wins & 61 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "心灵捕手"
   },
   {
     "rank": 75,
@@ -1122,7 +1196,8 @@
     "plot": "Bane, an imposing terrorist, attacks Gotham City and disrupts its eight-year-long period of peace. This forces Bruce Wayne to come out of hiding and don the cape and cowl of Batman again.",
     "awards": "Nominated for 1 BAFTA Award. 45 wins & 103 nominations total",
     "country": "United Kingdom, United States",
-    "language": "English, Arabic"
+    "language": "English, Arabic",
+    "titleCn": "蝙蝠侠：黑暗骑士崛起"
   },
   {
     "rank": 76,
@@ -1137,7 +1212,8 @@
     "plot": "Aspiring musician Miguel, confronted with his family's ancestral ban on music, enters the Land of the Dead to find his great-great-grandfather, a legendary singer.",
     "awards": "Won 2 Oscars. 113 wins & 42 nominations total",
     "country": "United States, Mexico",
-    "language": "English, Spanish"
+    "language": "English, Spanish",
+    "titleCn": "寻梦环游记"
   },
   {
     "rank": 77,
@@ -1152,7 +1228,8 @@
     "plot": "The life and work of Wolfgang Amadeus Mozart seen through the eyes of his contemporary and rival, Antonio Salieri.",
     "awards": "Won 8 Oscars. 43 wins & 15 nominations total",
     "country": "United States, France",
-    "language": "English, Italian, Latin, German, French"
+    "language": "English, Italian, Latin, German, French",
+    "titleCn": "莫扎特传"
   },
   {
     "rank": 78,
@@ -1167,7 +1244,8 @@
     "plot": "A cowboy doll is profoundly jealous when a new spaceman action figure supplants him as the top toy in a boy's bedroom. When circumstances separate them from their owner, the duo have to put aside their differences to return to him.",
     "awards": "Nominated for 3 Oscars. 29 wins & 24 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "玩具总动员"
   },
   {
     "rank": 79,
@@ -1182,7 +1260,8 @@
     "plot": "Two teenagers share a profound, magical connection upon discovering they are swapping bodies. Things manage to become even more complicated when the boy and girl decide to meet in person.",
     "awards": "17 wins & 27 nominations total",
     "country": "Japan",
-    "language": "Japanese"
+    "language": "Japanese",
+    "titleCn": "你的名字。"
   },
   {
     "rank": 80,
@@ -1197,7 +1276,8 @@
     "plot": "A German U-boat stalks the frigid waters of the North Atlantic as its young crew experience the sheer terror and claustrophobic life of a submariner in World War II.",
     "awards": "Nominated for 6 Oscars. 15 wins & 12 nominations total",
     "country": "West Germany",
-    "language": "German, English, French"
+    "language": "German, English, French",
+    "titleCn": "從海底出擊"
   },
   {
     "rank": 81,
@@ -1212,7 +1292,8 @@
     "plot": "Scottish warrior William Wallace leads his countrymen in a rebellion to free his homeland from the tyranny of King Edward I of England.",
     "awards": "Won 5 Oscars. 34 wins & 34 nominations total",
     "country": "United States",
-    "language": "English, French, Latin, Gaelic, Italian"
+    "language": "English, French, Latin, Gaelic, Italian",
+    "titleCn": "勇敢的心"
   },
   {
     "rank": 82,
@@ -1227,7 +1308,8 @@
     "plot": "While seeking to cure himself of a curse, young warrior Ashitaka stumbles into a conflict between the people of Iron Town and Princess Mononoke, a girl raised by wolves, who will stop at nothing to prevent the destruction of her h...",
     "awards": "14 wins & 6 nominations total",
     "country": "Japan",
-    "language": "Japanese"
+    "language": "Japanese",
+    "titleCn": "幽灵公主"
   },
   {
     "rank": 83,
@@ -1242,7 +1324,8 @@
     "plot": "After being kidnapped and imprisoned for fifteen years, Oh Dae-Su is released, only to find that he must track down his captor in five days.",
     "awards": "46 wins & 28 nominations total",
     "country": "South Korea",
-    "language": "Korean"
+    "language": "Korean",
+    "titleCn": "老男孩"
   },
   {
     "rank": 84,
@@ -1257,7 +1340,8 @@
     "plot": "Two friends are searching for their long lost companion. They revisit their college days and recall the memories of their friend who inspired them to think differently, even as the rest of the world called them \"idiots\".",
     "awards": "64 wins & 30 nominations total",
     "country": "India",
-    "language": "Hindi, English"
+    "language": "Hindi, English",
+    "titleCn": "三個傻瓜"
   },
   {
     "rank": 85,
@@ -1272,7 +1356,8 @@
     "plot": "A mentally unstable American general orders a hydrogen bomb attack on the Soviet Union, triggering a path to global nuclear holocaust that a war room full of politicians and generals frantically tries to stop.",
     "awards": "Nominated for 4 Oscars. 14 wins & 11 nominations total",
     "country": "United Kingdom",
-    "language": "English, Russian"
+    "language": "English, Russian",
+    "titleCn": "奇爱博士"
   },
   {
     "rank": 86,
@@ -1287,7 +1372,8 @@
     "plot": "A sexually frustrated suburban father has a mid-life crisis after becoming infatuated with his daughter's best friend.",
     "awards": "Won 5 Oscars. 112 wins & 102 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "美国丽人"
   },
   {
     "rank": 87,
@@ -1302,7 +1388,8 @@
     "plot": "While serving a five-year sentence for a violent crime, a 12-year-old boy sues his parents for neglect.",
     "awards": "Nominated for 1 Oscar. 37 wins & 56 nominations total",
     "country": "Lebanon, United States, France, Cyprus, Qatar, United Kingdom",
-    "language": "Arabic, Amharic"
+    "language": "Arabic, Amharic",
+    "titleCn": "我想有個家"
   },
   {
     "rank": 88,
@@ -1317,7 +1404,8 @@
     "plot": "A silent film star falls for a chorus girl just as he and his delusionally jealous screen partner are trying to make the difficult transition to talking pictures in 1920s Hollywood.",
     "awards": "Nominated for 2 Oscars. 11 wins & 11 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "雨中曲"
   },
   {
     "rank": 89,
@@ -1332,7 +1420,8 @@
     "plot": "Arthur Fleck, a party clown and a failed stand-up comedian, leads an impoverished life with his ailing mother. However, when society shuns him and brands him as a freak, he decides to embrace the life of chaos in Gotham City.",
     "awards": "Won 2 Oscars. 120 wins & 247 nominations total",
     "country": "United States, Canada, Australia",
-    "language": "English, German"
+    "language": "English, German",
+    "titleCn": "小丑"
   },
   {
     "rank": 90,
@@ -1347,7 +1436,8 @@
     "plot": "A former Prohibition-era Jewish gangster returns to the Lower East Side of Manhattan 35 years later, where he must once again confront the ghosts and regrets of his old life.",
     "awards": "Won 2 BAFTA Awards. 11 wins & 13 nominations total",
     "country": "Italy, United States",
-    "language": "English, Italian, French, Yiddish, Hebrew"
+    "language": "English, Italian, French, Yiddish, Hebrew",
+    "titleCn": "美国往事"
   },
   {
     "rank": 91,
@@ -1362,7 +1452,8 @@
     "plot": "The toys are mistakenly delivered to a day-care center instead of the attic right before Andy leaves for college, and it's up to Woody to convince the other toys that they weren't abandoned and to return home.",
     "awards": "Won 2 Oscars. 63 wins & 96 nominations total",
     "country": "United States",
-    "language": "English, Spanish"
+    "language": "English, Spanish",
+    "titleCn": "玩具总动员3"
   },
   {
     "rank": 92,
@@ -1377,7 +1468,8 @@
     "plot": "After rescuing Han Solo from Jabba the Hutt, the Rebel Alliance attempts to destroy the second Death Star while Luke struggles to help Darth Vader back from the dark side.",
     "awards": "Nominated for 4 Oscars. 25 wins & 23 nominations total",
     "country": "United States",
-    "language": "English, Kikuyu, Tagalog, Kalmyk-Oirat, Quechua, Polish"
+    "language": "English, Kikuyu, Tagalog, Kalmyk-Oirat, Quechua, Polish",
+    "titleCn": "星球大战VI：绝地归来"
   },
   {
     "rank": 93,
@@ -1392,7 +1484,8 @@
     "plot": "After finding an old rifle, a young boy joins the Soviet resistance movement against ruthless German forces and experiences the horrors of World War II.",
     "awards": "3 wins total",
     "country": "Soviet Union",
-    "language": "Russian, Belarusian, German"
+    "language": "Russian, Belarusian, German",
+    "titleCn": "見證"
   },
   {
     "rank": 94,
@@ -1407,7 +1500,8 @@
     "plot": "The drug-induced utopias of four Coney Island people are shattered when their addictions run deep.",
     "awards": "Nominated for 1 Oscar. 37 wins & 69 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "迷上瘾"
   },
   {
     "rank": 95,
@@ -1422,7 +1516,8 @@
     "plot": "A bureaucrat tries to find meaning in his life after he discovers he has terminal cancer.",
     "awards": "Nominated for 1 BAFTA Award6 wins & 2 nominations total",
     "country": "Japan",
-    "language": "Japanese, Latin, English, French"
+    "language": "Japanese, Latin, English, French",
+    "titleCn": "生之欲"
   },
   {
     "rank": 96,
@@ -1437,7 +1532,8 @@
     "plot": "A teacher lives a lonely life, all the while struggling over his son's custody. His life slowly gets better as he finds love and receives good news from his son, but his new luck is about to be brutally shattered by an innocent li...",
     "awards": "Nominated for 1 Oscar. 38 wins & 74 nominations total",
     "country": "Denmark, Sweden, Belgium, France",
-    "language": "Danish, English, Polish"
+    "language": "Danish, English, Polish",
+    "titleCn": "捕猎"
   },
   {
     "rank": 97,
@@ -1452,7 +1548,8 @@
     "plot": "Twins journey to the Middle East to discover their family history and fulfill their mother's last wishes.",
     "awards": "Nominated for 1 Oscar. 41 wins & 20 nominations total",
     "country": "Canada, France",
-    "language": "French, Arabic, English"
+    "language": "French, Arabic, English",
+    "titleCn": "烈火焚身"
   },
   {
     "rank": 98,
@@ -1467,7 +1564,8 @@
     "plot": "When their relationship turns sour, a couple undergoes a medical procedure to have each other erased from their memories forever.",
     "awards": "Won 1 Oscar. 73 wins & 111 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "美丽心灵的永恒阳光"
   },
   {
     "rank": 99,
@@ -1482,7 +1580,8 @@
     "plot": "A Manhattan insurance clerk tries to rise in his company by letting its executives use his apartment for trysts, but office politics and his own romantic hopes complicate matters.",
     "awards": "Won 5 Oscars. 25 wins & 8 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "桃色公寓"
   },
   {
     "rank": 100,
@@ -1497,7 +1596,8 @@
     "plot": "The story of T.E. Lawrence, the English officer who successfully united and led the diverse, often warring, Arab tribes during World War I in order to fight the Turks.",
     "awards": "Won 7 Oscars. 31 wins & 14 nominations total",
     "country": "United Kingdom, United States",
-    "language": "English, Arabic, Turkish"
+    "language": "English, Arabic, Turkish",
+    "titleCn": "阿拉伯的劳伦斯"
   },
   {
     "rank": 101,
@@ -1512,7 +1612,8 @@
     "plot": "A group of high-end professional thieves start to feel the heat from the LAPD when they unknowingly leave a verbal clue at their latest heist.",
     "awards": "15 nominations total",
     "country": "United States",
-    "language": "English, Spanish"
+    "language": "English, Spanish",
+    "titleCn": "盜火線"
   },
   {
     "rank": 102,
@@ -1527,7 +1628,8 @@
     "plot": "In the 1980s, a determined criminal-minded Cuban immigrant becomes the biggest drug smuggler in Miami, and is eventually undone by his own drug addiction.",
     "awards": "8 nominations total",
     "country": "United States",
-    "language": "English, Spanish"
+    "language": "English, Spanish",
+    "titleCn": "疤面煞星"
   },
   {
     "rank": 103,
@@ -1542,7 +1644,8 @@
     "plot": "When a simple jewelry heist goes horribly wrong, the surviving criminals begin to suspect that one of them is a police informant.",
     "awards": "13 wins & 23 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "落水狗"
   },
   {
     "rank": 104,
@@ -1557,7 +1660,8 @@
     "plot": "When a mysterious artifact is uncovered on the Moon, a spacecraft manned by two humans and one supercomputer is sent to Jupiter to find its origins.",
     "awards": "Won 1 Oscar. 18 wins & 14 nominations total",
     "country": "United Kingdom, United States",
-    "language": "English, Russian, French"
+    "language": "English, Russian, French",
+    "titleCn": "2001太空漫游"
   },
   {
     "rank": 105,
@@ -1572,7 +1676,8 @@
     "plot": "78-year-old Carl Fredricksen travels to South America in his house equipped with balloons, inadvertently taking a young stowaway.",
     "awards": "Won 2 Oscars. 81 wins & 88 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "飞屋环游记"
   },
   {
     "rank": 106,
@@ -1587,7 +1692,8 @@
     "plot": "An insurance representative is seduced by a dissatisfied housewife into a scheme of insurance fraud and murder that arouses the suspicion of his colleague, a claims investigator.",
     "awards": "Nominated for 7 Oscars. 5 wins & 9 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "双重赔偿"
   },
   {
     "rank": 107,
@@ -1602,7 +1708,8 @@
     "plot": "A young boy is thought to be nothing but a lazy troublemaker until the new art teacher has the patience and compassion to discover the real problem behind his struggles in school.",
     "awards": "28 wins & 18 nominations total",
     "country": "India",
-    "language": "Hindi, English"
+    "language": "Hindi, English",
+    "titleCn": "地球上的星星"
   },
   {
     "rank": 108,
@@ -1617,7 +1724,8 @@
     "plot": "A New York City advertising executive goes on the run after being mistaken for a government agent by a group of foreign spies, and falls for a woman whose loyalties he begins to doubt.",
     "awards": "Nominated for 3 Oscars. 9 wins & 7 nominations total",
     "country": "United States",
-    "language": "English, French"
+    "language": "English, French",
+    "titleCn": "西北偏北"
   },
   {
     "rank": 109,
@@ -1632,7 +1740,8 @@
     "plot": "A pragmatic U.S. Marine observes the dehumanizing effects the Vietnam War has on his fellow recruits from their brutal boot camp training to the bloody street fighting in Hue.",
     "awards": "Nominated for 1 Oscar. 8 wins & 15 nominations total",
     "country": "United Kingdom, United States",
-    "language": "English, Vietnamese"
+    "language": "English, Vietnamese",
+    "titleCn": "全金属外壳"
   },
   {
     "rank": 110,
@@ -1647,7 +1756,8 @@
     "plot": "When the police in a German city are unable to catch a child-murderer, other criminals join in the manhunt.",
     "awards": "2 wins total",
     "country": "Germany",
-    "language": "German"
+    "language": "German",
+    "titleCn": "M就是凶手"
   },
   {
     "rank": 111,
@@ -1662,7 +1772,8 @@
     "plot": "A married couple are faced with a difficult decision - to improve the life of their child by moving to another country or to stay in Iran and look after a deteriorating parent who has Alzheimer's disease.",
     "awards": "Won 1 Oscar. 89 wins & 52 nominations total",
     "country": "Iran, France, Australia",
-    "language": "Persian"
+    "language": "Persian",
+    "titleCn": "纳德和西敏：一次别离"
   },
   {
     "rank": 112,
@@ -1677,7 +1788,8 @@
     "plot": "Despite being caught in her imaginative world, young waitress Amelie decides to help people find happiness. Her quest to spread joy leads her on a journey during which she finds true love.",
     "awards": "Nominated for 5 Oscars. 60 wins & 74 nominations total",
     "country": "France, Germany",
-    "language": "French, Russian, English"
+    "language": "French, Russian, English",
+    "titleCn": "天使艾米丽"
   },
   {
     "rank": 113,
@@ -1692,7 +1804,8 @@
     "plot": "A former San Francisco police detective juggles wrestling with his personal demons and becoming obsessed with the hauntingly beautiful woman he has been hired to trail, who may be deeply disturbed.",
     "awards": "Nominated for 2 Oscars. 9 wins & 8 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "迷魂记"
   },
   {
     "rank": 114,
@@ -1707,7 +1820,8 @@
     "plot": "Following the death of publishing tycoon Charles Foster Kane, reporters scramble to uncover the meaning of his final utterance: 'Rosebud.'",
     "awards": "Won 1 Oscar. 16 wins & 13 nominations total",
     "country": "United States",
-    "language": "English, Italian"
+    "language": "English, Italian",
+    "titleCn": "公民凯恩"
   },
   {
     "rank": 115,
@@ -1722,7 +1836,8 @@
     "plot": "A New York City cop, John McClane, tries to save his estranged wife and several others taken hostage by terrorists during a Christmas Eve party at the Nakatomi Plaza Skyscraper in Los Angeles, California.",
     "awards": "Nominated for 4 Oscars. 8 wins & 8 nominations total",
     "country": "United States",
-    "language": "English, German, Italian, Japanese"
+    "language": "English, German, Italian, Japanese",
+    "titleCn": "虎胆龙威"
   },
   {
     "rank": 116,
@@ -1737,7 +1852,8 @@
     "plot": "A widowed lawyer in Depression-era Alabama defends a black man against a false rape charge while teaching his young children about the sad reality of prejudice.",
     "awards": "Won 3 Oscars. 14 wins & 16 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "怪屋疑雲"
   },
   {
     "rank": 117,
@@ -1752,7 +1868,8 @@
     "plot": "In 1938, after his father goes missing while pursuing the Holy Grail, Indiana Jones finds himself up against the Nazis again to stop them from obtaining its powers.",
     "awards": "Won 1 Oscar. 9 wins & 24 nominations total",
     "country": "United States, United Kingdom, Spain, Italy, Jordan",
-    "language": "English, German, Greek, Latin, Italian"
+    "language": "English, German, Greek, Latin, Italian",
+    "titleCn": "圣战奇兵"
   },
   {
     "rank": 118,
@@ -1767,7 +1884,8 @@
     "plot": "Two grifters team up to pull off the ultimate con.",
     "awards": "Won 7 Oscars. 18 wins & 6 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "老千計狀元才"
   },
   {
     "rank": 119,
@@ -1782,7 +1900,8 @@
     "plot": "John Davidson: diagnosed with Tourette's syndrome at a young age which alienated him from his peers, he struggled with a condition few people had witnessed.",
     "awards": "Won 2 BAFTA Awards. 6 wins & 20 nominations total",
     "country": "United Kingdom",
-    "language": "English"
+    "language": "English",
+    "titleCn": "7天"
   },
   {
     "rank": 120,
@@ -1797,7 +1916,8 @@
     "plot": "Alex DeLarge and his droogs barbarize a decaying near-future.",
     "awards": "Nominated for 4 Oscars. 12 wins & 26 nominations total",
     "country": "United Kingdom, United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "发条橙"
   },
   {
     "rank": 121,
@@ -1812,7 +1932,8 @@
     "plot": "In a futuristic city sharply divided between the working class and the city planners, the son of the city's mastermind falls in love with a working-class prophet who predicts the coming of a savior to mediate their differences.",
     "awards": "7 wins & 6 nominations total",
     "country": "Germany",
-    "language": "German, None"
+    "language": "German, None",
+    "titleCn": "大都会"
   },
   {
     "rank": 122,
@@ -1827,7 +1948,8 @@
     "plot": "April 6th, 1917. As an infantry battalion assembles to wage war deep in enemy territory, two soldiers are assigned to race against time and deliver a message that will stop 1,600 men from walking straight into a deadly trap.",
     "awards": "Won 3 Oscars. 137 wins & 202 nominations total",
     "country": "United Kingdom, United States, India, Spain",
-    "language": "English, French, German"
+    "language": "English, French, German",
+    "titleCn": "1917"
   },
   {
     "rank": 123,
@@ -1842,7 +1964,8 @@
     "plot": "The fate of the world hangs in the balance as Eren unleashes the ultimate power of the Titans. With a burning determination to eliminate all who threaten Eldia, he leads an unstoppable army of Colossal Titans towards Marley.",
     "awards": "",
     "country": "Japan",
-    "language": "Japanese"
+    "language": "Japanese",
+    "titleCn": "进击的巨人 完结篇 THE LAST ATTACK"
   },
   {
     "rank": 124,
@@ -1857,7 +1980,8 @@
     "plot": "Unscrupulous boxing promoters, violent bookmakers, a Russian gangster, incompetent amateur robbers and supposedly Jewish jewelers fight to track down a priceless stolen diamond.",
     "awards": "4 wins & 7 nominations total",
     "country": "United Kingdom, United States",
-    "language": "English, Russian"
+    "language": "English, Russian",
+    "titleCn": "偷拐抢骗"
   },
   {
     "rank": 125,
@@ -1872,7 +1996,8 @@
     "plot": "Based on the true story of Jordan Belfort, from his rise to a wealthy stock-broker living the high life to his fall involving crime, corruption and the federal government.",
     "awards": "Nominated for 5 Oscars. 38 wins & 180 nominations total",
     "country": "United States",
-    "language": "English, French"
+    "language": "English, French",
+    "titleCn": "華爾街狼人"
   },
   {
     "rank": 126,
@@ -1887,7 +2012,8 @@
     "plot": "An insurance salesman begins to suspect that his whole life is actually some sort of reality TV show.",
     "awards": "Nominated for 3 Oscars. 42 wins & 69 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "楚门的世界"
   },
   {
     "rank": 127,
@@ -1902,7 +2028,8 @@
     "plot": "Traudl Junge, the final secretary for Adolf Hitler, tells of the Nazi dictator's final days in his Berlin bunker at the end of WWII.",
     "awards": "Nominated for 1 Oscar. 22 wins & 34 nominations total",
     "country": "Germany, Austria, Italy",
-    "language": "German, Russian, French, Hungarian, English"
+    "language": "German, Russian, French, Hungarian, English",
+    "titleCn": "帝国的毁灭"
   },
   {
     "rank": 128,
@@ -1917,7 +2044,8 @@
     "plot": "As corruption grows in 1950s Los Angeles, three policemen - one strait-laced, one brutal, and one sleazy - investigate a series of murders with their own brand of justice.",
     "awards": "Won 2 Oscars. 91 wins & 86 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "洛城机密"
   },
   {
     "rank": 129,
@@ -1932,7 +2060,8 @@
     "plot": "Mahavir Singh Phogat, a former wrestler, decides to fulfill his dream of winning a gold medal for his country by training his daughters for the Commonwealth Games despite the existing social stigmas.",
     "awards": "41 wins & 38 nominations total",
     "country": "India, United States",
-    "language": "Hindi, English"
+    "language": "Hindi, English",
+    "titleCn": "我和我的冠軍女兒"
   },
   {
     "rank": 130,
@@ -1947,7 +2076,8 @@
     "plot": "Two US marshals are sent to a mental institution on an inhospitable island in order to investigate the disappearance of a patient.",
     "awards": "11 wins & 66 nominations total",
     "country": "Canada, United States",
-    "language": "English, German"
+    "language": "English, German",
+    "titleCn": "禁闭岛"
   },
   {
     "rank": 131,
@@ -1962,7 +2092,8 @@
     "plot": "A working-class Italian-American bouncer becomes the driver for an African-American classical pianist on a tour of venues through the 1960s American South.",
     "awards": "Won 3 Oscars. 58 wins & 125 nominations total",
     "country": "United States, China, Japan",
-    "language": "English, Italian, Russian, German"
+    "language": "English, Italian, Russian, German",
+    "titleCn": "绿皮书"
   },
   {
     "rank": 132,
@@ -1977,7 +2108,8 @@
     "plot": "In post-war Italy, a working-class man's bicycle is stolen, endangering his efforts to find work. He and his son set out to find it.",
     "awards": "Nominated for 1 Oscar. 18 wins & 1 nomination total",
     "country": "Italy",
-    "language": "Italian, German"
+    "language": "Italian, German",
+    "titleCn": "偷自行车的人"
   },
   {
     "rank": 133,
@@ -1992,7 +2124,8 @@
     "plot": "A dramatization of the life story of J. Robert Oppenheimer, the physicist who had a large hand in the development of the atomic bombs that brought an end to World War II.",
     "awards": "Won 7 Oscars. 370 wins & 378 nominations total",
     "country": "United States, United Kingdom",
-    "language": "English, German, Italian, Dutch"
+    "language": "English, German, Italian, Dutch",
+    "titleCn": "奥本海默"
   },
   {
     "rank": 134,
@@ -2007,7 +2140,8 @@
     "plot": "Fictionalized depiction of the 1947 Judges' Trial, the third of 12 trials of Nazi war criminals conducted by the American occupying forces in Nuremberg, Germany, in which former judges of Nazi Germany were tried for their actions.",
     "awards": "Won 2 Oscars. 16 wins & 26 nominations total",
     "country": "United States",
-    "language": "English, German"
+    "language": "English, German",
+    "titleCn": "纽伦堡大审判"
   },
   {
     "rank": 135,
@@ -2022,7 +2156,8 @@
     "plot": "After witnessing his parents' death, billionaire Bruce Wayne learns the art of fighting to confront injustice. When he returns to Gotham as Batman, he must stop a secret society that intends to destroy the city.",
     "awards": "Nominated for 1 Oscar. 15 wins & 79 nominations total",
     "country": "United States, United Kingdom",
-    "language": "English, Mandarin"
+    "language": "English, Mandarin",
+    "titleCn": "蝙蝠侠：开战时刻"
   },
   {
     "rank": 136,
@@ -2037,7 +2172,8 @@
     "plot": "An industrialist invites some experts to visit his theme park of cloned dinosaurs. After a power failure, the creatures run loose, putting everyone's lives, including his grandchildren's, in danger.",
     "awards": "Won 3 Oscars. 44 wins & 27 nominations total",
     "country": "United States",
-    "language": "English, Spanish"
+    "language": "English, Spanish",
+    "titleCn": "侏罗纪公园"
   },
   {
     "rank": 137,
@@ -2052,7 +2188,8 @@
     "plot": "Two bounty killers with similar intentions but different motivations team up to take down a psychotic Mexican outlaw before he and his gang can carry out an audacious bank robbery.",
     "awards": "3 nominations total",
     "country": "Italy, Spain, West Germany",
-    "language": "English, Italian"
+    "language": "English, Italian",
+    "titleCn": "黄昏双镖客"
   },
   {
     "rank": 138,
@@ -2067,7 +2204,8 @@
     "plot": "The real life of one of America's foremost founding fathers and first Secretary of the Treasury, Alexander Hamilton. Captured live on Broadway from the Richard Rodgers Theater with the original Broadway cast.",
     "awards": "Won 2 Primetime Emmys. 19 wins & 43 nominations total",
     "country": "United States",
-    "language": "English, French"
+    "language": "English, French",
+    "titleCn": "汉密尔顿"
   },
   {
     "rank": 139,
@@ -2082,7 +2220,8 @@
     "plot": "A mentally unstable veteran works as a nighttime taxi driver in New York City, where the perceived decadence and sleaze fuels his urge for violent action.",
     "awards": "Nominated for 4 Oscars. 22 wins & 21 nominations total",
     "country": "United States",
-    "language": "English, Spanish"
+    "language": "English, Spanish",
+    "titleCn": "出租车司机"
   },
   {
     "rank": 140,
@@ -2097,7 +2236,8 @@
     "plot": "A science teacher wakes up alone on a spaceship. As his memory returns, he uncovers a mission to stop a mysterious substance killing Earth's sun, and realizes that an unexpected friendship may be the key.",
     "awards": "1 win & 5 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "極限返航"
   },
   {
     "rank": 141,
@@ -2112,7 +2252,8 @@
     "plot": "After two male musicians witness a mob hit, they flee the state in an all-female band disguised as women, but further complications set in.",
     "awards": "Won 1 Oscar. 11 wins & 13 nominations total",
     "country": "United States",
-    "language": "English, French"
+    "language": "English, French",
+    "titleCn": "热情如火"
   },
   {
     "rank": 142,
@@ -2127,7 +2268,8 @@
     "plot": "A story of family, religion, hatred, oil and madness, focusing on a turn-of-the-century prospector in the early days of the business.",
     "awards": "Won 2 Oscars. 114 wins & 138 nominations total",
     "country": "United States",
-    "language": "English, American Sign"
+    "language": "English, American Sign",
+    "titleCn": "血色将至"
   },
   {
     "rank": 143,
@@ -2142,7 +2284,8 @@
     "plot": "A man refuses all assistance from his daughter as he ages. When he tries to understand what is happening around him, he begins to doubt his loved ones, his own mind and even the fabric of his reality.",
     "awards": "Won 2 Oscars. 39 wins & 171 nominations total",
     "country": "United Kingdom, France, United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "困在时间里的父亲"
   },
   {
     "rank": 144,
@@ -2157,7 +2300,8 @@
     "plot": "The Tramp cares for an abandoned child, but events put their relationship in jeopardy.",
     "awards": "2 wins total",
     "country": "United States",
-    "language": "None, English"
+    "language": "None, English",
+    "titleCn": "寻子遇仙记"
   },
   {
     "rank": 145,
@@ -2172,7 +2316,8 @@
     "plot": "A seemingly timid but secretly ruthless ingénue insinuates herself into the lives of an aging Broadway star and her circle of theater friends.",
     "awards": "Won 6 Oscars. 27 wins & 22 nominations total",
     "country": "United States",
-    "language": "English, French"
+    "language": "English, French",
+    "titleCn": "四面夏娃"
   },
   {
     "rank": 146,
@@ -2187,7 +2332,8 @@
     "plot": "After being shot by a resentful former patient whom he failed to help, a Philadelphia child psychologist seeks redemption by treating a young boy with a disturbing secret.",
     "awards": "Nominated for 6 Oscars. 37 wins & 56 nominations total",
     "country": "United States",
-    "language": "English, Latin, Spanish"
+    "language": "English, Latin, Spanish",
+    "titleCn": "第六感"
   },
   {
     "rank": 147,
@@ -2202,7 +2348,8 @@
     "plot": "In Medieval Japan, an elderly warlord retires, handing over his empire to his three sons. However, he vastly underestimates how the new-found power will corrupt them and cause them to turn on each other...and him.",
     "awards": "Won 1 Oscar. 30 wins & 23 nominations total",
     "country": "Japan, France",
-    "language": "Japanese"
+    "language": "Japanese",
+    "titleCn": "乱"
   },
   {
     "rank": 148,
@@ -2217,7 +2364,8 @@
     "plot": "In Las Vegas, two best friends--a casino executive and a Mafia enforcer--compete for a gambling empire and a fast-living, fast-loving socialite.",
     "awards": "Nominated for 1 Oscar. 4 wins & 11 nominations total",
     "country": "United States, France",
-    "language": "English"
+    "language": "English",
+    "titleCn": "赌城风云"
   },
   {
     "rank": 149,
@@ -2232,7 +2380,8 @@
     "plot": "A research team in Antarctica is hunted by a shape-shifting alien that assumes the appearance of its victims.",
     "awards": "1 win & 5 nominations total",
     "country": "United States",
-    "language": "English, Norwegian"
+    "language": "English, Norwegian",
+    "titleCn": "怪形"
   },
   {
     "rank": 150,
@@ -2247,7 +2396,8 @@
     "plot": "Violence and mayhem ensue after a hunter stumbles upon the aftermath of a drug deal gone wrong and over two million dollars in cash near the Rio Grande.",
     "awards": "Won 4 Oscars. 165 wins & 139 nominations total",
     "country": "United States",
-    "language": "English, Spanish"
+    "language": "English, Spanish",
+    "titleCn": "老无所依"
   },
   {
     "rank": 151,
@@ -2262,7 +2412,8 @@
     "plot": "A desperate father takes the law into his own hands after police fail to find two kidnapped girls.",
     "awards": "Nominated for 1 Oscar. 10 wins & 38 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "囚徒"
   },
   {
     "rank": 152,
@@ -2277,7 +2428,8 @@
     "plot": "The story involves Maverick confronting his past while training a group of younger Top Gun graduates, including the son of his deceased best friend, for a dangerous mission.",
     "awards": "Won 1 Oscar. 114 wins & 237 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "捍衛戰士：獨行俠"
   },
   {
     "rank": 153,
@@ -2292,7 +2444,8 @@
     "plot": "After waking from a four-year coma, a former assassin wreaks vengeance on the team of assassins who betrayed her.",
     "awards": "Nominated for 5 BAFTA Awards. 30 wins & 103 nominations total",
     "country": "United States",
-    "language": "English, Japanese, French"
+    "language": "English, Japanese, French",
+    "titleCn": "杀死比尔"
   },
   {
     "rank": 154,
@@ -2307,7 +2460,8 @@
     "plot": "In 1944 Francoist Spain, an imaginative young girl meets a faun who tells her she's a princess and that she must prove her worthiness by completing three dangerous tasks.",
     "awards": "Won 3 Oscars. 109 wins & 115 nominations total",
     "country": "Mexico, Spain",
-    "language": "Spanish"
+    "language": "Spanish",
+    "titleCn": "潘神的迷宮"
   },
   {
     "rank": 155,
@@ -2322,7 +2476,8 @@
     "plot": "Retired Old West gunslinger Will Munny reluctantly takes on one last job to avenge an injustice with the help of his old partner and a young would-be gunman calling himself \"The Schofield Kid\".",
     "awards": "Won 4 Oscars. 52 wins & 47 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "不可饶恕"
   },
   {
     "rank": 156,
@@ -2337,7 +2492,8 @@
     "plot": "A mathematical genius, John Nash made an astonishing discovery early in his career and stood on the brink of international acclaim. But Nash soon found himself on a harrowing journey of self-discovery.",
     "awards": "Won 4 Oscars. 37 wins & 69 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "美丽心灵"
   },
   {
     "rank": 157,
@@ -2352,7 +2508,8 @@
     "plot": "When an unconfident young woman is cursed with an old body by a spiteful witch, her only chance of breaking the spell lies with a self-indulgent yet insecure young wizard and his companions in his legged, walking castle.",
     "awards": "Nominated for 1 Oscar. 14 wins & 20 nominations total",
     "country": "Japan, United States",
-    "language": "Japanese"
+    "language": "Japanese",
+    "titleCn": "哈尔的移动城堡"
   },
   {
     "rank": 158,
@@ -2367,7 +2524,8 @@
     "plot": "Two down-on-their-luck Americans searching for work in 1920s Mexico convince an old prospector to help them mine for gold in the Sierra Madre Mountains.",
     "awards": "Won 3 Oscars. 18 wins & 5 nominations total",
     "country": "United States",
-    "language": "English, Spanish"
+    "language": "English, Spanish",
+    "titleCn": "碧血金沙"
   },
   {
     "rank": 159,
@@ -2382,7 +2540,8 @@
     "plot": "After his son is captured in the Great Barrier Reef and taken to Sydney, a timid clownfish sets out on a journey to bring him home.",
     "awards": "Won 1 Oscar. 49 wins & 63 nominations total",
     "country": "United States, Japan, Australia, Kazakhstan, Armenia",
-    "language": "English, Japanese, Russian"
+    "language": "English, Japanese, Russian",
+    "titleCn": "海底总动员"
   },
   {
     "rank": 160,
@@ -2397,7 +2556,8 @@
     "plot": "A simple act of kindness always sparks another, even in a frozen, faraway place. When Smeerensburg's new postman, Jesper, befriends toymaker Klaus, their gifts melt an age-old feud and deliver a sleigh full of holiday traditions.",
     "awards": "Nominated for 1 Oscar. 11 wins & 26 nominations total",
     "country": "Spain, United Kingdom, United States, Austria, Canada, France",
-    "language": "English, Saami"
+    "language": "English, Saami",
+    "titleCn": "克勞斯：聖誕節的秘密"
   },
   {
     "rank": 161,
@@ -2412,7 +2572,8 @@
     "plot": "A crafty ronin comes to a town divided by two criminal gangs and decides to play them against each other to free the town.",
     "awards": "Nominated for 1 Oscar. 5 wins & 2 nominations total",
     "country": "Japan",
-    "language": "Japanese"
+    "language": "Japanese",
+    "titleCn": "大镖客"
   },
   {
     "rank": 162,
@@ -2427,7 +2588,8 @@
     "plot": "A Victorian surgeon rescues a heavily-disfigured and mistreated young man working as a sideshow freak, who gradually reveals his capacity for kindness, intelligence and sophistication.",
     "awards": "Nominated for 8 Oscars. 11 wins & 22 nominations total",
     "country": "United States, United Kingdom",
-    "language": "English, French"
+    "language": "English, French",
+    "titleCn": "象人"
   },
   {
     "rank": 163,
@@ -2442,7 +2604,8 @@
     "plot": "Allied officers in a German prisoner of war camp during World War II make a daring plan for a mass escape by hundreds of POWs hoping to draw German personnel and resources away from combat operations.",
     "awards": "Nominated for 1 Oscar. 3 wins & 12 nominations total",
     "country": "United States",
-    "language": "English, German, French, Russian, Spanish"
+    "language": "English, German, French, Russian, Spanish",
+    "titleCn": "龍虎榜"
   },
   {
     "rank": 164,
@@ -2457,7 +2620,8 @@
     "plot": "The Demon Slayer Corps are drawn into the Infinity Castle, where Tanjiro and the Hashira face terrifying Upper Rank demons in a desperate fight as the final battle against Muzan Kibutsuji begins.",
     "awards": "2 wins & 7 nominations total",
     "country": "Japan, United States",
-    "language": "Japanese"
+    "language": "Japanese",
+    "titleCn": "鬼滅之刃劇場版 無限城篇"
   },
   {
     "rank": 165,
@@ -2472,7 +2636,8 @@
     "plot": "King Arthur and his Knights of the Round Table embark on a surreal, low-budget search for the Holy Grail, encountering many, very silly obstacles.",
     "awards": "2 wins & 2 nominations total",
     "country": "United Kingdom",
-    "language": "English, French, Latin, Swedish"
+    "language": "English, French, Latin, Swedish",
+    "titleCn": "巨蟒与圣杯"
   },
   {
     "rank": 166,
@@ -2487,7 +2652,8 @@
     "plot": "A London playboy plots the perfect murder of his rich, unfaithful wife.",
     "awards": "Nominated for 1 BAFTA Award. 5 wins & 3 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "電話情殺案"
   },
   {
     "rank": 167,
@@ -2502,7 +2668,8 @@
     "plot": "A retired legal counselor writes a novel hoping to find closure for one of his past unresolved homicide cases and for his unreciprocated love with his superior--both of which still haunt him decades later.",
     "awards": "Won 1 Oscar. 53 wins & 43 nominations total",
     "country": "Argentina, Spain",
-    "language": "Spanish"
+    "language": "Spanish",
+    "titleCn": "谜一样的双眼"
   },
   {
     "rank": 168,
@@ -2517,7 +2684,8 @@
     "plot": "A sheltered and manipulative Southern belle and a roguish profiteer face off in a turbulent romance as the society around them crumbles with the end of slavery and is rebuilt during the Civil War and Reconstruction periods.",
     "awards": "Won 8 Oscars. 26 wins & 10 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "乱世佳人"
   },
   {
     "rank": 169,
@@ -2532,7 +2700,8 @@
     "plot": "When four small-time criminals lose a rigged poker game against a London kingpin, he gives them one week to settle their enormous debt.",
     "awards": "Won 1 BAFTA Award. 13 wins & 9 nominations total",
     "country": "United Kingdom, United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "两只大烟枪"
   },
   {
     "rank": 170,
@@ -2547,7 +2716,8 @@
     "plot": "A private detective hired to expose an adulterer in 1930s Los Angeles finds himself caught up in a web of deceit, corruption, and murder.",
     "awards": "Won 1 Oscar. 21 wins & 24 nominations total",
     "country": "United States",
-    "language": "English, Cantonese, Spanish"
+    "language": "English, Cantonese, Spanish",
+    "titleCn": "唐人街"
   },
   {
     "rank": 171,
@@ -2562,7 +2732,8 @@
     "plot": "An Italian epic that follows the lives of two brothers from the 1960s to the 2000s.",
     "awards": "33 wins & 25 nominations total",
     "country": "Italy",
-    "language": "Italian, English, Norwegian"
+    "language": "Italian, English, Norwegian",
+    "titleCn": "灿烂人生"
   },
   {
     "rank": 172,
@@ -2577,7 +2748,8 @@
     "plot": "A young woman living in a dystopian society meets a shadowy freedom fighter who is plotting to overthrow their tyrannical government.",
     "awards": "7 wins & 29 nominations total",
     "country": "United States",
-    "language": "English, French, Latin, Spanish"
+    "language": "English, French, Latin, Spanish",
+    "titleCn": "V字仇杀队"
   },
   {
     "rank": 173,
@@ -2592,7 +2764,8 @@
     "plot": "Barely 17 yet, Frank is a skilled forger who has passed as a doctor, lawyer and pilot. FBI agent Carl becomes obsessed with tracking down the con man, who only revels in the pursuit.",
     "awards": "Nominated for 2 Oscars. 16 wins & 46 nominations total",
     "country": "United States, Canada",
-    "language": "English, French"
+    "language": "English, French",
+    "titleCn": "我知道你是谁"
   },
   {
     "rank": 174,
@@ -2607,7 +2780,8 @@
     "plot": "After young Riley is uprooted from her Midwest life and moved to San Francisco, her emotions, Joy, Fear, Anger, Disgust, and Sadness, conflict on how best to navigate a new city, house, and school.",
     "awards": "Won 1 Oscar. 99 wins & 118 nominations total",
     "country": "United States",
-    "language": "English, Portuguese, Latvian"
+    "language": "English, Portuguese, Latvian",
+    "titleCn": "头脑特工队"
   },
   {
     "rank": 175,
@@ -2622,7 +2796,8 @@
     "plot": "Renton, deeply immersed in the Edinburgh drug scene, tries to clean up and get out despite the allure of drugs and the influence of friends.",
     "awards": "Nominated for 1 Oscar. 23 wins & 35 nominations total",
     "country": "United Kingdom",
-    "language": "English"
+    "language": "English",
+    "titleCn": "迷幻列車"
   },
   {
     "rank": 176,
@@ -2637,7 +2812,8 @@
     "plot": "A mother personally challenges the local authorities to solve her daughter's murder when they fail to catch the culprit.",
     "awards": "Won 2 Oscars. 132 wins & 233 nominations total",
     "country": "United Kingdom, United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "三块广告牌"
   },
   {
     "rank": 177,
@@ -2652,7 +2828,8 @@
     "plot": "Maverick teacher John Keating returns in 1959 to the prestigious New England boys' boarding school where he was once a star student, using poetry to embolden his pupils to new heights of self-expression.",
     "awards": "Won 1 Oscar. 20 wins & 19 nominations total",
     "country": "United States",
-    "language": "English, Latin, French"
+    "language": "English, Latin, French",
+    "titleCn": "死亡诗社"
   },
   {
     "rank": 178,
@@ -2667,7 +2844,8 @@
     "plot": "Three parties and a witness have four versions of a rape/murder in ninth-century Japan.",
     "awards": "Nominated for 1 Oscar. 9 wins & 5 nominations total",
     "country": "Japan",
-    "language": "Japanese"
+    "language": "Japanese",
+    "titleCn": "罗生门"
   },
   {
     "rank": 179,
@@ -2682,7 +2860,8 @@
     "plot": "Harry, Ron and Hermione set out on a quest to eliminate the remaining horcruxes. On the other hand, the students and teachers must unite to defend Hogwarts against Lord Voldemort and his army.",
     "awards": "Nominated for 3 Oscars. 49 wins & 96 nominations total",
     "country": "United Kingdom, United States",
-    "language": "English, Latin"
+    "language": "English, Latin",
+    "titleCn": "哈利·波特与死亡圣器"
   },
   {
     "rank": 180,
@@ -2697,7 +2876,8 @@
     "plot": "British POWs are forced to build a railway bridge across the river Kwai for their Japanese captors in occupied Burma, not knowing that the allied forces are planning a daring commando raid through the jungle to destroy it.",
     "awards": "Won 7 Oscars. 30 wins & 7 nominations total",
     "country": "United Kingdom, United States",
-    "language": "English, Japanese, Thai"
+    "language": "English, Japanese, Thai",
+    "titleCn": "桂河大桥"
   },
   {
     "rank": 181,
@@ -2712,7 +2892,8 @@
     "plot": "After a shipwreck, an intelligent robot called Roz is stranded on an uninhabited island. To survive the harsh environment, Roz bonds with the island's animals and cares for an orphaned baby goose.",
     "awards": "Nominated for 3 Oscars. 94 wins & 109 nominations total",
     "country": "United States, Japan",
-    "language": "English, German, French, Spanish, Swahili, Japanese"
+    "language": "English, German, French, Spanish, Swahili, Japanese",
+    "titleCn": "荒野機器人"
   },
   {
     "rank": 182,
@@ -2727,7 +2908,8 @@
     "plot": "An Irish rogue wins the heart of a rich widow and assumes her dead husband's aristocratic position in 18th-century England.",
     "awards": "Won 4 Oscars. 18 wins & 14 nominations total",
     "country": "United Kingdom, United States",
-    "language": "English, German, French"
+    "language": "English, German, French",
+    "titleCn": "巴里·林登"
   },
   {
     "rank": 183,
@@ -2742,7 +2924,8 @@
     "plot": "A Jewish prince is betrayed and sent into slavery by a Roman friend in 1st-century Jerusalem, but it's not long before he regains his freedom and comes back for revenge.",
     "awards": "Won 11 Oscars. 29 wins & 13 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "宾虚"
   },
   {
     "rank": 184,
@@ -2757,7 +2940,8 @@
     "plot": "The youngest son of an alcoholic former boxer returns home, where he's trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother.",
     "awards": "Nominated for 1 Oscar. 6 wins & 22 nominations total",
     "country": "United States",
-    "language": "English, Spanish"
+    "language": "English, Spanish",
+    "titleCn": "勇士"
   },
   {
     "rank": 185,
@@ -2772,7 +2956,8 @@
     "plot": "Minnesota car salesman Jerry Lundegaard's inept crime falls apart due to his and his henchmen's bungling and the persistent police work of the quite pregnant Marge Gunderson.",
     "awards": "Won 2 Oscars. 84 wins & 58 nominations total",
     "country": "United Kingdom, United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "冰血暴"
   },
   {
     "rank": 186,
@@ -2787,7 +2972,8 @@
     "plot": "World War II American Army Medic Desmond T. Doss, serving during the Battle of Okinawa, refuses to kill people and becomes the first man in American history to receive the Medal of Honor without firing a shot.",
     "awards": "Won 2 Oscars. 57 wins & 115 nominations total",
     "country": "United States",
-    "language": "English, Japanese"
+    "language": "English, Japanese",
+    "titleCn": "拉鋸戰"
   },
   {
     "rank": 187,
@@ -2802,7 +2988,8 @@
     "plot": "In a post-apocalyptic wasteland, a woman rebels against a tyrannical ruler in search for her homeland with the aid of a group of female prisoners, a psychotic worshipper and a drifter named Max.",
     "awards": "Won 6 Oscars. 245 wins & 234 nominations total",
     "country": "Australia, United States",
-    "language": "English, Russian"
+    "language": "English, Russian",
+    "titleCn": "疯狂的麦克斯4：狂暴之路"
   },
   {
     "rank": 188,
@@ -2817,7 +3004,8 @@
     "plot": "Frankie, an ill-tempered old coach, reluctantly agrees to train aspiring boxer Maggie. Impressed with her determination and talent, he helps her become the best and the two soon form a close bond.",
     "awards": "Won 4 Oscars. 68 wins & 86 nominations total",
     "country": "United States",
-    "language": "English, Irish Gaelic, German"
+    "language": "English, Irish Gaelic, German",
+    "titleCn": "百万宝贝"
   },
   {
     "rank": 189,
@@ -2832,7 +3020,8 @@
     "plot": "After a boy loses his sister's pair of shoes, he goes on a series of adventures in order to find them. When he can't, he tries a new way to \"win\" a new pair.",
     "awards": "Nominated for 1 Oscar. 18 wins & 5 nominations total",
     "country": "Iran",
-    "language": "Persian"
+    "language": "Persian",
+    "titleCn": "天堂的孩子"
   },
   {
     "rank": 190,
@@ -2847,7 +3036,8 @@
     "plot": "A rat who can cook makes an unusual alliance with a young kitchen worker at a famous Paris restaurant.",
     "awards": "Won 1 Oscar. 69 wins & 42 nominations total",
     "country": "United States, France",
-    "language": "English, French"
+    "language": "English, French",
+    "titleCn": "美食总动员"
   },
   {
     "rank": 191,
@@ -2862,7 +3052,8 @@
     "plot": "When two girls move to the country to be near their ailing mother, they have adventures with the wondrous forest spirits who live nearby.",
     "awards": "5 wins & 2 nominations total",
     "country": "Japan",
-    "language": "Japanese"
+    "language": "Japanese",
+    "titleCn": "龙猫"
   },
   {
     "rank": 192,
@@ -2877,7 +3068,8 @@
     "plot": "The life of boxer Jake LaMotta, whose violence and temper that led him to the top in the ring destroyed his life outside of it.",
     "awards": "Won 2 Oscars. 24 wins & 28 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "愤怒的公牛"
   },
   {
     "rank": 193,
@@ -2892,7 +3084,8 @@
     "plot": "After a Hmong teenager tries to steal his prized 1972 Gran Torino, a disgruntled, prejudiced Korean War veteran seeks to redeem both the boy and himself.",
     "awards": "21 wins & 23 nominations total",
     "country": "Germany, United States",
-    "language": "English, Hmong"
+    "language": "English, Hmong",
+    "titleCn": "老爷车"
   },
   {
     "rank": 194,
@@ -2907,7 +3100,8 @@
     "plot": "In the antebellum United States, Solomon Northup, a free black man from upstate New York, is abducted and sold into slavery.",
     "awards": "Won 3 Oscars. 244 wins & 338 nominations total",
     "country": "United Kingdom, United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "为奴十二年"
   },
   {
     "rank": 195,
@@ -2922,7 +3116,8 @@
     "plot": "A writer encounters the owner of an aging high-class hotel, who tells him of his early years serving as a lobby boy in the hotel's glorious years under an exceptional concierge.",
     "awards": "Won 4 Oscars. 137 wins & 227 nominations total",
     "country": "United States, Germany",
-    "language": "English, French, German"
+    "language": "English, French, German",
+    "titleCn": "布達佩斯大飯店"
   },
   {
     "rank": 196,
@@ -2937,7 +3132,8 @@
     "plot": "In a small Korean province in 1986, two detectives struggle with the case of multiple young women being found raped and murdered by an unknown culprit.",
     "awards": "34 wins & 13 nominations total",
     "country": "South Korea",
-    "language": "Korean, English"
+    "language": "Korean, English",
+    "titleCn": "杀人回忆"
   },
   {
     "rank": 197,
@@ -2952,7 +3148,8 @@
     "plot": "A hapless young Viking who aspires to hunt dragons becomes the unlikely friend of a young dragon himself, and learns there may be more to the creatures than he assumed.",
     "awards": "Nominated for 2 Oscars. 25 wins & 63 nominations total",
     "country": "United Kingdom, France, United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "驯龙高手"
   },
   {
     "rank": 198,
@@ -2967,7 +3164,8 @@
     "plot": "A young man and woman meet on a train in Europe, and wind up spending one evening together in Vienna. Unfortunately, both know that this will probably be their only night together.",
     "awards": "2 wins & 7 nominations total",
     "country": "United States, Austria",
-    "language": "English, German, French"
+    "language": "English, German, French",
+    "titleCn": "情留半天"
   },
   {
     "rank": 199,
@@ -2982,7 +3180,8 @@
     "plot": "A blade runner must pursue and terminate four replicants who stole a ship in space and have returned to Earth to find their creator.",
     "awards": "Nominated for 2 Oscars. 13 wins & 22 nominations total",
     "country": "United States, United Kingdom, Hong Kong",
-    "language": "English, German, Cantonese, Japanese, Hungarian, Arabic, Korean"
+    "language": "English, German, Cantonese, Japanese, Hungarian, Arabic, Korean",
+    "titleCn": "银翼杀手"
   },
   {
     "rank": 200,
@@ -2997,7 +3196,8 @@
     "plot": "In order to power the city, monsters have to scare children so that they scream. However, the children are toxic to the monsters, and after a child gets through, two monsters realize things may not be what they think.",
     "awards": "Won 1 Oscar. 15 wins & 38 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "怪兽公司"
   },
   {
     "rank": 201,
@@ -3012,7 +3212,8 @@
     "plot": "The husband of a missing woman becomes the main suspect in her disappearance.",
     "awards": "Nominated for 1 Oscar. 64 wins & 189 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "消失的爱人"
   },
   {
     "rank": 202,
@@ -3027,7 +3228,8 @@
     "plot": "With Spider-Man's identity now revealed, Peter asks Doctor Strange for help. When a spell goes wrong, dangerous foes from other worlds start to appear.",
     "awards": "Nominated for 1 Oscar. 35 wins & 72 nominations total",
     "country": "United States",
-    "language": "English, Tagalog"
+    "language": "English, Tagalog",
+    "titleCn": "蜘蛛侠：英雄无归"
   },
   {
     "rank": 203,
@@ -3042,7 +3244,8 @@
     "plot": "When a massive killer shark unleashes chaos on a beach community off Long Island, it's up to the local police chief, a marine biologist, and an old seafarer to hunt the beast down.",
     "awards": "Won 3 Oscars. 16 wins & 21 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "大白鲨"
   },
   {
     "rank": 204,
@@ -3057,7 +3260,8 @@
     "plot": "American car designer Carroll Shelby and driver Ken Miles battle corporate interference and the laws of physics to build a revolutionary race car for Ford in order to defeat Ferrari at the 24 Hours of Le Mans in 1966.",
     "awards": "Won 2 Oscars. 26 wins & 86 nominations total",
     "country": "United States",
-    "language": "English, Italian, French, Japanese"
+    "language": "English, Italian, French, Japanese",
+    "titleCn": "賽道狂人"
   },
   {
     "rank": 205,
@@ -3072,7 +3276,8 @@
     "plot": "An Irish man's coerced confession to an I.R.A. bombing he did not commit results in the imprisonment of his father as well. Meanwhile, a British lawyer fights to clear their names and free them.",
     "awards": "Nominated for 7 Oscars. 7 wins & 41 nominations total",
     "country": "Ireland, United Kingdom, United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "以父之名"
   },
   {
     "rank": 206,
@@ -3087,7 +3292,8 @@
     "plot": "Six short stories that explore the extremities of human behavior involving people in distress.",
     "awards": "Nominated for 1 Oscar. 51 wins & 58 nominations total",
     "country": "Argentina, Spain, France, United Kingdom",
-    "language": "Spanish"
+    "language": "Spanish",
+    "titleCn": "生命中最抓狂的小事"
   },
   {
     "rank": 207,
@@ -3102,7 +3308,8 @@
     "plot": "A prospector goes to the Klondike during the 1890s gold rush in hopes of making his fortune, and is smitten with a girl he sees in a dance hall.",
     "awards": "Nominated for 2 Oscars. 7 wins & 3 nominations total",
     "country": "United States",
-    "language": "None, English"
+    "language": "None, English",
+    "titleCn": "淘金记"
   },
   {
     "rank": 208,
@@ -3117,7 +3324,8 @@
     "plot": "A film projectionist longs to be a detective, and puts his meagre skills to work when he is framed by a rival for stealing his girlfriend's father's pocketwatch.",
     "awards": "2 wins total",
     "country": "United States",
-    "language": "None, English"
+    "language": "None, English",
+    "titleCn": "福尔摩斯二世"
   },
   {
     "rank": 209,
@@ -3132,7 +3340,8 @@
     "plot": "In 1976 Melbourne, a lonely 8-year-old girl strikes up a correspondence with an unlikely pen pal: a severely obese 44-year-old New Yorker with Asperger's syndrome.",
     "awards": "6 wins & 9 nominations total",
     "country": "Australia",
-    "language": "English, Yiddish"
+    "language": "English, Yiddish",
+    "titleCn": "玛丽和马克思"
   },
   {
     "rank": 210,
@@ -3147,7 +3356,8 @@
     "plot": "The lives of a group of friends are forever changed by the Vietnam War.",
     "awards": "Won 5 Oscars. 24 wins & 27 nominations total",
     "country": "United States, United Kingdom",
-    "language": "English, Vietnamese, French, Russian, Cantonese"
+    "language": "English, Vietnamese, French, Russian, Cantonese",
+    "titleCn": "猎鹿人"
   },
   {
     "rank": 211,
@@ -3162,7 +3372,8 @@
     "plot": "In a decrepit South American village, four men are hired to transport an urgent nitroglycerine shipment without the equipment that would make it safe.",
     "awards": "Won 1 BAFTA Award6 wins & 1 nomination total",
     "country": "France, Italy",
-    "language": "French, English, Spanish, German, Italian, Russian"
+    "language": "French, English, Spanish, German, Italian, Russian",
+    "titleCn": "恐惧的代价"
   },
   {
     "rank": 212,
@@ -3177,7 +3388,8 @@
     "plot": "Denji encounters a new romantic interest, Reze, who works at a coffee café.",
     "awards": "",
     "country": "Japan",
-    "language": "Japanese"
+    "language": "Japanese",
+    "titleCn": "劇場版『鏈鋸人 蕾潔篇』"
   },
   {
     "rank": 213,
@@ -3192,7 +3404,8 @@
     "plot": "A young and beautiful female teacher starts working in an all boys high school.",
     "awards": "1 win",
     "country": "Turkey",
-    "language": "Turkish"
+    "language": "Turkish",
+    "titleCn": "反斗学堂：新学期"
   },
   {
     "rank": 214,
@@ -3207,7 +3420,8 @@
     "plot": "After being rejected by the Confederate military, not realizing it was due to his crucial civilian role, an engineer must single-handedly recapture his beloved locomotive after it is seized by Union spies and return it through ene...",
     "awards": "3 wins & 1 nomination total",
     "country": "United States",
-    "language": "None"
+    "language": "None",
+    "titleCn": "将军号"
   },
   {
     "rank": 215,
@@ -3222,7 +3436,8 @@
     "plot": "In a future where mutants are nearly extinct, an elderly and weary Logan leads a quiet life. But when Laura, a mutant child pursued by scientists, comes to him for help, he must get her to safety.",
     "awards": "Nominated for 1 Oscar. 28 wins & 82 nominations total",
     "country": "United States",
-    "language": "English, Spanish"
+    "language": "English, Spanish",
+    "titleCn": "羅根"
   },
   {
     "rank": 216,
@@ -3237,7 +3452,8 @@
     "plot": "A small-time Philadelphia boxer gets a supremely rare chance to fight the world heavyweight champion in a bout in which he strives to go the distance for his self-respect.",
     "awards": "Won 3 Oscars. 23 wins & 23 nominations total",
     "country": "United States",
-    "language": "English, Spanish, Italian"
+    "language": "English, Spanish, Italian",
+    "titleCn": "洛奇"
   },
   {
     "rank": 217,
@@ -3252,7 +3468,8 @@
     "plot": "A deaf girl, Shoko, is bullied by the popular Shoya. As Shoya continues to bully Shoko, the class turns its back on him. Shoko transfers and Shoya grows up as an outcast. Alone and depressed, the regretful Shoya finds Shoko to mak...",
     "awards": "6 wins & 9 nominations total",
     "country": "Japan",
-    "language": "Japanese, Japanese Sign , English"
+    "language": "Japanese, Japanese Sign , English",
+    "titleCn": "電影版 聲之形"
   },
   {
     "rank": 218,
@@ -3267,7 +3484,8 @@
     "plot": "An intrepid blacksmith teams up with an eccentric pirate captain to save his love from an undead pirate crew.",
     "awards": "Nominated for 5 Oscars. 38 wins & 104 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "加勒比海盗：黑珍珠号的诅咒"
   },
   {
     "rank": 219,
@@ -3282,7 +3500,8 @@
     "plot": "A naive youth leader is appointed to fill a vacancy in the U.S. Senate. His idealistic plans promptly collide with corruption at home and subterfuge from his hero in Washington, but he tries to forge ahead despite attacks on his c...",
     "awards": "Won 1 Oscar. 8 wins & 12 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "史密斯先生到华盛顿"
   },
   {
     "rank": 220,
@@ -3297,7 +3516,8 @@
     "plot": "An old couple visit their children and grandchildren in the city, but receive little attention.",
     "awards": "3 wins total",
     "country": "Japan",
-    "language": "Japanese, English"
+    "language": "Japanese, English",
+    "titleCn": "东京物语"
   },
   {
     "rank": 221,
@@ -3312,7 +3532,8 @@
     "plot": "24 hours in the lives of three young men in the French suburbs the day after a violent riot.",
     "awards": "8 wins & 15 nominations total",
     "country": "France",
-    "language": "French, Yiddish"
+    "language": "French, Yiddish",
+    "titleCn": "恨"
   },
   {
     "rank": 222,
@@ -3327,7 +3548,8 @@
     "plot": "The true story of how the Boston Globe uncovered the massive scandal of child molestation and cover-up within the local Catholic Archdiocese, shaking the entire Catholic Church to its core.",
     "awards": "Won 2 Oscars. 124 wins & 145 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "驚爆焦點"
   },
   {
     "rank": 223,
@@ -3342,7 +3564,8 @@
     "plot": "An ex-prize fighter turned New Jersey longshoreman struggles to stand up to his corrupt union bosses, including his older brother, as he starts to connect with the grieving sister of one of the syndicate's victims.",
     "awards": "Won 8 Oscars. 30 wins & 11 nominations total",
     "country": "United States",
-    "language": "English, Latin"
+    "language": "English, Latin",
+    "titleCn": "码头风云"
   },
   {
     "rank": 224,
@@ -3357,7 +3580,8 @@
     "plot": "A young novice is sent by her convent in 1930s Austria to become a governess to the seven children of a widowed naval officer.",
     "awards": "Won 5 Oscars. 19 wins & 13 nominations total",
     "country": "United States",
-    "language": "English, German"
+    "language": "English, German",
+    "titleCn": "音樂之聲"
   },
   {
     "rank": 225,
@@ -3372,7 +3596,8 @@
     "plot": "After living a life marked by coldness, an aging professor is forced to confront the emptiness of his existence.",
     "awards": "Nominated for 1 Oscar. 16 wins & 4 nominations total",
     "country": "Sweden",
-    "language": "Swedish, Latin"
+    "language": "Swedish, Latin",
+    "titleCn": "野草莓"
   },
   {
     "rank": 226,
@@ -3387,7 +3612,8 @@
     "plot": "When a tribal man is arrested for a case of alleged theft, his wife turns to a human-rights lawyer to help bring justice.",
     "awards": "14 wins & 20 nominations total",
     "country": "India, United States",
-    "language": "Tamil"
+    "language": "Tamil",
+    "titleCn": "杰伊·比姆"
   },
   {
     "rank": 227,
@@ -3402,7 +3628,8 @@
     "plot": "A cyborg assassin from the future attempts to find and kill a young woman who is destined to give birth to a warrior that will lead a resistance to save humankind from extinction.",
     "awards": "9 wins & 8 nominations total",
     "country": "United Kingdom, United States",
-    "language": "English, Spanish"
+    "language": "English, Spanish",
+    "titleCn": "终结者"
   },
   {
     "rank": 228,
@@ -3417,7 +3644,8 @@
     "plot": "A barber seeks vengeance after his home is burglarized, cryptically telling police his \"lakshmi\" has been taken, leaving them uncertain if it's a person or object. His quest to recover the elusive \"lakshmi\" unfolds.",
     "awards": "3 wins & 7 nominations total",
     "country": "India",
-    "language": "Tamil"
+    "language": "Tamil",
+    "titleCn": "因果报应"
   },
   {
     "rank": 229,
@@ -3432,7 +3660,8 @@
     "plot": "Three traumatized or physically disabled World War II veterans return home to the American Midwest to discover that they and their families have been irreparably changed making readjustment difficult.",
     "awards": "Won 7 Oscars. 25 wins & 4 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "黄金时代"
   },
   {
     "rank": 230,
@@ -3447,7 +3676,8 @@
     "plot": "Pulp novelist Holly Martins travels to shadowy, postwar Vienna, only to find himself investigating the mysterious death of an old friend, Harry Lime.",
     "awards": "Won 1 Oscar. 6 wins & 4 nominations total",
     "country": "United Kingdom, United States",
-    "language": "English, German, Russian, French"
+    "language": "English, German, Russian, French",
+    "titleCn": "黑狱亡魂"
   },
   {
     "rank": 231,
@@ -3462,7 +3692,8 @@
     "plot": "Jeff \"The Dude\" Lebowski, mistaken for a millionaire of the same name, seeks restitution for his ruined rug and enlists his bowling buddies to help get it.",
     "awards": "7 wins & 18 nominations total",
     "country": "United Kingdom, United States",
-    "language": "English, German, Hebrew, Spanish"
+    "language": "English, German, Hebrew, Spanish",
+    "titleCn": "谋杀绿脚趾"
   },
   {
     "rank": 232,
@@ -3477,7 +3708,8 @@
     "plot": "Nine years after Jesse and Celine first met, they encounter each other again on the French leg of Jesse's book tour.",
     "awards": "Nominated for 1 Oscar. 10 wins & 32 nominations total",
     "country": "United States",
-    "language": "English, French"
+    "language": "English, French",
+    "titleCn": "日落巴黎"
   },
   {
     "rank": 233,
@@ -3492,7 +3724,8 @@
     "plot": "While trying to lead a quiet suburban life, a family of undercover superheroes are forced into action to save the world.",
     "awards": "Won 2 Oscars. 70 wins & 56 nominations total",
     "country": "United States",
-    "language": "English, French, German, Italian, Portuguese, Russian"
+    "language": "English, French, German, Italian, Portuguese, Russian",
+    "titleCn": "超人总动员"
   },
   {
     "rank": 234,
@@ -3507,7 +3740,8 @@
     "plot": "A little boy is held captive in a room with his mother since his birth, so he has never known the world outside.",
     "awards": "Won 1 Oscar. 108 wins & 143 nominations total",
     "country": "Ireland, Canada, United Kingdom, United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "房间"
   },
   {
     "rank": 235,
@@ -3522,7 +3756,8 @@
     "plot": "Professor Wilson discovers a lost Akita puppy on his way home. Despite objections from his wife, Hachi endears himself to the family and grows to be Parker's loyal companion. As their bond grows deeper, a beautiful relationship un...",
     "awards": "1 nomination total",
     "country": "United Kingdom, United States",
-    "language": "English, Japanese"
+    "language": "English, Japanese",
+    "titleCn": "忠犬小八"
   },
   {
     "rank": 236,
@@ -3537,7 +3772,8 @@
     "plot": "A knight returning to Sweden after the Crusades seeks answers about life, death, and the existence of God as he plays chess against the Grim Reaper during the Black Plague.",
     "awards": "9 wins & 2 nominations total",
     "country": "Sweden",
-    "language": "Swedish, Latin"
+    "language": "Swedish, Latin",
+    "titleCn": "第七封印"
   },
   {
     "rank": 237,
@@ -3552,7 +3788,8 @@
     "plot": "Paul Rusesabagina, a hotel manager, houses over a thousand Tutsi refugees during their struggle against the Hutu militia in Rwanda, Africa.",
     "awards": "Nominated for 3 Oscars. 16 wins & 49 nominations total",
     "country": "United States, United Kingdom, South Africa, Italy",
-    "language": "English, French, Kinyarwanda"
+    "language": "English, French, Kinyarwanda",
+    "titleCn": "卢旺达饭店"
   },
   {
     "rank": 238,
@@ -3567,7 +3804,8 @@
     "plot": "Chris Taylor, a neophyte recruit in Vietnam, finds himself caught in a battle of wills between two sergeants, one good and the other evil. A shrewd examination of the brutality of war and the duality of man in conflict.",
     "awards": "Won 4 Oscars. 24 wins & 16 nominations total",
     "country": "United States, United Kingdom",
-    "language": "English, Vietnamese"
+    "language": "English, Vietnamese",
+    "titleCn": "野战排"
   },
   {
     "rank": 239,
@@ -3582,7 +3820,8 @@
     "plot": "When a mysterious entity possesses a young girl, her mother seeks the help of two Catholic priests to save her life.",
     "awards": "Won 2 Oscars. 18 wins & 21 nominations total",
     "country": "United States",
-    "language": "English, Latin, Greek, French, German, Arabic, Kurdish"
+    "language": "English, Latin, Greek, French, German, Arabic, Kurdish",
+    "titleCn": "驱魔人"
   },
   {
     "rank": 240,
@@ -3597,7 +3836,8 @@
     "plot": "A young boy befriends a giant robot from outer space that a paranoid government agent wants to destroy.",
     "awards": "Won 1 BAFTA Award20 wins & 18 nominations total",
     "country": "United States, Czech Republic, United Kingdom",
-    "language": "English"
+    "language": "English",
+    "titleCn": "铁巨人"
   },
   {
     "rank": 241,
@@ -3612,7 +3852,8 @@
     "plot": "James Hunt and Niki Lauda, two extremely skilled Formula One racers, have an intense rivalry with each other. However, it is their enmity that pushes them to their limits.",
     "awards": "Won 1 BAFTA Award6 wins & 66 nominations total",
     "country": "United Kingdom, United States",
-    "language": "English, German, Italian, French, Japanese, Spanish"
+    "language": "English, German, Italian, French, Japanese, Spanish",
+    "titleCn": "決戰終點線"
   },
   {
     "rank": 242,
@@ -3627,7 +3868,8 @@
     "plot": "A writer recounts a childhood journey with his friends to find the body of a missing boy.",
     "awards": "Nominated for 1 Oscar. 6 wins & 12 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "伴我同行"
   },
   {
     "rank": 243,
@@ -3642,7 +3884,8 @@
     "plot": "Young Dorothy Gale and her dog Toto are swept away by a tornado from their Kansas farm to the magical Land of Oz and embark on a quest with three new friends to see the Wizard, who can return her to her home and fulfill the others...",
     "awards": "Won 2 Oscars. 16 wins & 14 nominations total",
     "country": "United States",
-    "language": "English"
+    "language": "English",
+    "titleCn": "绿野仙踪"
   },
   {
     "rank": 244,
@@ -3657,7 +3900,8 @@
     "plot": "In the 1950s, fear and violence escalate as the people of Algiers fight for independence from the French government.",
     "awards": "Nominated for 3 Oscars. 9 wins & 8 nominations total",
     "country": "Italy, Algeria",
-    "language": "Arabic, French, English, Spanish"
+    "language": "Arabic, French, English, Spanish",
+    "titleCn": "阿尔及尔之战"
   },
   {
     "rank": 245,
@@ -3672,7 +3916,8 @@
     "plot": "The family of a left-wing journalist is torn apart after the military coup of Turkey in 1980.",
     "awards": "14 wins & 7 nominations total",
     "country": "Turkey",
-    "language": "Turkish"
+    "language": "Turkish",
+    "titleCn": "我的父亲，我的儿子"
   },
   {
     "rank": 246,
@@ -3687,7 +3932,8 @@
     "plot": "In 1431, Jeanne d'Arc is placed on trial on charges of heresy, and the ecclesiastical jurists attempt to force her to recant her claims of holy visions.",
     "awards": "4 wins & 1 nomination total",
     "country": "France",
-    "language": "None, French, Latin"
+    "language": "None, French, Latin",
+    "titleCn": "圣女贞德蒙难记"
   },
   {
     "rank": 247,
@@ -3702,7 +3948,8 @@
     "plot": "In 1930s Korea, a girl is hired as a handmaiden to a Japanese heiress who lives a secluded life on a countryside estate. But the maid has a secret: She is a pickpocket recruited by a swindler to help seduce the Lady and steal her ...",
     "awards": "Won 1 BAFTA Award69 wins & 104 nominations total",
     "country": "South Korea",
-    "language": "Korean, Japanese"
+    "language": "Korean, Japanese",
+    "titleCn": "小姐"
   },
   {
     "rank": 248,
@@ -3717,7 +3964,8 @@
     "plot": "A man goes to extreme lengths to save his family from punishment after the family commits an accidental crime.",
     "awards": "16 wins & 6 nominations",
     "country": "India",
-    "language": "Malayalam"
+    "language": "Malayalam",
+    "titleCn": "视觉"
   },
   {
     "rank": 249,
@@ -3732,7 +3980,8 @@
     "plot": "A clash between Sultan and Shahid Khan leads to the expulsion of Khan from Wasseypur, and ignites a deadly blood feud spanning three generations.",
     "awards": "18 wins & 65 nominations total",
     "country": "India, France",
-    "language": "Hindi"
+    "language": "Hindi",
+    "titleCn": "瓦塞浦黑幫"
   },
   {
     "rank": 250,
@@ -3747,6 +3996,7 @@
     "plot": "The misadventures of two young brides who get lost from the same train. From mistaken identities to laugh-out-aloud escapades, the ensuing chaos guarantees laughter galore and heartwarming moments.",
     "awards": "66 wins & 63 nominations total",
     "country": "India",
-    "language": "Hindi"
+    "language": "Hindi",
+    "titleCn": "迷途新娘"
   }
 ]

@@ -11,9 +11,13 @@
     "check": "node scripts/check.mjs",
     "lint": "node scripts/check.mjs",
     "build": "node scripts/check.mjs",
+    "enrich:zh": "node scripts/enrich-chinese-titles.mjs",
     "warm-cache": "node scripts/warm-cache.mjs"
   },
   "engines": {
     "node": ">=20"
+  },
+  "dependencies": {
+    "sharp": "0.35.3"
   }
 }

@@ -229,7 +229,7 @@ h1 {
 
 .search-form {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 48px auto;
+  grid-template-columns: minmax(0, 1fr) 48px;
   gap: 8px;
   align-items: center;
 }
@@ -993,10 +993,6 @@ h1 {
 
   .search-form {
     grid-template-columns: 1fr 48px;
-  }
-
-  .ghost-button {
-    grid-column: 1 / -1;
   }
 
   .status-bar {

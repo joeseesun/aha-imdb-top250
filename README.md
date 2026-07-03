@@ -1,24 +1,26 @@
-# Aha IMDb Top 250
+# 乔木电影清单
 
 **中文** | [English](#english)
 
-![Aha IMDb Top 250 桌面截图](docs/assets/aha-desktop.png)
+![乔木电影清单桌面截图](docs/assets/aha-desktop.png)
 
 > 一个面向用户的电影清单网站：默认浏览 IMDb Top 250，支持搜索、详情页、看过/想看/收藏、看过榜和收藏榜。  
 > A self-hosted movie guide for IMDb Top 250, with search, detail pages, watch states, favorites, and leaderboards.
 
-[Live Site](https://aha.qiaomu.ai) · [License](LICENSE)
+[Live Site](https://movie.qiaomu.ai) · [License](LICENSE)
 
 ## 这是什么
 
-Aha IMDb Top 250 是乔木的中文电影清单站。用户不登录也能浏览、搜索、标记看过和想看；收藏需要注册登录。每个电影详情页提供摘要、口碑、创作线索和相关电影推荐。
+乔木电影清单是乔木的中文电影清单站。用户不登录也能浏览、搜索、标记看过和想看；收藏需要注册登录。每个电影详情页提供摘要、口碑、创作线索和相关电影推荐。
 
 ## 核心能力
 
 | 能力 | 用户得到什么 |
 |---|---|
 | IMDb Top 250 默认清单 | 打开首页即可浏览 250 部高分电影，列表懒加载分页 |
-| 独立详情页 | 每部电影都有摘要、评分口碑、主创资料和相关电影 |
+| 独立详情页 | 每部电影都有中文片名、摘要、评分口碑、主创资料和相关电影 |
+| SEO 页面 | 详情页输出独立 meta、canonical、结构化数据和 sitemap |
+| WebP 海报缓存 | 海报由服务端压缩为低分辨率 WebP 并持久缓存 |
 | 看过 / 想看 | 游客可直接标记，计入看过榜 |
 | 收藏 | 注册登录后收藏电影，计入收藏榜 |
 | 搜索 | 可从默认榜单之外查找更多电影 |
@@ -26,7 +28,7 @@ Aha IMDb Top 250 是乔木的中文电影清单站。用户不登录也能浏览
 
 ## 截图
 
-![Aha IMDb Top 250 移动端截图](docs/assets/aha-mobile.png)
+![乔木电影清单移动端截图](docs/assets/aha-mobile.png)
 
 ## 快速开始
 
@@ -43,7 +45,8 @@ pnpm dev
 ```bash
 OMDB_API_KEY="your-omdb-key"
 SESSION_SECRET="replace-with-a-long-random-secret"
-PUBLIC_BASE_URL="http://127.0.0.1:4173"
+PUBLIC_BASE_URL="https://movie.qiaomu.ai"
+LEGACY_HOSTS="aha.qiaomu.ai"
 DEEPSEEK_API_KEY=""
 DEEPSEEK_MODEL="deepseek-v4-flash"
 ```
@@ -58,7 +61,7 @@ pnpm build
 pnpm warm-cache
 ```
 
-`warm-cache` 默认预热 IMDb Top 250 缓存；可用 `WARM_LIMIT` 控制数量。
+`warm-cache` 默认预热 IMDb Top 250 电影详情和 WebP 海报缓存；可用 `WARM_LIMIT`、`WARM_DETAILS=0`、`WARM_POSTERS=0` 控制范围。
 
 ## 架构
 
@@ -80,10 +83,12 @@ pnpm warm-cache
 | `GET /api/movies?limit=24&offset=0` | IMDb Top 250 分页 |
 | `GET /api/movies?q=blade%20runner` | 电影搜索 |
 | `GET /api/movies/:imdbID` | 电影详情、摘要、口碑和相关推荐 |
-| `GET /api/posters/:imdbID.jpg` | 服务端海报代理 |
+| `GET /api/posters/:imdbID.webp` | 服务端 WebP 海报缓存 |
 | `POST /api/reactions/:imdbID` | 游客看过/想看 |
 | `POST /api/favorites/:imdbID` | 登录用户收藏 |
 | `GET /api/leaderboards` | 看过榜和收藏榜 |
+| `GET /sitemap.xml` | 站点地图 |
+| `GET /robots.txt` | 搜索引擎抓取规则 |
 
 ## 部署
 
@@ -116,7 +121,7 @@ pnpm warm-cache
 
 # English
 
-Aha IMDb Top 250 is a small self-hosted movie guide for Qiaomu sites. It starts from an IMDb Top 250 seed list and provides search, detail pages, watch states, favorites, and leaderboards.
+Qiaomu Movie List is a small self-hosted movie guide for Qiaomu sites. It starts from an IMDb Top 250 seed list and provides search, detail pages, watch states, favorites, and leaderboards.
 
 Users can browse and search without signing in. Watch-state actions are available to visitors; favorites require registration.
 

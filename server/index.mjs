@@ -16,7 +16,8 @@ import {
   setFavorite,
   setViewerReaction
 } from "./store.mjs";
-import { fetchPoster, getMovie, listTopMovies, providerStatus, searchOmdb, topMovieTotal } from "./movies.mjs";
+import { fetchPoster, getMovie, listTopMovies, posterProxyPath, searchOmdb, topMovieTotal } from "./movies.mjs";
+import { renderAppHtml, robotsTxt, sitemapXml } from "./seo.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const publicDir = path.join(rootDir, "public");
@@ -29,8 +30,11 @@ const mimeTypes = new Map([
   [".png", "image/png"],
   [".jpg", "image/jpeg"],
   [".jpeg", "image/jpeg"],
+  [".webp", "image/webp"],
   [".svg", "image/svg+xml; charset=utf-8"],
-  [".ico", "image/x-icon"]
+  [".ico", "image/x-icon"],
+  [".txt", "text/plain; charset=utf-8"],
+  [".xml", "application/xml; charset=utf-8"]
 ]);
 
 function json(res, status, payload, headers = {}) {
@@ -106,15 +110,23 @@ async function handleApi(req, res, url) {
     return;
   }
 
-  const posterMatch = url.pathname.match(/^\/api\/posters\/(tt\d+)\.jpg$/);
-  if (req.method === "GET" && posterMatch) {
+  const oldPosterMatch = url.pathname.match(/^\/api\/posters\/(tt\d+)\.jpg$/);
+  if ((req.method === "GET" || req.method === "HEAD") && oldPosterMatch) {
+    res.statusCode = 301;
+    res.setHeader("Location", posterProxyPath(oldPosterMatch[1]));
+    res.end();
+    return;
+  }
+
+  const posterMatch = url.pathname.match(/^\/api\/posters\/(tt\d+)\.webp$/);
+  if ((req.method === "GET" || req.method === "HEAD") && posterMatch) {
     try {
       const poster = await fetchPoster(posterMatch[1]);
       res.statusCode = 200;
       res.setHeader("Content-Type", poster.contentType);
-      res.setHeader("Cache-Control", "public, max-age=604800, stale-while-revalidate=86400");
+      res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
       res.setHeader("X-Content-Type-Options", "nosniff");
-      res.end(poster.bytes);
+      res.end(req.method === "HEAD" ? "" : poster.bytes);
     } catch {
       res.statusCode = 404;
       res.end();
@@ -249,6 +261,28 @@ function safePublicPath(urlPath) {
 }
 
 async function servePublic(req, res, url) {
+  if (req.method === "GET" || req.method === "HEAD") {
+    if (url.pathname === "/robots.txt") {
+      res.setHeader("Content-Type", mimeTypes.get(".txt"));
+      res.setHeader("Cache-Control", "public, max-age=3600");
+      res.end(req.method === "HEAD" ? "" : robotsTxt());
+      return;
+    }
+    if (url.pathname === "/sitemap.xml") {
+      res.setHeader("Content-Type", mimeTypes.get(".xml"));
+      res.setHeader("Cache-Control", "public, max-age=3600");
+      res.end(req.method === "HEAD" ? "" : sitemapXml());
+      return;
+    }
+    if (url.pathname === "/" || /^\/movie\/tt\d+\/?$/.test(url.pathname)) {
+      res.setHeader("Content-Type", mimeTypes.get(".html"));
+      res.setHeader("Cache-Control", "no-cache");
+      res.setHeader("X-Content-Type-Options", "nosniff");
+      res.end(req.method === "HEAD" ? "" : await renderAppHtml(url.pathname));
+      return;
+    }
+  }
+
   let filePath = safePublicPath(url.pathname);
   if (!existsSync(filePath)) filePath = path.join(publicDir, "index.html");
   const ext = path.extname(filePath);
@@ -262,10 +296,23 @@ async function servePublic(req, res, url) {
   createReadStream(filePath).pipe(res);
 }
 
+function redirectLegacyHost(req, res, url) {
+  const host = String(req.headers.host || "").split(":")[0].toLowerCase();
+  const target = new URL(config.publicBaseUrl);
+  if (!host || host === target.hostname || !config.legacyHosts.includes(host)) return false;
+  target.pathname = url.pathname;
+  target.search = url.search;
+  res.statusCode = 301;
+  res.setHeader("Location", target.toString());
+  res.end();
+  return true;
+}
+
 export function createServer() {
   return http.createServer(async (req, res) => {
     try {
       const url = new URL(req.url || "/", `http://${req.headers.host || "localhost"}`);
+      if (redirectLegacyHost(req, res, url)) return;
       if (url.pathname.startsWith("/api/")) {
         await handleApi(req, res, url);
         return;

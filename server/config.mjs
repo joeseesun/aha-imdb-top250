@@ -8,7 +8,8 @@ export const rootDir = path.resolve(__dirname, "..");
 export const config = {
   port: Number(process.env.PORT || 4173),
   host: process.env.HOST || "127.0.0.1",
-  publicBaseUrl: process.env.PUBLIC_BASE_URL || "http://127.0.0.1:4173",
+  publicBaseUrl: process.env.PUBLIC_BASE_URL || "https://movie.qiaomu.ai",
+  legacyHosts: (process.env.LEGACY_HOSTS || "aha.qiaomu.ai").split(",").map((host) => host.trim()).filter(Boolean),
   storageDir: path.resolve(rootDir, process.env.STORAGE_DIR || "storage"),
   sessionSecret: process.env.SESSION_SECRET || "",
   omdbApiKey: process.env.OMDB_API_KEY || "",
