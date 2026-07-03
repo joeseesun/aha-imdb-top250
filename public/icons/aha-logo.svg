@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Aha IMDb Top 250</title>
+  <desc id="desc">A square cinema clapperboard icon for the Aha movie guide.</desc>
+  <defs>
+    <linearGradient id="bg" x1="128" y1="96" x2="896" y2="928" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0f766e"/>
+      <stop offset=".48" stop-color="#111827"/>
+      <stop offset="1" stop-color="#be123c"/>
+    </linearGradient>
+    <linearGradient id="slate" x1="208" y1="264" x2="820" y2="816" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#e5e7eb"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <circle cx="824" cy="210" r="78" fill="#f59e0b"/>
+  <path fill="#0b1220" d="M216 358h594c44 0 80 36 80 80v294c0 44-36 80-80 80H216c-44 0-80-36-80-80V438c0-44 36-80 80-80Z"/>
+  <path fill="url(#slate)" d="M184 286c-13-40 9-82 49-95l552-178c40-13 83 9 96 49l34 106-697 224-34-106Z"/>
+  <path fill="#0b1220" d="m283 77 92-30 120 113-92 30L283 77Zm210-68 92-30 120 113-92 30L493 9Zm210-68 92-30 101 95 20 61-93 30L703-59ZM164 208l92-30 120 113-92 30-120-113Z" opacity=".88"/>
+  <rect x="216" y="452" width="594" height="92" rx="18" fill="#ffffff"/>
+  <rect x="216" y="586" width="342" height="42" rx="21" fill="#14b8a6"/>
+  <rect x="216" y="672" width="456" height="42" rx="21" fill="#f59e0b"/>
+  <path fill="#ffffff" d="m759 596 29 59 65 9-47 46 11 64-58-30-58 30 11-64-47-46 65-9 29-59Z"/>
+</svg>
