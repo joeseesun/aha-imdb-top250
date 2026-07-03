@@ -22,7 +22,7 @@ const GENERIC_EDITORIAL_FRAGMENTS = [
   "伟大作品"
 ];
 const SPOILER_EDITORIAL_FRAGMENTS = [
-  "凶手",
+  "凶手是",
   "真凶",
   "幕后黑手",
   "真正身份",
