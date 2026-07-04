@@ -17,6 +17,7 @@ const requiredFiles = [
   "server/seo.mjs",
   "server/data/top250-imdb.json",
   "scripts/enrich-chinese-titles.mjs",
+  "scripts/generate-details.mjs",
   "scripts/warm-cache.mjs"
 ];
 
@@ -33,6 +34,7 @@ const scripts = [
   "server/seo.mjs",
   "scripts/check.mjs",
   "scripts/enrich-chinese-titles.mjs",
+  "scripts/generate-details.mjs",
   "scripts/warm-cache.mjs",
   "public/app.js"
 ];
@@ -52,6 +54,10 @@ for (const script of scripts) {
 const html = await readFile(path.join(root, "public/index.html"), "utf8");
 const css = await readFile(path.join(root, "public/styles.css"), "utf8");
 const app = await readFile(path.join(root, "public/app.js"), "utf8");
+const pkg = JSON.parse(await readFile(path.join(root, "package.json"), "utf8"));
+const server = await readFile(path.join(root, "server/movies.mjs"), "utf8");
+const warmCache = await readFile(path.join(root, "scripts/warm-cache.mjs"), "utf8");
+const generateDetails = await readFile(path.join(root, "scripts/generate-details.mjs"), "utf8");
 const top250 = JSON.parse(await readFile(path.join(root, "server/data/top250-imdb.json"), "utf8"));
 
 const checks = [
@@ -64,10 +70,12 @@ const checks = [
   ["Top 250 seed count", top250.length === 250],
   ["Top 250 unique ids", new Set(top250.map((movie) => movie.imdbID)).size === 250],
   ["Top 250 Chinese titles", top250.every((movie) => movie.titleCn)],
-  ["poster proxy uses webp", app.includes(".webp") || (await readFile(path.join(root, "server/movies.mjs"), "utf8")).includes(".webp")],
+  ["poster proxy uses webp", app.includes(".webp") || server.includes(".webp")],
   ["no reset top button", !html.includes("resetButton") && !app.includes("resetButton")],
   ["leaderboards hidden by default", /id="leaderboardGrid"[^>]*hidden/.test(html) && app.includes("els.leaderboardGrid.hidden")],
   ["editorial detail UI", app.includes("editorialMarkup") && app.includes("先看这些") && app.includes("放进语境")],
+  ["detail API does not generate editorial", server.includes("generateEditorial = false") && server.includes("if (!generate) return null")],
+  ["warm script generates full details", pkg.scripts?.["generate:details"]?.includes("scripts/generate-details.mjs") && generateDetails.includes('WARM_LIMIT ||= "250"') && warmCache.includes("generateEditorial: warmEditorial")],
   ["SEO marker", html.includes("<!-- SEO_HEAD -->")],
   ["no provider strip", !html.includes("providerStrip") && !app.includes("renderProviders")],
   ["no public provider names", !/\b(OMDb|DeepSeek|GLM|ZAI|Z\.ai)\b/i.test(`${html}\n${app}`)],

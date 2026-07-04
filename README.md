@@ -63,9 +63,12 @@ EDITORIAL_LLM_MODEL="glm-5.2"
 pnpm check
 pnpm build
 pnpm warm-cache
+pnpm generate:details
 ```
 
 `warm-cache` 默认预热 IMDb Top 250 电影详情、深度观影内容和 WebP 海报缓存；可用 `WARM_LIMIT`、`WARM_DETAILS=0`、`WARM_POSTERS=0` 控制范围。
+
+生产部署后应运行 `pnpm generate:details`，提前生成 250 部电影详情页内容。详情 API 默认只读取缓存，不在用户点击时触发深度内容生成。可用 `WARM_DETAIL_CONCURRENCY`、`WARM_RETRIES`、`WARM_EDITORIAL_ATTEMPTS` 控制生成并发和重试次数。
 
 ## 架构
 
