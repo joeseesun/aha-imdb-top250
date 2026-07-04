@@ -12,7 +12,8 @@
     "lint": "node scripts/check.mjs",
     "build": "node scripts/check.mjs",
     "enrich:zh": "node scripts/enrich-chinese-titles.mjs",
-    "warm-cache": "node scripts/warm-cache.mjs"
+    "warm-cache": "node scripts/warm-cache.mjs",
+    "generate:details": "node scripts/generate-details.mjs"
   },
   "engines": {
     "node": ">=20"

@@ -41,6 +41,11 @@ const DUBIOUS_EDITORIAL_FRAGMENTS = [
   "少有的",
   "prison fiction"
 ];
+const EDITORIAL_FORBIDDEN_HINT = [
+  ...GENERIC_EDITORIAL_FRAGMENTS,
+  ...SPOILER_EDITORIAL_FRAGMENTS,
+  ...DUBIOUS_EDITORIAL_FRAGMENTS
+].join("、");
 const TOP_TOTAL = top250.length;
 const RESEARCH_CACHE_MAX_MS = 1000 * 60 * 60 * 24 * 30;
 const RESEARCH_VERSION = 5;
@@ -515,6 +520,7 @@ function buildEditorialPrompt(movie) {
     "请基于电影公共知识和下方基础资料来写；事实性剧情入口、主创、年份以基础资料为锚点。不要输出技术说明，不要提模型，不要说“高分所以值得看”。",
     "约束：假设用户还没看过；不剧透结局、死亡归宿、凶手身份、关键反转、逃脱方式、关键道具用途或最后场景；不要虚构具体奖项或幕后事实；不要使用你不能确定的人名、理论名、学派名、冷僻术语或装饰性名词；不要做“某导演/作者长期如何、通常如何、少有如何”这类宏观归纳；除片名、人名外尽量不用英文术语。不确定就写成可观察的叙事/表演/影像事实。",
     "每句话都要能帮助用户决定是否看、看什么、怎么看；不要写空泛判断，不要写“经典”“伟大”“经得起检验”这类无增量句子。",
+    `输出中不要出现这些词串：${EDITORIAL_FORBIDDEN_HINT}。`,
     "只输出严格 JSON，不要 Markdown，不要多余解释。",
     "JSON 结构：",
     "{",
@@ -620,13 +626,17 @@ function editorialIsFresh(movie) {
     && normalizeTextArray(movie.editorial.watchPoints, 4).length >= 3;
 }
 
-async function ensureEditorial(movie) {
+async function ensureEditorial(movie, { generate = false, attempts = 1 } = {}) {
   if (editorialIsFresh(movie)) return movie.editorial;
-  try {
-    return await generateEditorialWithGlm(movie);
-  } catch {
-    return editorialIsFresh(movie) ? movie.editorial : null;
+  if (!generate) return null;
+  for (let attempt = 0; attempt < Math.max(1, attempts); attempt += 1) {
+    try {
+      return await generateEditorialWithGlm(movie);
+    } catch {
+      // Retry only from offline warmup scripts; user-facing API calls do not generate.
+    }
   }
+  return null;
 }
 
 function intersect(left, right) {
@@ -815,16 +825,26 @@ function generatedTextIsReusable(movie) {
   return true;
 }
 
-function detailIsFresh(movie, { requireResearch = false } = {}) {
+function detailIsFresh(movie, { requireResearch = false, requireEditorial = false } = {}) {
   if (movie.detailVersion !== DETAIL_VERSION) return false;
   if (!isFresh(movie.detailGeneratedAt, DETAIL_CACHE_MAX_MS)) return false;
   if (!generatedTextIsReusable(movie)) return false;
   if (requireResearch && !researchIsFresh(movie)) return false;
-  if (requireResearch && config.editorialApiKey && !editorialIsFresh(movie)) return false;
+  if (requireEditorial && config.editorialApiKey && !editorialIsFresh(movie)) return false;
   return true;
 }
 
-export async function getMovie(imdbID, { generateAi = true, rank = null, chart = null, enrichResearch = false } = {}) {
+export async function getMovie(
+  imdbID,
+  {
+    generateAi = true,
+    rank = null,
+    chart = null,
+    enrichResearch = false,
+    generateEditorial = false,
+    editorialAttempts = 1
+  } = {}
+) {
   const cached = await getCachedMovie(imdbID);
   let movie = cached && isFresh(cached.omdbFetchedAt) ? cached : null;
   if (!movie) {
@@ -836,7 +856,7 @@ export async function getMovie(imdbID, { generateAi = true, rank = null, chart =
   movie.poster = posterProxyPath(movie.imdbID);
 
   if (generateAi) {
-    const freshDetail = detailIsFresh(movie, { requireResearch: enrichResearch });
+    const freshDetail = detailIsFresh(movie, { requireResearch: enrichResearch, requireEditorial: generateEditorial });
     if (!freshDetail && (!generatedTextIsReusable(movie) || !hasFreshAi(movie))) {
       try {
         movie = attachChinese(movie, await generateChineseWithDeepSeek(movie));
@@ -853,18 +873,23 @@ export async function getMovie(imdbID, { generateAi = true, rank = null, chart =
   if (enrichResearch) {
     const [research, editorial] = await Promise.all([
       runDetailResearchAgents(movie),
-      ensureEditorial(movie)
+      ensureEditorial(movie, { generate: generateEditorial, attempts: editorialAttempts })
     ]);
-    movie = {
+    const nextMovie = {
       ...movie,
-      research,
-      ...(editorial ? { editorial } : {})
+      research
     };
+    if (editorial) nextMovie.editorial = editorial;
+    if (!editorial && !editorialIsFresh(movie)) delete nextMovie.editorial;
+    movie = nextMovie;
   }
 
   if (generateAi) {
     movie.detailVersion = DETAIL_VERSION;
-    movie.detailGeneratedAt = movie.detailGeneratedAt && detailIsFresh(movie, { requireResearch: enrichResearch })
+    movie.detailGeneratedAt = movie.detailGeneratedAt && detailIsFresh(movie, {
+      requireResearch: enrichResearch,
+      requireEditorial: generateEditorial
+    })
       ? movie.detailGeneratedAt
       : new Date().toISOString();
   }
