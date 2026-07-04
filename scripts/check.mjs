@@ -55,6 +55,7 @@ const html = await readFile(path.join(root, "public/index.html"), "utf8");
 const css = await readFile(path.join(root, "public/styles.css"), "utf8");
 const app = await readFile(path.join(root, "public/app.js"), "utf8");
 const pkg = JSON.parse(await readFile(path.join(root, "package.json"), "utf8"));
+const serverIndex = await readFile(path.join(root, "server/index.mjs"), "utf8");
 const server = await readFile(path.join(root, "server/movies.mjs"), "utf8");
 const warmCache = await readFile(path.join(root, "scripts/warm-cache.mjs"), "utf8");
 const generateDetails = await readFile(path.join(root, "scripts/generate-details.mjs"), "utf8");
@@ -74,7 +75,7 @@ const checks = [
   ["no reset top button", !html.includes("resetButton") && !app.includes("resetButton")],
   ["leaderboards hidden by default", /id="leaderboardGrid"[^>]*hidden/.test(html) && app.includes("els.leaderboardGrid.hidden")],
   ["editorial detail UI", app.includes("editorialMarkup") && app.includes("先看这些") && app.includes("放进语境")],
-  ["detail API does not generate editorial", server.includes("generateEditorial = false") && server.includes("if (!generate) return null")],
+  ["detail API does not generate AI", serverIndex.includes("getMovie(movieMatch[1], { generateAi: false, enrichResearch: true })") && server.includes("generateEditorial = false") && server.includes("if (!generate) return null")],
   ["warm script generates full details", pkg.scripts?.["generate:details"]?.includes("scripts/generate-details.mjs") && generateDetails.includes('WARM_LIMIT ||= "250"') && warmCache.includes("generateEditorial: warmEditorial")],
   ["SEO marker", html.includes("<!-- SEO_HEAD -->")],
   ["no provider strip", !html.includes("providerStrip") && !app.includes("renderProviders")],
