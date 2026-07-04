@@ -169,8 +169,11 @@ function showToast(message) {
   }, 2600);
 }
 
-function setStatus(message) {
-  els.statusText.textContent = message;
+function setStatus(message = "") {
+  if (!els.statusText) return;
+  const shouldAnnounce = /失败|错误|无法/.test(message);
+  els.statusText.textContent = shouldAnnounce ? message : "";
+  if (shouldAnnounce) showToast(message);
 }
 
 function posterMarkup(movie) {
@@ -529,7 +532,6 @@ async function loadMovies(query = "", { append = false } = {}) {
     renderMovies();
   }
   const nextOffset = append ? state.pagination.offset + state.movies.length : 0;
-  setStatus(query ? "正在搜索电影。" : append ? "正在继续加载电影。" : "正在读取 IMDb Top 250。");
   const path = query
     ? `/api/movies?q=${encodeURIComponent(query)}`
     : `/api/movies?limit=${PAGE_SIZE}&offset=${nextOffset}`;
@@ -544,11 +546,6 @@ async function loadMovies(query = "", { append = false } = {}) {
       hasMore: Boolean(data.hasMore)
     };
     renderMovies();
-    if (query) {
-      setStatus(`找到 ${state.movies.length} 部相关电影。`);
-    } else {
-      setStatus(`已载入 ${state.movies.length} / ${state.pagination.total} 部 IMDb Top 250 电影。`);
-    }
   } finally {
     state.loading = false;
   }
@@ -565,7 +562,6 @@ async function selectMovie(imdbID, { push = true } = {}) {
   els.homeView.hidden = true;
   els.detailView.hidden = false;
   els.detailView.innerHTML = `<div class="detail-loading">正在读取影片详情。</div>`;
-  setStatus("正在读取影片详情。");
   if (push) window.history.pushState({ imdbID }, "", `/movie/${imdbID}`);
   const data = await api(`/api/movies/${imdbID}`);
   state.detail = data.movie;
@@ -573,7 +569,6 @@ async function selectMovie(imdbID, { push = true } = {}) {
   renderDetail();
   renderMovies();
   setDocumentMeta(`${displayTitle(data.movie)} | 乔木电影清单`, `${displayTitle(data.movie)}：查看影片摘要、用户口碑、相关电影推荐，并标记看过、想看或收藏。`, `/movie/${imdbID}`);
-  setStatus(`${displayTitle(data.movie)} 已载入。`);
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
