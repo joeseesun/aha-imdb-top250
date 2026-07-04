@@ -1,24 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
   <title id="title">乔木电影清单</title>
-  <desc id="desc">A square cinema clapperboard icon for the Aha movie guide.</desc>
+  <desc id="desc">A restrained square cinema mark for Qiaomu movie guide.</desc>
   <defs>
-    <linearGradient id="bg" x1="128" y1="96" x2="896" y2="928" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#0f766e"/>
-      <stop offset=".48" stop-color="#111827"/>
-      <stop offset="1" stop-color="#be123c"/>
+    <linearGradient id="bg" x1="128" y1="80" x2="880" y2="944" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#202733"/>
+      <stop offset=".56" stop-color="#11161d"/>
+      <stop offset="1" stop-color="#090d12"/>
     </linearGradient>
-    <linearGradient id="slate" x1="208" y1="264" x2="820" y2="816" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#ffffff"/>
-      <stop offset="1" stop-color="#e5e7eb"/>
+    <linearGradient id="gold" x1="256" y1="168" x2="760" y2="856" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f4d38c"/>
+      <stop offset=".52" stop-color="#e0b86a"/>
+      <stop offset="1" stop-color="#9f6f2d"/>
     </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="28" stdDeviation="34" flood-color="#020408" flood-opacity=".45"/>
+    </filter>
   </defs>
-  <rect width="1024" height="1024" fill="url(#bg)"/>
-  <circle cx="824" cy="210" r="78" fill="#f59e0b"/>
-  <path fill="#0b1220" d="M216 358h594c44 0 80 36 80 80v294c0 44-36 80-80 80H216c-44 0-80-36-80-80V438c0-44 36-80 80-80Z"/>
-  <path fill="url(#slate)" d="M184 286c-13-40 9-82 49-95l552-178c40-13 83 9 96 49l34 106-697 224-34-106Z"/>
-  <path fill="#0b1220" d="m283 77 92-30 120 113-92 30L283 77Zm210-68 92-30 120 113-92 30L493 9Zm210-68 92-30 101 95 20 61-93 30L703-59ZM164 208l92-30 120 113-92 30-120-113Z" opacity=".88"/>
-  <rect x="216" y="452" width="594" height="92" rx="18" fill="#ffffff"/>
-  <rect x="216" y="586" width="342" height="42" rx="21" fill="#14b8a6"/>
-  <rect x="216" y="672" width="456" height="42" rx="21" fill="#f59e0b"/>
-  <path fill="#ffffff" d="m759 596 29 59 65 9-47 46 11 64-58-30-58 30 11-64-47-46 65-9 29-59Z"/>
+  <rect width="1024" height="1024" rx="188" fill="url(#bg)"/>
+  <path fill="#f7f3ea" opacity=".05" d="M0 0h1024v220H0z"/>
+  <g filter="url(#softShadow)">
+    <rect x="190" y="180" width="644" height="664" rx="118" fill="#151b22" stroke="#f7f3ea" stroke-opacity=".16" stroke-width="24"/>
+    <path fill="url(#gold)" d="M270 246h484c24 0 44 20 44 44v126H226V290c0-24 20-44 44-44Z"/>
+    <path fill="#151b22" d="M286 246h94l-80 170h-94l80-170Zm174 0h96l-80 170h-96l80-170Zm176 0h96l-80 170h-96l80-170Z" opacity=".88"/>
+    <path fill="#f7f3ea" d="M362 556c0-83 67-150 150-150s150 67 150 150-67 150-150 150-150-67-150-150Zm68 0a82 82 0 1 0 164 0 82 82 0 0 0-164 0Z"/>
+    <path fill="url(#gold)" d="M489 505c0-18 20-29 35-19l82 53c14 9 14 31 0 40l-82 53c-15 10-35-1-35-19V505Z"/>
+    <rect x="270" y="520" width="46" height="72" rx="13" fill="#e0b86a"/>
+    <rect x="708" y="520" width="46" height="72" rx="13" fill="#e0b86a"/>
+  </g>
 </svg>
