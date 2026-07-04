@@ -217,7 +217,7 @@ async function handleApi(req, res, url) {
 
   const movieMatch = url.pathname.match(/^\/api\/movies\/(tt\d+)$/);
   if (req.method === "GET" && movieMatch) {
-    const [movie] = await decorateMovies([await getMovie(movieMatch[1], { generateAi: true, enrichResearch: true })]);
+    const [movie] = await decorateMovies([await getMovie(movieMatch[1], { generateAi: false, enrichResearch: true })]);
     json(res, 200, { movie });
     return;
   }
