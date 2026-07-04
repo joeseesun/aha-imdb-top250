@@ -511,6 +511,7 @@ async function loadLeaderboards() {
 
 function showHome({ replace = false } = {}) {
   state.route = "home";
+  document.body.dataset.route = "home";
   state.detail = null;
   els.homeView.hidden = false;
   els.detailView.hidden = true;
@@ -560,6 +561,7 @@ async function loadMoreMovies() {
 
 async function selectMovie(imdbID, { push = true } = {}) {
   state.route = "detail";
+  document.body.dataset.route = "detail";
   els.homeView.hidden = true;
   els.detailView.hidden = false;
   els.detailView.innerHTML = `<div class="detail-loading">正在读取影片详情。</div>`;
