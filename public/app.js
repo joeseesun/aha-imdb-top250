@@ -239,17 +239,23 @@ function renderMovies() {
   els.movieGrid.innerHTML = state.movies.map((movie) => {
     const title = displayTitle(movie);
     const original = originalTitle(movie);
+    const rating = movie.imdbRating ? `<span class="card-rating"><b>${escapeHtml(movie.imdbRating)}</b><small>IMDb</small></span>` : "";
     return `
       <article class="movie-card" data-movie-id="${escapeHtml(movie.imdbID)}">
         <button class="movie-main" type="button" data-action="select" data-movie-id="${escapeHtml(movie.imdbID)}">
-          <span class="rank-badge">${movie.rank ? `#${movie.rank}` : "搜索"}</span>
-          <div class="poster">${posterMarkup(movie)}</div>
+          <div class="poster-wrap">
+            <span class="rank-badge">${movie.rank ? `#${movie.rank}` : "搜索"}</span>
+            <div class="poster">${posterMarkup(movie)}</div>
+          </div>
           <div class="movie-card-body">
-            <div class="tag-row">${tagsMarkup(movie)}</div>
-            <h2>${escapeHtml(title)}</h2>
+            <div class="card-head">
+              <h2>${escapeHtml(title)}</h2>
+              ${rating}
+            </div>
             ${original ? `<p class="original-title">${escapeHtml(original)}</p>` : ""}
-            <div class="meta">${escapeHtml([displayYear(movie), movie.runtime || movie.chart?.runtime, movie.imdbRating ? `IMDb ${movie.imdbRating}` : ""].filter(Boolean).join(" · "))}</div>
+            <div class="meta">${escapeHtml([displayYear(movie), movie.runtime || movie.chart?.runtime].filter(Boolean).join(" · "))}</div>
             <div class="mini-copy">${escapeHtml(cardCopy(movie))}</div>
+            <div class="tag-row">${tagsMarkup(movie)}</div>
           </div>
         </button>
         ${actionControls(movie)}
@@ -407,10 +413,10 @@ function renderDetail() {
         <p class="eyebrow">${movie.rank ? `IMDb Top #${movie.rank}` : "电影详情"}</p>
         <h2>${escapeHtml(title)}</h2>
         ${original ? `<p class="original-title">${escapeHtml(original)}</p>` : ""}
-        <div class="meta">${escapeHtml([displayYear(movie), cn(movie, "rated"), cn(movie, "runtime"), movie.imdbRating ? `IMDb ${movie.imdbRating}` : ""].filter(Boolean).join(" · "))}</div>
+        <div class="meta">${escapeHtml([displayYear(movie), cn(movie, "rated"), cn(movie, "runtime")].filter(Boolean).join(" · "))}</div>
         <div class="tag-row">${tagsMarkup(movie)}</div>
-        ${actionControls(movie, "detail")}
         <div class="rating-row">${ratingMarkup(movie)}</div>
+        ${actionControls(movie, "detail")}
       </div>
     </section>
     ${editorialMarkup(movie)}
@@ -419,8 +425,11 @@ function renderDetail() {
       ${researchBox(movie.research?.audience)}
       ${hasEditorial ? "" : researchBox(movie.research?.craft)}
       <section class="research-box fact-box">
-        <h3>影片资料</h3>
-        <p>${escapeHtml(plotForDetail(movie))}</p>
+        <div class="fact-head">
+          <h3>影片资料</h3>
+          <a class="detail-link" href="https://www.imdb.com/title/${escapeHtml(movie.imdbID)}/" target="_blank" rel="noreferrer">IMDb ↗</a>
+        </div>
+        <p class="fact-plot">${escapeHtml(plotForDetail(movie))}</p>
         <div class="fact-grid">
           ${fact("导演", cn(movie, "director"))}
           ${fact("编剧", cn(movie, "writer"))}
@@ -433,7 +442,6 @@ function renderDetail() {
           ${fact("票房", cn(movie, "boxOffice"))}
           ${fact("Metascore", movie.metascore)}
         </div>
-        <a class="detail-link" href="https://www.imdb.com/title/${escapeHtml(movie.imdbID)}/" target="_blank" rel="noreferrer">IMDb</a>
       </section>
     </div>
     ${relatedMarkup(movie)}
