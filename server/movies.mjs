@@ -48,7 +48,7 @@ const EDITORIAL_FORBIDDEN_HINT = [
 ].join("、");
 const TOP_TOTAL = top250.length;
 const RESEARCH_CACHE_MAX_MS = 1000 * 60 * 60 * 24 * 30;
-const RESEARCH_VERSION = 5;
+const RESEARCH_VERSION = 6;
 const EDITORIAL_CACHE_MAX_MS = 1000 * 60 * 60 * 24 * 180;
 const EDITORIAL_VERSION = 7;
 const DETAIL_CACHE_MAX_MS = 1000 * 60 * 60 * 24 * 120;
@@ -732,30 +732,72 @@ async function buildCraftAgent(movie) {
   };
 }
 
-function relatedReason(movie, candidate, shared) {
+function relatedReason(movie, candidate, shared, index = 0) {
   const candidateTitle = clean(candidate.titleCn) || candidate.title;
+  const movieTitle = clean(movie.titleCn) || movie.title;
   const candidatePlot = hasCjk(candidate.plot) ? sentenceSubject(candidate.plot, 82) : "";
+  const moviePlot = hasCjk(movie.plot) ? sentenceSubject(movie.plot, 70) : "";
   const sharedDirector = shared.directors[0];
   const sharedActor = shared.actors[0];
-  const sharedGenre = genrePhrase(shared.genres.slice(0, 2));
   const candidateGenre = genrePhrase(candidate.genre);
+  const movieGenre = genrePhrase(movie.genre) || genrePhrase(shared.genres);
   const candidateActors = compactPeople(candidate.actors, 2);
+  const candidateYear = candidate.year || candidate.chart?.year;
+  const movieYear = movie.year || movie.chart?.year;
+  const yearGap = candidateYear && movieYear ? Math.abs(Number(candidateYear) - Number(movieYear)) : 0;
+
+  // Director overlap: contrast HOW each handles a theme, varying phrasing.
   if (sharedDirector) {
-    return `同由 ${sharedDirector} 执导，可以对照他在《${candidateTitle}》里怎样处理${sharedGenre || candidateGenre || "人物关系"}和节奏。`;
+    const angle = candidatePlot
+      ? `${candidateTitle}》讲的是「${candidatePlot}」`
+      : `${candidateGenre ? `${candidateGenre}题材` : "另一条故事线"}的《${candidateTitle}》`;
+    const variants = [
+      `${sharedDirector}导演的另一面：本片偏${movieGenre || "厚重"}，《${angle}，可对照他处理同类题材的手法。`,
+      `都是 ${sharedDirector} 执导，但《${candidateTitle}》${candidatePlot ? `走向「${candidatePlot}」` : "换了一种叙事节奏"}，能看到他范围更宽的表达。`
+    ];
+    return variants[index % variants.length];
   }
+
+  // Actor overlap: vary which aspect of the performance to follow.
   if (sharedActor) {
-    return `${sharedActor} 同时出现在两部片里，《${candidateTitle}》能顺着表演和人物气质继续看。`;
+    // Co-stars excluding the shared actor themselves, to avoid "搭档 Morgan Freeman、Morgan Freeman".
+    const coStars = splitList(candidate.actors).filter((a) => a && !a.includes(sharedActor)).slice(0, 2);
+    const coStarsText = compactPeople(coStars.join("、"), 2);
+    const variants = [
+      `${sharedActor}在《${candidateTitle}》里${candidatePlot ? `面对的是「${candidatePlot}」` : "是另一种角色气质"}，正好接上本片的表演线索。`,
+      `想继续看 ${sharedActor}？《${candidateTitle}》${coStarsText ? `和 ${coStarsText} 搭戏、` : ""}演的是另一类处境，能看出他不同侧面。`,
+      `顺着 ${sharedActor} 的表演走，《${candidateTitle}》${yearGap > 10 ? `是 ${candidateYear} 年的作品，` : ""}角色类型和本片差别明显，适合对比。`
+    ];
+    return variants[index % variants.length];
   }
+
+  // Genre overlap with plot contrast.
   if (shared.genres.length && candidatePlot) {
-    return `同属${shared.genres.slice(0, 2).join("、")}，《${candidateTitle}》把焦点转到“${candidatePlot}”。`;
+    const variants = [
+      `同属${movieGenre || shared.genres.slice(0, 2).join("、")}，《${candidateTitle}》把镜头转向「${candidatePlot}」，是同一类型的另一种讲法。`,
+      `类型气质接近，但《${candidateTitle}》关注「${candidatePlot}」${moviePlot ? `，而本片是「${moviePlot}」` : ""}，可做题材对照。`
+    ];
+    return variants[index % variants.length];
   }
+
+  // Genre overlap with cast contrast.
   if (shared.genres.length && candidateActors) {
-    return `同属${sharedGenre}，《${candidateTitle}》换成 ${candidateActors} 的表演组合，适合比较同类型的不同气质。`;
+    const variants = [
+      `同属${movieGenre || shared.genres.slice(0, 2).join("、")}，《${candidateTitle}》由 ${candidateActors} 主演，表演风格和本片不同，适合比较同类题材的诠释。`,
+      `类型接近，但《${candidateTitle}》是 ${candidateActors} 的表演组合${candidatePlot ? `、讲「${candidatePlot}」` : ""}，气质走向另一端。`,
+      `想对照同类型的不同拍法？《${candidateTitle}》${candidateYear ? `(${candidateYear}) ` : ""}由 ${candidateActors} 领衔，和本片的处理思路差别明显。`
+    ];
+    return variants[index % variants.length];
   }
+
+  // Fallbacks, all candidate-specific.
   if (candidatePlot) {
-    return `《${candidateTitle}》的入口是“${candidatePlot}”，和本片一样适合看人物如何被处境推着走。`;
+    return `《${candidateTitle}》的入口是「${candidatePlot}」，和本片一样适合看人物如何被处境推着走。`;
   }
-  return `《${candidateTitle}》和本片在榜单位置、类型气质上接近，适合作为下一部延伸观看。`;
+  if (candidateYear) {
+    return `《${candidateTitle}》${candidateYear ? `(${candidateYear}) ` : ""}在榜单${candidate.rank ? `#${candidate.rank}、` : ""}类型气质上和本片接近，是顺手的下一部。`;
+  }
+  return `《${candidateTitle}》和本片气质相近，适合作为延伸观看。`;
 }
 
 async function buildRelatedAgent(movie) {
@@ -780,16 +822,19 @@ async function buildRelatedAgent(movie) {
     .sort((a, b) => b.score - a.score || a.candidate.rank - b.candidate.rank)
     .slice(0, 6);
 
-  return scored.map(({ candidate, shared }) => ({
-    imdbID: candidate.imdbID,
-    rank: candidate.rank,
-    title: candidate.title,
-    titleCn: candidate.titleCn,
-    year: candidate.year,
-    poster: posterProxyPath(candidate.imdbID),
-    meta: [candidate.year, genrePhrase(candidate.genre), candidate.imdbRating ? `IMDb ${candidate.imdbRating}` : ""].filter(Boolean).join(" · "),
-    reason: relatedReason(movie, candidate, shared)
-  }));
+  return scored
+    .map(({ candidate, shared }, index) => ({
+      imdbID: candidate.imdbID,
+      rank: candidate.rank,
+      title: candidate.title,
+      titleCn: candidate.titleCn,
+      year: candidate.year,
+      poster: posterProxyPath(candidate.imdbID),
+      meta: [candidate.year, genrePhrase(candidate.genre), candidate.imdbRating ? `IMDb ${candidate.imdbRating}` : ""].filter(Boolean).join(" · "),
+      reason: relatedReason(movie, candidate, shared, index)
+    }))
+    // Deduplicate identical reasons (same shared attribute produced the same line).
+    .filter((item, pos, arr) => arr.findIndex((other) => other.reason === item.reason) === pos);
 }
 
 async function runDetailResearchAgents(movie) {

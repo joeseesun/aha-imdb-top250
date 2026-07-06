@@ -392,6 +392,15 @@ function legacyWhyBox(movie, points) {
 function relatedMarkup(movie) {
   const related = movie?.research?.related || [];
   if (!related.length) return "";
+  // Front-end fallback: hide a reason if it's a verbatim duplicate of an
+  // earlier one (legacy/template data). Keeps each card's blurb distinct.
+  const seen = new Set();
+  const items = related.map((item) => {
+    const reason = item.reason || "";
+    const dup = reason && seen.has(reason);
+    if (reason && !dup) seen.add(reason);
+    return { item, reason: dup ? "" : reason };
+  });
   return `
     <section class="related-section">
       <div class="section-head">
@@ -399,13 +408,13 @@ function relatedMarkup(movie) {
         <h2>相关电影</h2>
       </div>
       <div class="related-grid">
-        ${related.map((item) => `
+        ${items.map(({ item, reason }) => `
           <button class="related-card" type="button" data-action="select" data-movie-id="${escapeHtml(item.imdbID)}">
             <span class="related-poster poster">${posterMarkup(item)}</span>
             <span class="related-copy">
               <strong>${escapeHtml(item.title)}</strong>
               <small>${escapeHtml(item.meta || [item.year, item.rank ? `#${item.rank}` : ""].filter(Boolean).join(" · "))}</small>
-              <span>${escapeHtml(item.reason)}</span>
+              ${reason ? `<span>${escapeHtml(reason)}</span>` : ""}
             </span>
           </button>
         `).join("")}
