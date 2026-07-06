@@ -440,6 +440,50 @@ function synopsisMarkup(movie) {
   `;
 }
 
+// 去哪看：豆瓣 / 正版流媒体 / 资源搜索 三个搜索式跳转入口。
+// 不直接提供资源，只做搜索引擎式跳转，由用户在目标站自行检索。
+function externalLinksMarkup(movie) {
+  const titleCn = cn(movie, "title") || movie?.titleCn || movie?.title || "";
+  const titleEn = movie?.title || "";
+  const year = displayYear(movie) || movie?.year || "";
+  // 豆瓣：优先中文片名，回退英文
+  const doubanQuery = encodeURIComponent(`${titleCn} ${year}`.trim());
+  const justwatchQuery = encodeURIComponent(titleEn);
+  // 磁力搜索：用 BTdig（公开磁力搜索引擎）
+  const btQuery = encodeURIComponent(`${titleCn || titleEn} ${year}`.trim());
+  return `
+    <section class="external-links" aria-label="去哪看">
+      <div class="external-head">
+        <p class="eyebrow"><span class="eyebrow-dot"></span>去哪看</p>
+        <small>以下为搜索跳转，请在目标站自行核实</small>
+      </div>
+      <div class="link-cards">
+        <a class="link-card link-douban" href="https://search.douban.com/movie/subject_search?search_text=${doubanQuery}" target="_blank" rel="noreferrer noopener">
+          <span class="link-card-body">
+            <strong>豆瓣</strong>
+            <small>条目 · 评分 · 影评</small>
+          </span>
+          <span class="link-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="link-card link-justwatch" href="https://www.justwatch.com/cn/search?q=${justwatchQuery}" target="_blank" rel="noreferrer noopener">
+          <span class="link-card-body">
+            <strong>JustWatch</strong>
+            <small>正版流媒体平台</small>
+          </span>
+          <span class="link-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="link-card link-bt" href="https://btdig.com/search?q=${btQuery}" target="_blank" rel="noreferrer noopener">
+          <span class="link-card-body">
+            <strong>资源搜索</strong>
+            <small>磁力链搜索引擎</small>
+          </span>
+          <span class="link-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </section>
+  `;
+}
+
 function renderDetail() {
   const movie = state.detail;
   if (!movie) {
@@ -492,6 +536,7 @@ function renderDetail() {
         </div>
       </section>
     </div>
+    ${externalLinksMarkup(movie)}
     ${relatedMarkup(movie)}
   `;
 }

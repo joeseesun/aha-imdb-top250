@@ -807,6 +807,90 @@ h1 {
   text-wrap: pretty;
 }
 
+/* External links: 去哪看 (豆瓣 / JustWatch / 资源搜索) */
+.external-links {
+  display: grid;
+  gap: 12px;
+}
+
+.external-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.external-head small {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.link-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.link-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(247, 243, 234, 0.04);
+  color: var(--ink);
+  text-decoration: none;
+  transition:
+    border-color 160ms var(--ease-out),
+    background-color 160ms var(--ease-out),
+    transform 160ms var(--ease-out);
+}
+
+.link-card-body {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.link-card strong {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.link-card small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.link-arrow {
+  flex: none;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 15px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link-card:hover {
+    border-color: rgba(224, 184, 106, 0.45);
+    background: rgba(224, 184, 106, 0.08);
+    transform: translateY(-2px);
+  }
+}
+
+.link-douban { border-left: 3px solid #2e7d32; }
+.link-justwatch { border-left: 3px solid var(--accent); }
+.link-bt { border-left: 3px solid #913828; }
+
+@media (max-width: 760px) {
+  .link-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Highlight strip: awards / box office / metacritic, right under the hero */
 .highlight-strip {
   display: grid;
