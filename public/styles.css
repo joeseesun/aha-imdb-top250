@@ -757,12 +757,11 @@ h1 {
   position: relative;
   max-width: 860px;
   margin: 4px 0;
-  padding: 22px 24px 22px 30px;
-  border: 0;
-  border-left: 3px solid var(--accent);
-  border-radius: 4px 14px 14px 4px;
+  padding: 24px 26px;
+  border: 1px solid rgba(224, 184, 106, 0.28);
+  border-radius: 14px;
   color: var(--ink);
-  background: linear-gradient(90deg, rgba(224, 184, 106, 0.14), rgba(247, 243, 234, 0.04));
+  background: linear-gradient(135deg, rgba(224, 184, 106, 0.12), rgba(247, 243, 234, 0.03));
   font-size: clamp(18px, 2vw, 21px);
   font-weight: 600;
   line-height: 1.6;
@@ -770,11 +769,11 @@ h1 {
 
 .quote-mark {
   position: absolute;
-  top: 4px;
-  left: 10px;
-  color: rgba(224, 184, 106, 0.42);
+  top: 6px;
+  right: 18px;
+  color: rgba(224, 184, 106, 0.28);
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 40px;
+  font-size: 48px;
   font-weight: 700;
   line-height: 1;
   user-select: none;
@@ -836,11 +835,10 @@ h1 {
 .link-card {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 14px 16px;
+  gap: 12px;
+  padding: 16px;
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 14px;
   background: rgba(247, 243, 234, 0.04);
   color: var(--ink);
   text-decoration: none;
@@ -850,10 +848,27 @@ h1 {
     transform 160ms var(--ease-out);
 }
 
+.link-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(247, 243, 234, 0.07);
+  color: var(--accent);
+}
+
+.link-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
 .link-card-body {
   display: grid;
   gap: 3px;
   min-width: 0;
+  flex: 1;
 }
 
 .link-card strong {
@@ -871,19 +886,24 @@ h1 {
   color: var(--accent);
   font-family: var(--font-mono);
   font-size: 15px;
+  opacity: 0.7;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .link-card:hover {
-    border-color: rgba(224, 184, 106, 0.45);
+    border-color: rgba(224, 184, 106, 0.5);
     background: rgba(224, 184, 106, 0.08);
     transform: translateY(-2px);
   }
-}
 
-.link-douban { border-left: 3px solid #2e7d32; }
-.link-justwatch { border-left: 3px solid var(--accent); }
-.link-bt { border-left: 3px solid #913828; }
+  .link-card:hover .link-icon {
+    background: rgba(224, 184, 106, 0.16);
+  }
+
+  .link-card:hover .link-arrow {
+    opacity: 1;
+  }
+}
 
 @media (max-width: 760px) {
   .link-cards {

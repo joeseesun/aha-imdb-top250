@@ -446,33 +446,34 @@ function externalLinksMarkup(movie) {
   const titleCn = cn(movie, "title") || movie?.titleCn || movie?.title || "";
   const titleEn = movie?.title || "";
   const year = displayYear(movie) || movie?.year || "";
-  // 豆瓣：优先中文片名，回退英文
   const doubanQuery = encodeURIComponent(`${titleCn} ${year}`.trim());
   const justwatchQuery = encodeURIComponent(titleEn);
-  // 磁力搜索：用 BTdig（公开磁力搜索引擎）
   const btQuery = encodeURIComponent(`${titleCn || titleEn} ${year}`.trim());
   return `
     <section class="external-links" aria-label="去哪看">
       <div class="external-head">
         <p class="eyebrow"><span class="eyebrow-dot"></span>去哪看</p>
-        <small>以下为搜索跳转，请在目标站自行核实</small>
+        <small>搜索跳转，请在目标站自行核实</small>
       </div>
       <div class="link-cards">
-        <a class="link-card link-douban" href="https://search.douban.com/movie/subject_search?search_text=${doubanQuery}" target="_blank" rel="noreferrer noopener">
+        <a class="link-card" href="https://search.douban.com/movie/subject_search?search_text=${doubanQuery}" target="_blank" rel="noreferrer noopener">
+          <span class="link-icon" aria-hidden="true">${doubanIcon()}</span>
           <span class="link-card-body">
             <strong>豆瓣</strong>
             <small>条目 · 评分 · 影评</small>
           </span>
           <span class="link-arrow" aria-hidden="true">↗</span>
         </a>
-        <a class="link-card link-justwatch" href="https://www.justwatch.com/cn/search?q=${justwatchQuery}" target="_blank" rel="noreferrer noopener">
+        <a class="link-card" href="https://www.justwatch.com/us/search?q=${justwatchQuery}" target="_blank" rel="noreferrer noopener">
+          <span class="link-icon" aria-hidden="true">${streamIcon()}</span>
           <span class="link-card-body">
             <strong>JustWatch</strong>
             <small>正版流媒体平台</small>
           </span>
           <span class="link-arrow" aria-hidden="true">↗</span>
         </a>
-        <a class="link-card link-bt" href="https://btdig.com/search?q=${btQuery}" target="_blank" rel="noreferrer noopener">
+        <a class="link-card" href="https://btdig.com/search?q=${btQuery}" target="_blank" rel="noreferrer noopener">
+          <span class="link-icon" aria-hidden="true">${magnetIcon()}</span>
           <span class="link-card-body">
             <strong>资源搜索</strong>
             <small>磁力链搜索引擎</small>
@@ -482,6 +483,18 @@ function externalLinksMarkup(movie) {
       </div>
     </section>
   `;
+}
+
+function doubanIcon() {
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg>`;
+}
+
+function streamIcon() {
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M10 9l5 3-5 3z"/></svg>`;
+}
+
+function magnetIcon() {
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4v7a7 7 0 0 0 14 0V4M5 4h4v7M15 4h4v7"/></svg>`;
 }
 
 function renderDetail() {
