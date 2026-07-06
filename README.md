@@ -11,21 +11,25 @@
 
 ## 这是什么
 
-乔木电影清单是乔木的中文电影清单站。用户不登录也能浏览、搜索、标记看过和想看；收藏需要注册登录。每个电影详情页提供中文片名、观影入口、口碑、创作线索和相关电影推荐。
+乔木电影清单是乔木的中文电影清单站。用户不登录也能浏览、搜索、标记看过和想看。每个电影详情页提供文学化中文剧情梗概、获奖与票房高亮、观影入口、创作看点、豆瓣/流媒体/资源搜索跳转和相关电影推荐。
+
+**已验证:** 250 部电影全部缓存（详情 + WebP 海报）· `pnpm check` 通过 · 线上 https://movie.qiaomu.ai 运行中
 
 ## 核心能力
 
 | 能力 | 用户得到什么 |
 |---|---|
 | IMDb Top 250 默认清单 | 打开首页即可浏览 250 部高分电影，列表懒加载分页 |
-| 独立详情页 | 每部电影都有中文片名、摘要、评分口碑、主创资料和相关电影 |
+| 文学化剧情梗概 | 每部电影都有 150-250 字中文剧情介绍，不剧透关键转折 |
+| 独立详情页 | 中文片名、剧情梗概、获奖/票房高亮、口碑评分、主创资料 |
+| 观影入口 | 编辑团队撰写的「值得看的地方」引语 + 适合谁看 + 二刷提示 |
+| 去哪看 | 豆瓣（条目/影评）、JustWatch（正版流媒体）、资源搜索三合一跳转 |
+| 相关推荐 | 每部电影配 6 部关联片，每条都带具体的关联理由（去重无套话） |
+| 看过 / 想看 / 收藏 | 点击卡片底部图标标记，hover 显示中文提示 |
 | SEO 页面 | 详情页输出独立 meta、canonical、结构化数据和 sitemap |
 | WebP 海报缓存 | 海报由服务端压缩为低分辨率 WebP 并持久缓存 |
-| 看过 / 想看 | 游客可直接标记，方便记录观影状态 |
-| 收藏 | 注册登录后收藏电影 |
 | 搜索 | 可从默认榜单之外查找更多电影 |
 | 移动端布局 | 手机和桌面都按正式网页宽度排版 |
-| 榜单数据 | 看过榜和收藏榜接口保留，首页默认隐藏，等运营一段时间后恢复 |
 
 ## 截图
 
@@ -128,9 +132,9 @@ pnpm generate:details
 
 # English
 
-Qiaomu Movie List is a small self-hosted movie guide for Qiaomu sites. It starts from an IMDb Top 250 seed list and provides search, detail pages, watch states, favorites, and leaderboards.
+Qiaomu Movie List is a self-hosted Chinese movie guide for IMDb Top 250. Each film gets a literary Chinese synopsis, award/box-office highlights, an editorial viewing guide, and search-jump links to Douban / JustWatch / BT search. Related recommendations are curated with specific, non-duplicative reasons.
 
-Users can browse and search without signing in. Watch-state actions are available to visitors; favorites require registration.
+Users can browse, search, and mark watch states without signing in.
 
 ## Quick Start
 
