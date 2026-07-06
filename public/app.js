@@ -210,16 +210,17 @@ function actionControls(movie, variant = "card") {
   const movieStats = stats(movie);
   const status = viewerStatus(movie.imdbID);
   const favorite = isFavorite(movie.imdbID);
+  const compact = variant !== "detail";
   return `
     <div class="movie-actions ${variant === "detail" ? "movie-actions-large" : ""}">
-      <button class="state-button" data-action="favorite" data-movie-id="${escapeHtml(movie.imdbID)}" aria-pressed="${favorite}">
-        ${heartIcon()}<span>${favorite ? "已藏" : "收藏"}</span><small>${movieStats.favorites || 0}</small>
+      <button class="state-button tooltip ${compact ? "state-button-compact" : ""}" data-action="favorite" data-movie-id="${escapeHtml(movie.imdbID)}" aria-pressed="${favorite}" data-tooltip="${favorite ? "已收藏" : "收藏"}" aria-label="${favorite ? "已收藏" : "收藏"}">
+        ${heartIcon()}${compact ? "" : `<span>${favorite ? "已藏" : "收藏"}</span>`}<small>${movieStats.favorites || 0}</small>
       </button>
-      <button class="state-button" data-action="status" data-status="watched" data-movie-id="${escapeHtml(movie.imdbID)}" aria-pressed="${status === "watched"}">
-        ${eyeIcon()}<span>${status === "watched" ? "已看" : "看过"}</span><small>${movieStats.watched || 0}</small>
+      <button class="state-button tooltip ${compact ? "state-button-compact" : ""}" data-action="status" data-status="watched" data-movie-id="${escapeHtml(movie.imdbID)}" aria-pressed="${status === "watched"}" data-tooltip="${status === "watched" ? "已看过" : "看过"}" aria-label="${status === "watched" ? "已看过" : "看过"}">
+        ${eyeIcon()}${compact ? "" : `<span>${status === "watched" ? "已看" : "看过"}</span>`}<small>${movieStats.watched || 0}</small>
       </button>
-      <button class="state-button" data-action="status" data-status="want" data-movie-id="${escapeHtml(movie.imdbID)}" aria-pressed="${status === "want"}">
-        ${bookmarkIcon()}<span>想看</span><small>${movieStats.want || 0}</small>
+      <button class="state-button tooltip ${compact ? "state-button-compact" : ""}" data-action="status" data-status="want" data-movie-id="${escapeHtml(movie.imdbID)}" aria-pressed="${status === "want"}" data-tooltip="${status === "want" ? "已想看" : "想看"}" aria-label="${status === "want" ? "已想看" : "想看"}">
+        ${bookmarkIcon()}${compact ? "" : `<span>想看</span>`}<small>${movieStats.want || 0}</small>
       </button>
     </div>
   `;
@@ -239,17 +240,23 @@ function renderMovies() {
   els.movieGrid.innerHTML = state.movies.map((movie) => {
     const title = displayTitle(movie);
     const original = originalTitle(movie);
+    const rating = movie.imdbRating ? `<span class="card-rating"><b>${escapeHtml(movie.imdbRating)}</b><small>IMDb</small></span>` : "";
     return `
       <article class="movie-card" data-movie-id="${escapeHtml(movie.imdbID)}">
         <button class="movie-main" type="button" data-action="select" data-movie-id="${escapeHtml(movie.imdbID)}">
-          <span class="rank-badge">${movie.rank ? `#${movie.rank}` : "搜索"}</span>
-          <div class="poster">${posterMarkup(movie)}</div>
+          <div class="poster-wrap">
+            <span class="rank-badge">${movie.rank ? `#${movie.rank}` : "搜索"}</span>
+            <div class="poster">${posterMarkup(movie)}</div>
+          </div>
           <div class="movie-card-body">
-            <div class="tag-row">${tagsMarkup(movie)}</div>
-            <h2>${escapeHtml(title)}</h2>
+            <div class="card-head">
+              <h2>${escapeHtml(title)}</h2>
+              ${rating}
+            </div>
             ${original ? `<p class="original-title">${escapeHtml(original)}</p>` : ""}
-            <div class="meta">${escapeHtml([displayYear(movie), movie.runtime || movie.chart?.runtime, movie.imdbRating ? `IMDb ${movie.imdbRating}` : ""].filter(Boolean).join(" · "))}</div>
+            <div class="meta">${escapeHtml([displayYear(movie), movie.runtime || movie.chart?.runtime].filter(Boolean).join(" · "))}</div>
             <div class="mini-copy">${escapeHtml(cardCopy(movie))}</div>
+            <div class="tag-row">${tagsMarkup(movie)}</div>
           </div>
         </button>
         ${actionControls(movie)}
@@ -330,21 +337,46 @@ function editorialFitBox(editorial) {
 function editorialMarkup(movie) {
   const editorial = movie?.editorial;
   if (!editorial?.hook || !editorial?.intro) return "";
+  const fitFor = editorial.bestFor
+    ? `<div class="fit-col fit-for"><p class="fit-label">适合谁看</p><p class="fit-body">${escapeHtml(editorial.bestFor)}</p></div>`
+    : "";
+  const caution = editorial.caution
+    ? `<div class="fit-col fit-caution"><p class="fit-label">观看提示</p><p class="fit-body">${escapeHtml(editorial.caution)}</p></div>`
+    : "";
+  const fitRow = (fitFor || caution) ? `<div class="fit-row">${fitFor}${caution}</div>` : "";
+  const rewatch = editorial.rewatchPoint
+    ? `<aside class="rewatch-card"><span class="rewatch-tag">二刷提示</span><p>${escapeHtml(editorial.rewatchPoint)}</p></aside>`
+    : "";
   return `
     <section class="editorial-section" aria-label="观影入口">
       <div class="editorial-lede">
-        <p class="eyebrow">观影入口</p>
+        <p class="eyebrow"><span class="eyebrow-dot"></span>观影入口</p>
         <h3>${escapeHtml(editorial.title || `${displayTitle(movie)}真正值得看的地方`)}</h3>
         <p>${escapeHtml(editorial.intro)}</p>
       </div>
-      <p class="editorial-hook">${escapeHtml(editorial.hook)}</p>
+      <blockquote class="editorial-hook"><span class="quote-mark" aria-hidden="true">"</span>${escapeHtml(editorial.hook)}</blockquote>
       <div class="editorial-grid">
         ${insightBox("先看这些", editorial.watchPoints || [])}
         ${insightBox("放进语境", editorial.contextNotes || [])}
         ${insightBox("创作看点", editorial.craftNotes || [])}
       </div>
+      ${fitRow}
+      ${rewatch}
     </section>
   `;
+}
+
+// Highlight strip directly under the hero: awards + box office + meta score.
+function highlightStripMarkup(movie) {
+  const awards = cn(movie, "awards") || movie?.awards;
+  const boxOffice = cn(movie, "boxOffice") || movie?.boxOffice;
+  const meta = movie?.metascore;
+  const items = [];
+  if (awards) items.push(`<div class="hl-item hl-awards"><span class="hl-label">获奖</span><span class="hl-value">${escapeHtml(awards)}</span></div>`);
+  if (boxOffice) items.push(`<div class="hl-item hl-box"><span class="hl-label">票房</span><span class="hl-value">${escapeHtml(boxOffice)}</span></div>`);
+  if (meta) items.push(`<div class="hl-item hl-meta"><span class="hl-label">Metacritic</span><span class="hl-value">${escapeHtml(String(meta))}<small>/100</small></span></div>`);
+  if (!items.length) return "";
+  return `<div class="highlight-strip">${items.join("")}</div>`;
 }
 
 function legacyWhyBox(movie, points) {
@@ -360,6 +392,15 @@ function legacyWhyBox(movie, points) {
 function relatedMarkup(movie) {
   const related = movie?.research?.related || [];
   if (!related.length) return "";
+  // Front-end fallback: hide a reason if it's a verbatim duplicate of an
+  // earlier one (legacy/template data). Keeps each card's blurb distinct.
+  const seen = new Set();
+  const items = related.map((item) => {
+    const reason = item.reason || "";
+    const dup = reason && seen.has(reason);
+    if (reason && !dup) seen.add(reason);
+    return { item, reason: dup ? "" : reason };
+  });
   return `
     <section class="related-section">
       <div class="section-head">
@@ -367,13 +408,13 @@ function relatedMarkup(movie) {
         <h2>相关电影</h2>
       </div>
       <div class="related-grid">
-        ${related.map((item) => `
+        ${items.map(({ item, reason }) => `
           <button class="related-card" type="button" data-action="select" data-movie-id="${escapeHtml(item.imdbID)}">
             <span class="related-poster poster">${posterMarkup(item)}</span>
             <span class="related-copy">
               <strong>${escapeHtml(item.title)}</strong>
               <small>${escapeHtml(item.meta || [item.year, item.rank ? `#${item.rank}` : ""].filter(Boolean).join(" · "))}</small>
-              <span>${escapeHtml(item.reason)}</span>
+              ${reason ? `<span>${escapeHtml(reason)}</span>` : ""}
             </span>
           </button>
         `).join("")}
@@ -386,6 +427,74 @@ function plotForDetail(movie) {
   const plot = cn(movie, "plot") || movie?.plot || "";
   if (hasCjk(plot)) return plot;
   return "暂无中文剧情简介，可先看主创、口碑和相关片线索。";
+}
+
+function synopsisMarkup(movie) {
+  const text = movie?.synopsis?.text;
+  if (!text) return "";
+  return `
+    <section class="synopsis-section" aria-label="剧情梗概">
+      <p class="eyebrow"><span class="eyebrow-dot"></span>剧情梗概</p>
+      <p class="synopsis-text">${escapeHtml(text)}</p>
+    </section>
+  `;
+}
+
+// 去哪看：豆瓣 / 正版流媒体 / 资源搜索 三个搜索式跳转入口。
+// 不直接提供资源，只做搜索引擎式跳转，由用户在目标站自行检索。
+function externalLinksMarkup(movie) {
+  const titleCn = cn(movie, "title") || movie?.titleCn || movie?.title || "";
+  const titleEn = movie?.title || "";
+  const year = displayYear(movie) || movie?.year || "";
+  const doubanQuery = encodeURIComponent(`${titleCn} ${year}`.trim());
+  const justwatchQuery = encodeURIComponent(titleEn);
+  const btQuery = encodeURIComponent(`${titleCn || titleEn} ${year}`.trim());
+  return `
+    <section class="external-links" aria-label="去哪看">
+      <div class="external-head">
+        <p class="eyebrow"><span class="eyebrow-dot"></span>去哪看</p>
+        <small>搜索跳转，请在目标站自行核实</small>
+      </div>
+      <div class="link-cards">
+        <a class="link-card" href="https://search.douban.com/movie/subject_search?search_text=${doubanQuery}" target="_blank" rel="noreferrer noopener">
+          <span class="link-icon" aria-hidden="true">${doubanIcon()}</span>
+          <span class="link-card-body">
+            <strong>豆瓣</strong>
+            <small>条目 · 评分 · 影评</small>
+          </span>
+          <span class="link-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="link-card" href="https://www.justwatch.com/us/search?q=${justwatchQuery}" target="_blank" rel="noreferrer noopener">
+          <span class="link-icon" aria-hidden="true">${streamIcon()}</span>
+          <span class="link-card-body">
+            <strong>JustWatch</strong>
+            <small>正版流媒体平台</small>
+          </span>
+          <span class="link-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="link-card" href="https://btdig.com/search?q=${btQuery}" target="_blank" rel="noreferrer noopener">
+          <span class="link-icon" aria-hidden="true">${magnetIcon()}</span>
+          <span class="link-card-body">
+            <strong>资源搜索</strong>
+            <small>磁力链搜索引擎</small>
+          </span>
+          <span class="link-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </section>
+  `;
+}
+
+function doubanIcon() {
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg>`;
+}
+
+function streamIcon() {
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M10 9l5 3-5 3z"/></svg>`;
+}
+
+function magnetIcon() {
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4v7a7 7 0 0 0 14 0V4M5 4h4v7M15 4h4v7"/></svg>`;
 }
 
 function renderDetail() {
@@ -407,20 +516,25 @@ function renderDetail() {
         <p class="eyebrow">${movie.rank ? `IMDb Top #${movie.rank}` : "电影详情"}</p>
         <h2>${escapeHtml(title)}</h2>
         ${original ? `<p class="original-title">${escapeHtml(original)}</p>` : ""}
-        <div class="meta">${escapeHtml([displayYear(movie), cn(movie, "rated"), cn(movie, "runtime"), movie.imdbRating ? `IMDb ${movie.imdbRating}` : ""].filter(Boolean).join(" · "))}</div>
+        <div class="meta">${escapeHtml([displayYear(movie), cn(movie, "rated"), cn(movie, "runtime")].filter(Boolean).join(" · "))}</div>
         <div class="tag-row">${tagsMarkup(movie)}</div>
-        ${actionControls(movie, "detail")}
         <div class="rating-row">${ratingMarkup(movie)}</div>
+        ${actionControls(movie, "detail")}
       </div>
     </section>
+    ${synopsisMarkup(movie)}
+    ${highlightStripMarkup(movie)}
     ${editorialMarkup(movie)}
     <div class="detail-grid">
       ${hasEditorial ? editorialFitBox(movie.editorial) : `${researchBox(movie.research?.summary)}${legacyWhyBox(movie, points)}`}
       ${researchBox(movie.research?.audience)}
       ${hasEditorial ? "" : researchBox(movie.research?.craft)}
       <section class="research-box fact-box">
-        <h3>影片资料</h3>
-        <p>${escapeHtml(plotForDetail(movie))}</p>
+        <div class="fact-head">
+          <h3>影片资料</h3>
+          <a class="detail-link" href="https://www.imdb.com/title/${escapeHtml(movie.imdbID)}/" target="_blank" rel="noreferrer">IMDb ↗</a>
+        </div>
+        <p class="fact-plot">${escapeHtml(plotForDetail(movie))}</p>
         <div class="fact-grid">
           ${fact("导演", cn(movie, "director"))}
           ${fact("编剧", cn(movie, "writer"))}
@@ -433,9 +547,9 @@ function renderDetail() {
           ${fact("票房", cn(movie, "boxOffice"))}
           ${fact("Metascore", movie.metascore)}
         </div>
-        <a class="detail-link" href="https://www.imdb.com/title/${escapeHtml(movie.imdbID)}/" target="_blank" rel="noreferrer">IMDb</a>
       </section>
     </div>
+    ${externalLinksMarkup(movie)}
     ${relatedMarkup(movie)}
   `;
 }
@@ -613,6 +727,9 @@ function openModal(kind) {
   } else if (kind === "follow") {
     template = document.querySelector("#followTemplate");
     title = "关注向阳乔木推荐看";
+  } else if (kind === "account") {
+    template = document.querySelector("#accountTemplate");
+    title = "账号";
   } else {
     template = document.querySelector("#authTemplate");
     title = "账号";
@@ -621,7 +738,19 @@ function openModal(kind) {
   els.modalBody.replaceChildren(template.content.cloneNode(true));
   els.modalBackdrop.hidden = false;
   if (kind === "auth") setupAuthForm();
+  if (kind === "account") setupAccountMenu();
   els.modalClose.focus();
+}
+
+function setupAccountMenu() {
+  const email = state.session.user?.email || "未登录";
+  const favCount = Array.isArray(state.session.favorites) ? state.session.favorites.length : 0;
+  const emailEl = document.querySelector("#accountEmail");
+  const favEl = document.querySelector("#accountFavCount");
+  if (emailEl) emailEl.textContent = email;
+  if (favEl) favEl.textContent = String(favCount);
+  const logoutBtn = document.querySelector("#accountLogout");
+  if (logoutBtn) logoutBtn.addEventListener("click", performLogout);
 }
 
 function closeModal() {
@@ -710,6 +839,10 @@ els.accountButton.addEventListener("click", () => {
     openModal("auth");
     return;
   }
+  openModal("account");
+});
+
+function performLogout() {
   api("/api/auth/logout", { method: "POST", body: "{}" })
     .then(() => {
       state.session = {
@@ -719,11 +852,12 @@ els.accountButton.addEventListener("click", () => {
         reactions: state.session.reactions
       };
       els.accountButton.textContent = "登录";
+      closeModal();
       rerenderMovieSurfaces();
       showToast("已退出登录。");
     })
     .catch((error) => showToast(error.message));
-});
+}
 
 document.querySelectorAll("[data-open-modal]").forEach((button) => {
   button.addEventListener("click", () => openModal(button.dataset.openModal));

@@ -87,6 +87,45 @@ async function decorateMovies(movies) {
   }));
 }
 
+// Slim projection for list/search endpoints: only the fields the grid needs.
+// Drops editorial/research/cn-plot/etc. (~6KB -> ~1KB per movie) to cut first
+// paint payload and let detail pages own the heavy content.
+function slimMovie(movie) {
+  return {
+    imdbID: movie.imdbID,
+    title: movie.title,
+    titleCn: movie.titleCn,
+    rank: movie.rank,
+    year: movie.year,
+    runtime: movie.runtime,
+    genre: movie.genre,
+    imdbRating: movie.imdbRating,
+    poster: movie.poster,
+    tags: movie.tags,
+    cn: movie.cn ? {
+      title: movie.cn.title,
+      genre: movie.cn.genre,
+      runtime: movie.cn.runtime
+    } : undefined,
+    chart: movie.chart ? {
+      title: movie.chart.title,
+      titleCn: movie.chart.titleCn,
+      year: movie.chart.year,
+      genre: movie.chart.genre,
+      director: movie.chart.director,
+      actors: movie.chart.actors
+    } : undefined,
+    editorial: movie.editorial ? { hook: movie.editorial.hook } : undefined,
+    why: movie.why ? { headline: movie.why.headline } : undefined,
+    stats: movie.stats || { favorites: 0, watched: 0, want: 0 }
+  };
+}
+
+async function decorateMoviesSlim(movies) {
+  const decorated = await decorateMovies(movies);
+  return decorated.map(slimMovie);
+}
+
 async function hydrateLeaderboard(rows) {
   const movies = await Promise.all(rows.map(async (row) => ({
     ...row,
@@ -196,7 +235,7 @@ async function handleApi(req, res, url) {
     const movies = query ? await searchOmdb(query) : await listTopMovies({ offset, limit, generateAi });
     const total = query ? movies.length : topMovieTotal();
     json(res, 200, {
-      movies: await decorateMovies(movies),
+      movies: await decorateMoviesSlim(movies),
       mode: query ? "search" : "top250",
       total,
       offset: query ? 0 : offset,

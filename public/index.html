@@ -39,8 +39,8 @@
 
       <main class="page-stack">
         <section class="hero-section" aria-labelledby="pageTitle">
-          <div>
-            <p class="eyebrow">电影清单</p>
+          <div class="hero-copy-block">
+            <p class="eyebrow"><span class="eyebrow-dot"></span>今夜放映 · 电影清单</p>
             <h1 id="pageTitle">IMDb Top 250</h1>
             <p class="hero-copy">从榜单选片，再看观影入口、用户口碑和相关电影。</p>
           </div>
@@ -86,8 +86,15 @@
       </main>
 
       <footer class="site-footer">
-        <a href="https://tuijian.qiaomu.ai/" target="_blank" rel="noreferrer">乔木推荐</a>
-        <span>向阳乔木出品</span>
+        <div class="footer-brand">
+          <span class="footer-dot"></span>
+          <span>乔木电影清单 · IMDb Top 250</span>
+        </div>
+        <div class="footer-links">
+          <a href="https://tuijian.qiaomu.ai/" target="_blank" rel="noreferrer">乔木推荐</a>
+          <span class="footer-sep" aria-hidden="true">·</span>
+          <span>向阳乔木出品</span>
+        </div>
       </footer>
     </div>
 
@@ -136,6 +143,22 @@
           <button type="submit" class="primary-button">继续</button>
           <p class="form-message" id="authMessage"></p>
         </form>
+      </div>
+    </template>
+
+    <template id="accountTemplate">
+      <div class="account-box">
+        <div class="account-identity">
+          <div class="account-avatar" aria-hidden="true"></div>
+          <div class="account-meta">
+            <strong id="accountEmail"></strong>
+            <small>已登录</small>
+          </div>
+        </div>
+        <div class="account-stats">
+          <div><b id="accountFavCount">0</b><small>收藏</small></div>
+        </div>
+        <button type="button" class="ghost-button account-logout" id="accountLogout">退出登录</button>
       </div>
     </template>
 
