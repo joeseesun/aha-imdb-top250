@@ -5,6 +5,12 @@ import { config } from "./config.mjs";
 const dataFile = path.join(config.storageDir, "movies.json");
 let writeQueue = Promise.resolve();
 
+// In-memory cache of the parsed data file. Reads hit memory instead of
+// re-reading + re-parsing the whole JSON on every call (the list endpoint
+// used to do this ~24x per request).
+let memoryCache = null;
+let memoryCachePromise = null;
+
 function emptyData() {
   return {
     version: "1.1.0",
@@ -35,13 +41,27 @@ export async function ensureStorage() {
     await fs.access(dataFile);
   } catch {
     await fs.writeFile(dataFile, JSON.stringify(emptyData(), null, 2));
+    memoryCache = null;
   }
 }
 
-export async function readData() {
+async function loadDataFromDisk() {
   await ensureStorage();
   const raw = await fs.readFile(dataFile, "utf8");
-  return normalizeData(JSON.parse(raw));
+  const parsed = normalizeData(JSON.parse(raw));
+  memoryCache = parsed;
+  return parsed;
+}
+
+export async function readData() {
+  if (memoryCache) return memoryCache;
+  // Coalesce concurrent first-loads into a single disk read.
+  if (!memoryCachePromise) {
+    memoryCachePromise = loadDataFromDisk().finally(() => {
+      memoryCachePromise = null;
+    });
+  }
+  return memoryCachePromise;
 }
 
 export async function writeData(data) {
@@ -52,6 +72,7 @@ export async function writeData(data) {
     const tmp = `${dataFile}.${process.pid}.${Date.now()}.${Math.random().toString(36).slice(2)}.tmp`;
     await fs.writeFile(tmp, JSON.stringify(next, null, 2));
     await fs.rename(tmp, dataFile);
+    memoryCache = next;
   });
   return writeQueue;
 }
@@ -60,13 +81,14 @@ async function updateData(mutator) {
   let result;
   writeQueue = writeQueue.then(async () => {
     await ensureStorage();
-    const raw = await fs.readFile(dataFile, "utf8");
-    const data = normalizeData(JSON.parse(raw));
+    const data = memoryCache || normalizeData(JSON.parse(await fs.readFile(dataFile, "utf8")));
     result = await mutator(data);
     data.updatedAt = new Date().toISOString();
+    const normalized = normalizeData(data);
     const tmp = `${dataFile}.${process.pid}.${Date.now()}.${Math.random().toString(36).slice(2)}.tmp`;
-    await fs.writeFile(tmp, JSON.stringify(normalizeData(data), null, 2));
+    await fs.writeFile(tmp, JSON.stringify(normalized, null, 2));
     await fs.rename(tmp, dataFile);
+    memoryCache = normalized;
   });
   await writeQueue;
   return result;

@@ -1,0 +1,1505 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>乔木电影清单设计方向预览</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fraunces:opsz,wght@9..144,600;9..144,750&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --shell-bg: #f4f4f1;
+      --shell-ink: #1d1d1b;
+      --shell-muted: #67665f;
+      --shell-line: rgba(29, 29, 27, .14);
+      --ease-out: cubic-bezier(.23, 1, .32, 1);
+      --cn: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-width: 320px;
+      background: var(--shell-bg);
+    }
+
+    body {
+      margin: 0;
+      color: var(--shell-ink);
+      font-family: var(--cn);
+      line-height: 1.55;
+      background:
+        radial-gradient(circle at 14% -6%, rgba(186, 58, 47, .12), transparent 28rem),
+        radial-gradient(circle at 90% 4%, rgba(22, 89, 126, .12), transparent 32rem),
+        var(--shell-bg);
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    img,
+    svg {
+      display: block;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: center;
+      padding: 16px clamp(16px, 4vw, 36px);
+      border-bottom: 1px solid var(--shell-line);
+      background: rgba(244, 244, 241, .92);
+      backdrop-filter: blur(16px);
+    }
+
+    .topbar h1 {
+      margin: 0;
+      font-size: clamp(20px, 2vw, 28px);
+      letter-spacing: 0;
+      line-height: 1.15;
+      text-wrap: balance;
+    }
+
+    .topbar p {
+      margin: 4px 0 0;
+      max-width: 78ch;
+      color: var(--shell-muted);
+      font-size: 13px;
+    }
+
+    .timer {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 0 14px;
+      border: 1px solid var(--shell-line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--shell-muted);
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      box-shadow: 0 12px 30px rgba(29, 29, 27, .08);
+    }
+
+    .timer b {
+      min-width: 22px;
+      color: var(--shell-ink);
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+    }
+
+    .intro {
+      width: min(1180px, calc(100% - 32px));
+      margin: 34px auto 18px;
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(280px, .55fr);
+      gap: 28px;
+      align-items: end;
+    }
+
+    .intro h2 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(38px, 6vw, 82px);
+      line-height: .96;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .intro p {
+      margin: 0;
+      color: var(--shell-muted);
+      font-size: 15px;
+    }
+
+    .contract {
+      display: grid;
+      gap: 10px;
+      padding: 16px;
+      border: 1px solid var(--shell-line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .76);
+    }
+
+    .contract strong {
+      font-size: 14px;
+    }
+
+    .contract span {
+      color: var(--shell-muted);
+      font-size: 13px;
+    }
+
+    .option {
+      margin: 28px 0;
+      padding: clamp(18px, 4vw, 42px) 0;
+      border-block: 1px solid transparent;
+    }
+
+    .option.selected {
+      border-color: currentColor;
+    }
+
+    .option-shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(260px, .38fr) minmax(0, 1fr);
+      gap: clamp(18px, 3vw, 36px);
+      align-items: stretch;
+    }
+
+    .option-info {
+      display: grid;
+      align-content: start;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    .option-kicker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      color: inherit;
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0;
+    }
+
+    .rec {
+      display: inline-flex;
+      min-height: 24px;
+      align-items: center;
+      padding: 0 9px;
+      border-radius: 999px;
+      background: currentColor;
+      color: var(--rec-text, #fff);
+      font-family: var(--cn);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .option h3 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 58px);
+      line-height: .98;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .option-desc {
+      margin: 0;
+      max-width: 40ch;
+      color: currentColor;
+      opacity: .76;
+      font-size: 15px;
+    }
+
+    .specs {
+      display: grid;
+      gap: 10px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .specs li {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr);
+      gap: 10px;
+      padding-top: 10px;
+      border-top: 1px solid currentColor;
+      color: currentColor;
+      font-size: 13px;
+    }
+
+    .specs span {
+      opacity: .58;
+    }
+
+    .choose {
+      justify-self: start;
+      min-height: 44px;
+      padding: 0 16px;
+      border: 1px solid currentColor;
+      border-radius: var(--choose-radius, 999px);
+      background: var(--choose-bg, currentColor);
+      color: var(--choose-ink, #fff);
+      cursor: pointer;
+      font-weight: 600;
+      transition:
+        transform 160ms var(--ease-out),
+        background-color 160ms var(--ease-out),
+        color 160ms var(--ease-out);
+    }
+
+    .choose:hover {
+      transform: translateY(-1px);
+    }
+
+    .choose:active {
+      transform: scale(.98);
+    }
+
+    .choose:focus-visible {
+      outline: 3px solid currentColor;
+      outline-offset: 3px;
+    }
+
+    .mockup {
+      min-width: 0;
+      overflow: hidden;
+      border: var(--mock-border, 1px solid rgba(0, 0, 0, .12));
+      border-radius: var(--mock-radius, 12px);
+      background: var(--mock-bg, #fff);
+      box-shadow: var(--mock-shadow, 0 22px 70px rgba(0, 0, 0, .14));
+    }
+
+    .mock-inner {
+      min-height: 560px;
+    }
+
+    .pickbar {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      left: 18px;
+      z-index: 20;
+      display: grid;
+      justify-items: center;
+      pointer-events: none;
+      transform: translateY(140%);
+      transition: transform 200ms var(--ease-out);
+    }
+
+    .pickbar.show {
+      transform: translateY(0);
+    }
+
+    .pickbar span {
+      max-width: min(720px, 100%);
+      padding: 13px 16px;
+      border-radius: 999px;
+      background: #1d1d1b;
+      color: #fff;
+      box-shadow: 0 18px 44px rgba(0, 0, 0, .22);
+      font-size: 14px;
+      text-align: center;
+      pointer-events: auto;
+    }
+
+    .poster {
+      overflow: hidden;
+      background: #1d1d1b;
+    }
+
+    .poster img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .movie-title {
+      min-width: 0;
+    }
+
+    .movie-title strong,
+    .movie-title span {
+      display: block;
+    }
+
+    .movie-title span {
+      opacity: .62;
+      font-size: 12px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .actions span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 10px;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      opacity: .92;
+    }
+
+    /* Direction A */
+    .option-a {
+      --rec-text: #fbf8f0;
+      --choose-bg: #223554;
+      --choose-ink: #fbf8f0;
+      --mock-bg: #fbf8f0;
+      --mock-radius: 3px;
+      --mock-border: 1px solid rgba(34, 53, 84, .24);
+      --mock-shadow: 0 26px 70px rgba(34, 53, 84, .16);
+      color: #223554;
+      background:
+        linear-gradient(90deg, rgba(34, 53, 84, .07), transparent 48%),
+        #f8f3ea;
+    }
+
+    .option-a h3,
+    .a-masthead,
+    .a-hero-title {
+      font-family: "Fraunces", Georgia, "Times New Roman", serif;
+      font-weight: 750;
+    }
+
+    .a-stage {
+      min-height: 560px;
+      color: #1f2734;
+      background:
+        linear-gradient(90deg, rgba(192, 52, 43, .10) 0 1px, transparent 1px) 0 0 / 52px 52px,
+        linear-gradient(180deg, #fbf8f0, #eef4f7 72%, #fbf8f0);
+    }
+
+    .a-nav {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: center;
+      padding: 22px 28px 18px;
+      border-bottom: 1px solid rgba(34, 53, 84, .18);
+    }
+
+    .a-masthead {
+      font-size: 26px;
+      line-height: .98;
+    }
+
+    .a-nav small,
+    .a-rank,
+    .a-cell-meta,
+    .a-search {
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .a-nav small {
+      color: rgba(31, 39, 52, .58);
+      font-size: 11px;
+    }
+
+    .a-search {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      width: min(310px, 100%);
+      justify-self: end;
+      min-height: 42px;
+      padding: 0 6px 0 14px;
+      border: 1px solid rgba(34, 53, 84, .24);
+      background: rgba(255, 255, 255, .68);
+      font-size: 12px;
+    }
+
+    .a-search b {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      background: #223554;
+      color: #fbf8f0;
+    }
+
+    .a-layout {
+      display: grid;
+      grid-template-columns: minmax(0, .92fr) minmax(260px, .58fr);
+      gap: 22px;
+      padding: 26px 28px 28px;
+    }
+
+    .a-hero-title {
+      max-width: 520px;
+      margin: 0 0 16px;
+      font-size: clamp(46px, 7vw, 76px);
+      line-height: .92;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .a-lede {
+      max-width: 50ch;
+      margin: 0 0 22px;
+      color: rgba(31, 39, 52, .73);
+      font-size: 15px;
+    }
+
+    .a-list {
+      display: grid;
+      border-top: 1px solid rgba(34, 53, 84, .24);
+    }
+
+    .a-row {
+      display: grid;
+      grid-template-columns: 46px 58px minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      min-height: 88px;
+      border-bottom: 1px solid rgba(34, 53, 84, .18);
+    }
+
+    .a-rank {
+      color: #b63a31;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .a-thumb {
+      width: 50px;
+      aspect-ratio: 2 / 3;
+      border-radius: 2px;
+      transform: rotate(-1.5deg);
+      box-shadow: 0 12px 22px rgba(34, 53, 84, .18);
+    }
+
+    .a-row h4 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.18;
+    }
+
+    .a-cell-meta {
+      margin-top: 4px;
+      color: rgba(31, 39, 52, .58);
+      font-size: 12px;
+    }
+
+    .a-score {
+      color: #223554;
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 30px;
+      font-weight: 750;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .a-feature {
+      display: grid;
+      align-content: end;
+      min-height: 430px;
+      padding: 18px;
+      background:
+        linear-gradient(180deg, transparent 34%, rgba(10, 14, 20, .88)),
+        url("storage/posters/tt0111161.webp") center / cover;
+      color: #fbf8f0;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .2);
+    }
+
+    .a-feature small {
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      color: rgba(251, 248, 240, .72);
+      font-size: 11px;
+    }
+
+    .a-feature h4 {
+      margin: 8px 0;
+      font-size: 27px;
+      line-height: 1.08;
+    }
+
+    .a-feature p {
+      margin: 0 0 14px;
+      color: rgba(251, 248, 240, .84);
+      font-size: 13px;
+    }
+
+    /* Direction B */
+    .option-b {
+      --rec-text: #11151a;
+      --choose-bg: #f1c873;
+      --choose-ink: #11151a;
+      --mock-bg: #0f1318;
+      --mock-radius: 10px;
+      --mock-border: 1px solid rgba(241, 200, 115, .18);
+      --mock-shadow: 0 36px 96px rgba(0, 0, 0, .32);
+      color: #f3ead8;
+      background:
+        radial-gradient(circle at 16% 40%, rgba(241, 200, 115, .12), transparent 20rem),
+        #101419;
+    }
+
+    .option-b h3,
+    .b-title,
+    .b-card h4 {
+      font-family: "Bebas Neue", "Avenir Next Condensed", Impact, sans-serif;
+      font-weight: 400;
+      letter-spacing: .02em;
+    }
+
+    .b-stage {
+      min-height: 560px;
+      color: rgba(255, 255, 255, .9);
+      background:
+        linear-gradient(180deg, rgba(14, 17, 22, .08), #0e1116 76%),
+        url("storage/posters/tt0468569.webp") center 18% / 44% auto no-repeat,
+        #0e1116;
+      position: relative;
+    }
+
+    .b-stage::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, .04) 1px, transparent 1px) 0 0 / 48px 100%,
+        radial-gradient(circle at 72% 22%, rgba(241, 200, 115, .16), transparent 17rem);
+      opacity: .7;
+    }
+
+    .b-nav,
+    .b-main,
+    .b-strip {
+      position: relative;
+    }
+
+    .b-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+      padding: 24px 28px;
+      color: rgba(255, 255, 255, .74);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .b-search {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      min-width: min(320px, 42vw);
+      padding: 0 14px;
+      border: 1px solid rgba(255, 255, 255, .22);
+      border-radius: 6px;
+      background: rgba(15, 19, 24, .72);
+      color: rgba(255, 255, 255, .66);
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .b-main {
+      display: grid;
+      grid-template-columns: minmax(0, .7fr) minmax(220px, .3fr);
+      gap: 28px;
+      padding: 42px 32px 20px;
+      align-items: end;
+      min-height: 346px;
+    }
+
+    .b-title {
+      margin: 0;
+      max-width: 610px;
+      font-size: clamp(58px, 9vw, 118px);
+      line-height: .84;
+      color: #fff;
+      text-wrap: balance;
+    }
+
+    .b-copy {
+      margin: 16px 0 0;
+      max-width: 48ch;
+      color: rgba(255, 255, 255, .76);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .b-side {
+      display: grid;
+      gap: 12px;
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, .16);
+      border-radius: 8px;
+      background: rgba(15, 19, 24, .82);
+      backdrop-filter: blur(12px);
+    }
+
+    .b-side small {
+      color: rgba(255, 255, 255, .58);
+      font-size: 12px;
+    }
+
+    .b-side strong {
+      font-size: 20px;
+      line-height: 1.1;
+    }
+
+    .b-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      padding: 0 28px 28px;
+    }
+
+    .b-card {
+      display: grid;
+      grid-template-columns: 68px minmax(0, 1fr);
+      gap: 12px;
+      min-height: 118px;
+      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, .13);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .06);
+    }
+
+    .b-card .poster {
+      width: 68px;
+      aspect-ratio: 2 / 3;
+      border-radius: 5px;
+    }
+
+    .b-card h4 {
+      margin: 0;
+      font-size: 26px;
+      line-height: .95;
+    }
+
+    .b-card p {
+      margin: 8px 0 0;
+      color: rgba(255, 255, 255, .66);
+      font-size: 12px;
+    }
+
+    /* Direction C */
+    .option-c {
+      --rec-text: #fff;
+      --choose-bg: #0f62fe;
+      --choose-ink: #fff;
+      --choose-radius: 0;
+      --mock-bg: #fff;
+      --mock-radius: 0;
+      --mock-border: 1px solid #c6c6c6;
+      --mock-shadow: none;
+      color: #161616;
+      background: #ffffff;
+    }
+
+    .option-c h3,
+    .c-stage {
+      font-family: "IBM Plex Sans", "Helvetica Neue", sans-serif;
+    }
+
+    .c-stage {
+      min-height: 560px;
+      color: #161616;
+      background: #fff;
+    }
+
+    .c-header {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr) auto;
+      gap: 1px;
+      background: #262626;
+      color: #f4f4f4;
+    }
+
+    .c-brand,
+    .c-tab,
+    .c-login {
+      min-height: 52px;
+      display: grid;
+      align-items: center;
+      padding: 0 16px;
+      background: #161616;
+      font-size: 14px;
+    }
+
+    .c-brand {
+      font-weight: 500;
+    }
+
+    .c-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+    }
+
+    .c-tab {
+      color: #c6c6c6;
+    }
+
+    .c-tab.active {
+      color: #fff;
+      box-shadow: inset 0 -3px 0 #0f62fe;
+    }
+
+    .c-login {
+      min-width: 86px;
+      justify-items: center;
+      color: #fff;
+    }
+
+    .c-hero {
+      display: grid;
+      grid-template-columns: minmax(0, .62fr) minmax(280px, .38fr);
+      min-height: 226px;
+      border-bottom: 1px solid #c6c6c6;
+    }
+
+    .c-titleblock {
+      padding: 26px 24px;
+      background: #f4f4f4;
+    }
+
+    .c-titleblock small,
+    .c-stat small,
+    .c-table-head,
+    .c-row small {
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 0;
+    }
+
+    .c-titleblock small {
+      color: #525252;
+      font-size: 12px;
+    }
+
+    .c-titleblock h4 {
+      margin: 12px 0 14px;
+      max-width: 560px;
+      font-size: clamp(42px, 6vw, 66px);
+      font-weight: 300;
+      line-height: 1.03;
+      text-wrap: balance;
+    }
+
+    .c-titleblock p {
+      margin: 0;
+      max-width: 58ch;
+      color: #393939;
+      font-size: 15px;
+    }
+
+    .c-search {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 52px;
+      align-self: stretch;
+      border-left: 1px solid #c6c6c6;
+      background: #fff;
+    }
+
+    .c-search span {
+      align-self: end;
+      min-height: 54px;
+      padding: 18px 16px 10px;
+      border-bottom: 2px solid #161616;
+      color: #525252;
+      font-size: 14px;
+    }
+
+    .c-search b {
+      display: grid;
+      place-items: center;
+      background: #0f62fe;
+      color: #fff;
+      font-size: 20px;
+    }
+
+    .c-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-bottom: 1px solid #c6c6c6;
+      background: #f4f4f4;
+    }
+
+    .c-stat {
+      min-height: 88px;
+      padding: 14px 16px;
+      border-right: 1px solid #c6c6c6;
+    }
+
+    .c-stat strong {
+      display: block;
+      font-size: 30px;
+      font-weight: 300;
+      line-height: 1;
+    }
+
+    .c-stat small {
+      color: #525252;
+      font-size: 12px;
+    }
+
+    .c-table {
+      display: grid;
+      padding: 0 24px 24px;
+    }
+
+    .c-table-head,
+    .c-row {
+      display: grid;
+      grid-template-columns: 66px 78px minmax(0, 1.4fr) minmax(0, .7fr) 86px;
+      gap: 16px;
+      align-items: center;
+      min-height: 56px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .c-table-head {
+      color: #525252;
+      font-size: 12px;
+    }
+
+    .c-row {
+      min-height: 82px;
+      font-size: 14px;
+    }
+
+    .c-row .poster {
+      width: 48px;
+      aspect-ratio: 2 / 3;
+      border-radius: 0;
+    }
+
+    .c-row strong {
+      font-weight: 500;
+    }
+
+    .c-row small {
+      color: #525252;
+      font-size: 12px;
+    }
+
+    .c-blue {
+      color: #0f62fe;
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Direction D */
+    .option-d {
+      --rec-text: #111513;
+      --choose-bg: #42df75;
+      --choose-ink: #111513;
+      --mock-bg: #121412;
+      --mock-radius: 16px;
+      --mock-border: 1px solid rgba(255, 255, 255, .08);
+      --mock-shadow: 0 32px 90px rgba(0, 0, 0, .28);
+      color: #eef5ef;
+      background:
+        radial-gradient(circle at 12% 20%, rgba(66, 223, 117, .16), transparent 24rem),
+        #151816;
+    }
+
+    .option-d h3,
+    .d-stage {
+      font-family: "Outfit", "Avenir Next", sans-serif;
+    }
+
+    .d-stage {
+      min-height: 560px;
+      display: grid;
+      grid-template-columns: 172px minmax(0, 1fr);
+      color: #fff;
+      background: #121412;
+    }
+
+    .d-side {
+      display: grid;
+      align-content: start;
+      gap: 14px;
+      padding: 18px 14px;
+      background: #0c0e0d;
+      border-right: 1px solid rgba(255, 255, 255, .08);
+    }
+
+    .d-brand {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .d-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: #1f241f;
+      color: #cbd5ce;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .d-pill.active {
+      background: #42df75;
+      color: #0c0e0d;
+    }
+
+    .d-main {
+      min-width: 0;
+      padding: 20px;
+      background:
+        linear-gradient(180deg, rgba(66, 223, 117, .16), transparent 210px),
+        #121412;
+    }
+
+    .d-toolbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .d-search {
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      border-radius: 999px;
+      background: #1f241f;
+      color: #b6beb8;
+      font-size: 14px;
+    }
+
+    .d-login {
+      min-height: 42px;
+      padding: 0 16px;
+      border-radius: 999px;
+      background: #fff;
+      color: #111513;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .d-hero {
+      display: grid;
+      grid-template-columns: 170px minmax(0, 1fr);
+      gap: 22px;
+      align-items: end;
+      margin-bottom: 22px;
+    }
+
+    .d-hero .poster {
+      aspect-ratio: 2 / 3;
+      border-radius: 8px;
+      box-shadow: 0 20px 44px rgba(0, 0, 0, .42);
+      transform: rotate(-2deg);
+    }
+
+    .d-hero small {
+      color: #b6beb8;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .d-hero h4 {
+      margin: 8px 0 12px;
+      max-width: 560px;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: .95;
+      text-wrap: balance;
+    }
+
+    .d-hero p {
+      max-width: 58ch;
+      margin: 0;
+      color: #cbd5ce;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .d-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .d-card {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #181c18;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, .18);
+    }
+
+    .d-card .poster {
+      aspect-ratio: 2 / 3;
+      border-radius: 6px;
+    }
+
+    .d-card strong {
+      line-height: 1.15;
+    }
+
+    .d-card span {
+      color: #aeb8b0;
+      font-size: 12px;
+    }
+
+    .d-action {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .d-action b {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: #1f241f;
+      color: #dce6df;
+      font-size: 12px;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .option {
+        transition: border-color 180ms var(--ease-out), transform 180ms var(--ease-out);
+      }
+
+      .option:has(.choose:hover) {
+        transform: translateY(-2px);
+      }
+    }
+
+    @media (max-width: 980px) {
+      .intro,
+      .option-shell,
+      .a-layout,
+      .b-main,
+      .c-hero,
+      .d-stage {
+        grid-template-columns: 1fr;
+      }
+
+      .option-info {
+        order: -1;
+      }
+
+      .mock-inner {
+        min-height: auto;
+      }
+
+      .a-feature {
+        min-height: 320px;
+      }
+
+      .b-strip,
+      .d-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .d-side {
+        display: flex;
+        overflow-x: auto;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .topbar {
+        grid-template-columns: 1fr;
+      }
+
+      .intro {
+        margin-top: 20px;
+      }
+
+      .a-nav,
+      .c-header,
+      .d-toolbar,
+      .d-hero {
+        grid-template-columns: 1fr;
+      }
+
+      .a-search,
+      .b-search {
+        width: 100%;
+        min-width: 0;
+        justify-self: stretch;
+      }
+
+      .a-row {
+        grid-template-columns: 38px 48px minmax(0, 1fr);
+      }
+
+      .a-score {
+        grid-column: 3;
+        font-size: 20px;
+      }
+
+      .c-tabs {
+        grid-template-columns: 1fr;
+      }
+
+      .c-table {
+        padding: 0 14px 18px;
+      }
+
+      .c-table-head {
+        display: none;
+      }
+
+      .c-row {
+        grid-template-columns: 48px minmax(0, 1fr) auto;
+        gap: 10px;
+      }
+
+      .c-row > :nth-child(4) {
+        display: none;
+      }
+
+      .c-row .poster {
+        width: 42px;
+      }
+
+      .d-main {
+        padding: 14px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .001ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>乔木电影清单 · 选择一个设计方向</h1>
+      <p>按 1-4 快速选择。点击任一方向后，页面会把“选 X：方向名”复制到剪贴板；也可以回复混搭，比如“要 A 的排版 + B 的暗场”。</p>
+    </div>
+    <div class="timer">推荐方向倒计时 <b id="countdown">60</b> 秒</div>
+  </header>
+
+  <main>
+    <section class="intro" aria-label="设计读取">
+      <div>
+        <h2>同一个 Top 250，四种完全不同的电影入口。</h2>
+      </div>
+      <div class="contract">
+        <strong>功能契约</strong>
+        <span>首屏必须看出这是 IMDb Top 250；搜索入口、榜单浏览、详情阅读、收藏 / 看过 / 想看不能被装饰遮住；公开界面不出现技术栈、接口或模型名称。</span>
+      </div>
+    </section>
+
+    <section class="option option-a" data-index="0" data-name="银幕手册" aria-labelledby="optionA">
+      <div class="option-shell">
+        <aside class="option-info">
+          <div class="option-kicker">A / EDITORIAL LEDGER <span class="rec">推荐</span></div>
+          <h3 id="optionA">银幕手册</h3>
+          <p class="option-desc">像一本影展会刊：白底、细规则线、海报像插图，首页先让用户扫榜，详情页再像专栏一样展开。</p>
+          <ul class="specs">
+            <li><span>字体</span><b>Fraunces 英文标题 + 中文系统正文</b></li>
+            <li><span>色彩</span><b>纸白、暗蓝、砖红，避免奶油单色</b></li>
+            <li><span>布局</span><b>编辑式双栏 + 规则线榜单</b></li>
+            <li><span>记忆点</span><b>每部电影像一条可收藏的影展条目</b></li>
+          </ul>
+          <button class="choose" type="button">选择此方向</button>
+        </aside>
+        <div class="mockup">
+          <div class="mock-inner a-stage">
+            <div class="a-nav">
+              <div>
+                <div class="a-masthead">乔木电影清单</div>
+                <small>IMDb Top 250 / 中文观影入口</small>
+              </div>
+              <small>看过 · 想看 · 收藏</small>
+              <div class="a-search"><span>搜索电影、导演、关键词</span><b>⌕</b></div>
+            </div>
+            <div class="a-layout">
+              <div>
+                <h4 class="a-hero-title">Top 250 电影清单</h4>
+                <p class="a-lede">默认从榜单进入，点击任一片名后再看观影入口、口碑、创作线索和相关电影。这里保留列表效率，同时把详情做成值得读的影评笔记。</p>
+                <div class="a-list">
+                  <div class="a-row">
+                    <div class="a-rank">#1</div>
+                    <div class="poster a-thumb"><img src="storage/posters/tt0111161.webp" alt="肖申克的救赎海报"></div>
+                    <div class="movie-title"><strong>肖申克的救赎</strong><span>The Shawshank Redemption · 1994 · 剧情</span></div>
+                    <div class="a-score">9.3</div>
+                  </div>
+                  <div class="a-row">
+                    <div class="a-rank">#2</div>
+                    <div class="poster a-thumb"><img src="storage/posters/tt0068646.webp" alt="教父海报"></div>
+                    <div class="movie-title"><strong>教父</strong><span>The Godfather · 1972 · 犯罪、剧情</span></div>
+                    <div class="a-score">9.2</div>
+                  </div>
+                  <div class="a-row">
+                    <div class="a-rank">#3</div>
+                    <div class="poster a-thumb"><img src="storage/posters/tt0468569.webp" alt="黑暗骑士海报"></div>
+                    <div class="movie-title"><strong>蝙蝠侠：黑暗骑士</strong><span>The Dark Knight · 2008 · 动作、犯罪</span></div>
+                    <div class="a-score">9.1</div>
+                  </div>
+                </div>
+              </div>
+              <article class="a-feature">
+                <small>观影入口 / #1</small>
+                <h4>《肖申克的救赎》真正值得看的地方</h4>
+                <p>安迪的越狱并不是爽点本身；更耐看的是他如何在监狱权力结构里重新取得行动空间。</p>
+                <div class="actions"><span>收藏 2</span><span>看过 1</span><span>想看 2</span></div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="option option-b" data-index="1" data-name="夜场影厅" aria-labelledby="optionB">
+      <div class="option-shell">
+        <aside class="option-info">
+          <div class="option-kicker">B / CINEMA NIGHT</div>
+          <h3 id="optionB">夜场影厅</h3>
+          <p class="option-desc">像电影节午夜单元：海报成为主要视觉，界面退到暗处，用强烈首屏把用户带入“今晚看哪部”的情绪。</p>
+          <ul class="specs">
+            <li><span>字体</span><b>Bebas Neue 英文标题 + 中文系统正文</b></li>
+            <li><span>色彩</span><b>炭黑、银白、放映机暖黄</b></li>
+            <li><span>布局</span><b>大幅主视觉 + 横向片单</b></li>
+            <li><span>记忆点</span><b>榜单像一排正在亮起的银幕</b></li>
+          </ul>
+          <button class="choose" type="button">选择此方向</button>
+        </aside>
+        <div class="mockup">
+          <div class="mock-inner b-stage">
+            <div class="b-nav">
+              <span>乔木电影清单</span>
+              <span>IMDb Top 250</span>
+              <div class="b-search">搜索电影、导演、关键词</div>
+            </div>
+            <div class="b-main">
+              <div>
+                <h4 class="b-title">Top 250 for tonight</h4>
+                <p class="b-copy">先用榜单挑片，再进入详情看清楚：这部电影适合谁、二刷该看哪里、相关电影为什么接得上。</p>
+              </div>
+              <aside class="b-side">
+                <small>当前焦点 / #3</small>
+                <strong>蝙蝠侠：黑暗骑士</strong>
+                <small>诺兰把超级英雄片拍成城市秩序崩塌的犯罪剧，希斯·莱杰的小丑是这部片真正的压迫源。</small>
+                <div class="actions"><span>看过</span><span>想看</span><span>收藏</span></div>
+              </aside>
+            </div>
+            <div class="b-strip">
+              <article class="b-card">
+                <div class="poster"><img src="storage/posters/tt0111161.webp" alt="肖申克的救赎海报"></div>
+                <div><h4>肖申克</h4><p>#1 · 1994 · IMDb 9.3 · 三次假释听证把瑞德几十年的变化压缩成表演。</p></div>
+              </article>
+              <article class="b-card">
+                <div class="poster"><img src="storage/posters/tt0068646.webp" alt="教父海报"></div>
+                <div><h4>教父</h4><p>#2 · 1972 · 家族饭桌、婚礼和交易场景共同建出权力秩序。</p></div>
+              </article>
+              <article class="b-card">
+                <div class="poster"><img src="storage/posters/tt0468569.webp" alt="黑暗骑士海报"></div>
+                <div><h4>黑暗骑士</h4><p>#3 · 2008 · 看小丑如何把哥谭的制度漏洞变成心理战。</p></div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="option option-c" data-index="2" data-name="资料馆台账" aria-labelledby="optionC">
+      <div class="option-shell">
+        <aside class="option-info">
+          <div class="option-kicker">C / ARCHIVE GRID</div>
+          <h3 id="optionC">资料馆台账</h3>
+          <p class="option-desc">像电影资料馆的检索终端：密度高、规则硬、信息对齐，适合把 Top 250 当作长期维护的电影档案。</p>
+          <ul class="specs">
+            <li><span>字体</span><b>IBM Plex Sans / Mono + 中文系统正文</b></li>
+            <li><span>色彩</span><b>白、灰 10、蓝 60、近黑</b></li>
+            <li><span>布局</span><b>矩形分栏 + 表格化列表</b></li>
+            <li><span>记忆点</span><b>每个状态和评分都像资料馆字段</b></li>
+          </ul>
+          <button class="choose" type="button">选择此方向</button>
+        </aside>
+        <div class="mockup">
+          <div class="mock-inner c-stage">
+            <div class="c-header">
+              <div class="c-brand">乔木电影清单</div>
+              <div class="c-tabs">
+                <div class="c-tab active">Top 250</div>
+                <div class="c-tab">看过</div>
+                <div class="c-tab">想看</div>
+              </div>
+              <div class="c-login">登录</div>
+            </div>
+            <div class="c-hero">
+              <div class="c-titleblock">
+                <small>CATALOG / IMDb Top 250</small>
+                <h4>把 250 部电影做成可以检索的中文档案。</h4>
+                <p>首页直接展示榜单、搜索和状态；详情页按摘要、口碑、创作线索、相关电影拆成可扫描字段。</p>
+              </div>
+              <div class="c-search"><span>搜索电影、导演、关键词</span><b>⌕</b></div>
+            </div>
+            <div class="c-stats">
+              <div class="c-stat"><strong>250</strong><small>默认片单</small></div>
+              <div class="c-stat"><strong>24</strong><small>每页懒加载</small></div>
+              <div class="c-stat"><strong>3</strong><small>用户状态</small></div>
+            </div>
+            <div class="c-table">
+              <div class="c-table-head"><span>RANK</span><span>POSTER</span><span>TITLE</span><span>META</span><span>RATING</span></div>
+              <div class="c-row">
+                <span class="c-blue">#001</span>
+                <div class="poster"><img src="storage/posters/tt0111161.webp" alt="肖申克的救赎海报"></div>
+                <div class="movie-title"><strong>肖申克的救赎</strong><span>The Shawshank Redemption</span></div>
+                <small>1994 · 剧情 · 142 min</small>
+                <span class="c-blue">9.3</span>
+              </div>
+              <div class="c-row">
+                <span class="c-blue">#002</span>
+                <div class="poster"><img src="storage/posters/tt0068646.webp" alt="教父海报"></div>
+                <div class="movie-title"><strong>教父</strong><span>The Godfather</span></div>
+                <small>1972 · 犯罪、剧情 · 175 min</small>
+                <span class="c-blue">9.2</span>
+              </div>
+              <div class="c-row">
+                <span class="c-blue">#003</span>
+                <div class="poster"><img src="storage/posters/tt0468569.webp" alt="黑暗骑士海报"></div>
+                <div class="movie-title"><strong>蝙蝠侠：黑暗骑士</strong><span>The Dark Knight</span></div>
+                <small>2008 · 动作、犯罪 · 152 min</small>
+                <span class="c-blue">9.1</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="option option-d" data-index="3" data-name="放映队列" aria-labelledby="optionD">
+      <div class="option-shell">
+        <aside class="option-info">
+          <div class="option-kicker">D / WATCH QUEUE</div>
+          <h3 id="optionD">放映队列</h3>
+          <p class="option-desc">像一个面向个人观影状态的播放器：列表更像队列，收藏、看过、想看变成第一层交互。</p>
+          <ul class="specs">
+            <li><span>字体</span><b>Outfit 英文标题 + 中文系统正文</b></li>
+            <li><span>色彩</span><b>深绿黑、浅绿、海报取色</b></li>
+            <li><span>布局</span><b>侧栏队列 + 海报网格 + 状态胶囊</b></li>
+            <li><span>记忆点</span><b>把 Top 250 变成自己的观影播放列表</b></li>
+          </ul>
+          <button class="choose" type="button">选择此方向</button>
+        </aside>
+        <div class="mockup">
+          <div class="mock-inner d-stage">
+            <aside class="d-side">
+              <div class="d-brand">乔木电影</div>
+              <div class="d-pill active">Top 250</div>
+              <div class="d-pill">看过</div>
+              <div class="d-pill">想看</div>
+              <div class="d-pill">收藏</div>
+            </aside>
+            <div class="d-main">
+              <div class="d-toolbar">
+                <div class="d-search">搜索电影、导演、关键词</div>
+                <div class="d-login">登录</div>
+              </div>
+              <section class="d-hero">
+                <div class="poster"><img src="storage/posters/tt0068646.webp" alt="教父海报"></div>
+                <div>
+                  <small>当前队列 / IMDb Top #2</small>
+                  <h4>教父</h4>
+                  <p>这不是单纯的黑帮片，真正好看的是家族仪式、商业交易和父子关系如何一步步把迈克尔推向权力中心。</p>
+                  <div class="d-action"><b>收藏 2</b><b>看过 1</b><b>想看 2</b></div>
+                </div>
+              </section>
+              <section class="d-grid">
+                <article class="d-card">
+                  <div class="poster"><img src="storage/posters/tt0111161.webp" alt="肖申克的救赎海报"></div>
+                  <strong>肖申克的救赎</strong>
+                  <span>#1 · 希望如何在封闭制度里保持行动力</span>
+                </article>
+                <article class="d-card">
+                  <div class="poster"><img src="storage/posters/tt0468569.webp" alt="黑暗骑士海报"></div>
+                  <strong>蝙蝠侠：黑暗骑士</strong>
+                  <span>#3 · 哥谭秩序被小丑拆解的心理战</span>
+                </article>
+                <article class="d-card">
+                  <div class="poster"><img src="storage/posters/tt0071562.webp" alt="教父2海报"></div>
+                  <strong>教父2</strong>
+                  <span>#4 · 同一家庭的兴起与失控并排展开</span>
+                </article>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="pickbar" id="pickbar" role="status" aria-live="polite"><span></span></div>
+
+  <script>
+    const REC = 0;
+    const labels = ["A", "B", "C", "D"];
+    let picked = false;
+    let left = 60;
+    const countdown = document.getElementById("countdown");
+    const options = Array.from(document.querySelectorAll(".option"));
+    const pickbar = document.getElementById("pickbar");
+    const pickbarText = pickbar.querySelector("span");
+
+    function pick(index, auto = false) {
+      const option = options[index];
+      if (!option) return;
+      picked = true;
+      options.forEach((item, itemIndex) => item.classList.toggle("selected", itemIndex === index));
+      const msg = `选 ${labels[index]}：${option.dataset.name}`;
+      pickbarText.textContent = auto
+        ? `已超时，采用推荐方向 ${msg}。如不同意，回到对话改选即可。`
+        : `已选择 ${msg}。回到对话把这句话发给我，或告诉我想混搭哪些细节。`;
+      pickbar.classList.add("show");
+      option.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      if (!auto && navigator.clipboard) {
+        navigator.clipboard.writeText(msg).catch(() => {});
+      }
+    }
+
+    options.forEach((option, index) => {
+      option.querySelector(".choose").addEventListener("click", () => pick(index));
+      option.addEventListener("dblclick", () => pick(index));
+    });
+
+    document.addEventListener("keydown", (event) => {
+      const index = ["1", "2", "3", "4"].indexOf(event.key);
+      if (index >= 0) pick(index);
+    });
+
+    const timer = window.setInterval(() => {
+      if (picked) {
+        window.clearInterval(timer);
+        countdown.textContent = "—";
+        return;
+      }
+      left -= 1;
+      countdown.textContent = String(left);
+      if (left <= 0) {
+        window.clearInterval(timer);
+        pick(REC, true);
+      }
+    }, 1000);
+  </script>
+</body>
+</html>

@@ -210,16 +210,17 @@ function actionControls(movie, variant = "card") {
   const movieStats = stats(movie);
   const status = viewerStatus(movie.imdbID);
   const favorite = isFavorite(movie.imdbID);
+  const compact = variant !== "detail";
   return `
     <div class="movie-actions ${variant === "detail" ? "movie-actions-large" : ""}">
-      <button class="state-button" data-action="favorite" data-movie-id="${escapeHtml(movie.imdbID)}" aria-pressed="${favorite}">
-        ${heartIcon()}<span>${favorite ? "已藏" : "收藏"}</span><small>${movieStats.favorites || 0}</small>
+      <button class="state-button tooltip ${compact ? "state-button-compact" : ""}" data-action="favorite" data-movie-id="${escapeHtml(movie.imdbID)}" aria-pressed="${favorite}" data-tooltip="${favorite ? "已收藏" : "收藏"}" aria-label="${favorite ? "已收藏" : "收藏"}">
+        ${heartIcon()}${compact ? "" : `<span>${favorite ? "已藏" : "收藏"}</span>`}<small>${movieStats.favorites || 0}</small>
       </button>
-      <button class="state-button" data-action="status" data-status="watched" data-movie-id="${escapeHtml(movie.imdbID)}" aria-pressed="${status === "watched"}">
-        ${eyeIcon()}<span>${status === "watched" ? "已看" : "看过"}</span><small>${movieStats.watched || 0}</small>
+      <button class="state-button tooltip ${compact ? "state-button-compact" : ""}" data-action="status" data-status="watched" data-movie-id="${escapeHtml(movie.imdbID)}" aria-pressed="${status === "watched"}" data-tooltip="${status === "watched" ? "已看过" : "看过"}" aria-label="${status === "watched" ? "已看过" : "看过"}">
+        ${eyeIcon()}${compact ? "" : `<span>${status === "watched" ? "已看" : "看过"}</span>`}<small>${movieStats.watched || 0}</small>
       </button>
-      <button class="state-button" data-action="status" data-status="want" data-movie-id="${escapeHtml(movie.imdbID)}" aria-pressed="${status === "want"}">
-        ${bookmarkIcon()}<span>想看</span><small>${movieStats.want || 0}</small>
+      <button class="state-button tooltip ${compact ? "state-button-compact" : ""}" data-action="status" data-status="want" data-movie-id="${escapeHtml(movie.imdbID)}" aria-pressed="${status === "want"}" data-tooltip="${status === "want" ? "已想看" : "想看"}" aria-label="${status === "want" ? "已想看" : "想看"}">
+        ${bookmarkIcon()}${compact ? "" : `<span>想看</span>`}<small>${movieStats.want || 0}</small>
       </button>
     </div>
   `;
@@ -336,21 +337,46 @@ function editorialFitBox(editorial) {
 function editorialMarkup(movie) {
   const editorial = movie?.editorial;
   if (!editorial?.hook || !editorial?.intro) return "";
+  const fitFor = editorial.bestFor
+    ? `<div class="fit-col fit-for"><p class="fit-label">适合谁看</p><p class="fit-body">${escapeHtml(editorial.bestFor)}</p></div>`
+    : "";
+  const caution = editorial.caution
+    ? `<div class="fit-col fit-caution"><p class="fit-label">观看提示</p><p class="fit-body">${escapeHtml(editorial.caution)}</p></div>`
+    : "";
+  const fitRow = (fitFor || caution) ? `<div class="fit-row">${fitFor}${caution}</div>` : "";
+  const rewatch = editorial.rewatchPoint
+    ? `<aside class="rewatch-card"><span class="rewatch-tag">二刷提示</span><p>${escapeHtml(editorial.rewatchPoint)}</p></aside>`
+    : "";
   return `
     <section class="editorial-section" aria-label="观影入口">
       <div class="editorial-lede">
-        <p class="eyebrow">观影入口</p>
+        <p class="eyebrow"><span class="eyebrow-dot"></span>观影入口</p>
         <h3>${escapeHtml(editorial.title || `${displayTitle(movie)}真正值得看的地方`)}</h3>
         <p>${escapeHtml(editorial.intro)}</p>
       </div>
-      <p class="editorial-hook">${escapeHtml(editorial.hook)}</p>
+      <blockquote class="editorial-hook"><span class="quote-mark" aria-hidden="true">"</span>${escapeHtml(editorial.hook)}</blockquote>
       <div class="editorial-grid">
         ${insightBox("先看这些", editorial.watchPoints || [])}
         ${insightBox("放进语境", editorial.contextNotes || [])}
         ${insightBox("创作看点", editorial.craftNotes || [])}
       </div>
+      ${fitRow}
+      ${rewatch}
     </section>
   `;
+}
+
+// Highlight strip directly under the hero: awards + box office + meta score.
+function highlightStripMarkup(movie) {
+  const awards = cn(movie, "awards") || movie?.awards;
+  const boxOffice = cn(movie, "boxOffice") || movie?.boxOffice;
+  const meta = movie?.metascore;
+  const items = [];
+  if (awards) items.push(`<div class="hl-item hl-awards"><span class="hl-label">获奖</span><span class="hl-value">${escapeHtml(awards)}</span></div>`);
+  if (boxOffice) items.push(`<div class="hl-item hl-box"><span class="hl-label">票房</span><span class="hl-value">${escapeHtml(boxOffice)}</span></div>`);
+  if (meta) items.push(`<div class="hl-item hl-meta"><span class="hl-label">Metacritic</span><span class="hl-value">${escapeHtml(String(meta))}<small>/100</small></span></div>`);
+  if (!items.length) return "";
+  return `<div class="highlight-strip">${items.join("")}</div>`;
 }
 
 function legacyWhyBox(movie, points) {
@@ -419,6 +445,7 @@ function renderDetail() {
         ${actionControls(movie, "detail")}
       </div>
     </section>
+    ${highlightStripMarkup(movie)}
     ${editorialMarkup(movie)}
     <div class="detail-grid">
       ${hasEditorial ? editorialFitBox(movie.editorial) : `${researchBox(movie.research?.summary)}${legacyWhyBox(movie, points)}`}
@@ -621,6 +648,9 @@ function openModal(kind) {
   } else if (kind === "follow") {
     template = document.querySelector("#followTemplate");
     title = "关注向阳乔木推荐看";
+  } else if (kind === "account") {
+    template = document.querySelector("#accountTemplate");
+    title = "账号";
   } else {
     template = document.querySelector("#authTemplate");
     title = "账号";
@@ -629,7 +659,19 @@ function openModal(kind) {
   els.modalBody.replaceChildren(template.content.cloneNode(true));
   els.modalBackdrop.hidden = false;
   if (kind === "auth") setupAuthForm();
+  if (kind === "account") setupAccountMenu();
   els.modalClose.focus();
+}
+
+function setupAccountMenu() {
+  const email = state.session.user?.email || "未登录";
+  const favCount = Array.isArray(state.session.favorites) ? state.session.favorites.length : 0;
+  const emailEl = document.querySelector("#accountEmail");
+  const favEl = document.querySelector("#accountFavCount");
+  if (emailEl) emailEl.textContent = email;
+  if (favEl) favEl.textContent = String(favCount);
+  const logoutBtn = document.querySelector("#accountLogout");
+  if (logoutBtn) logoutBtn.addEventListener("click", performLogout);
 }
 
 function closeModal() {
@@ -718,6 +760,10 @@ els.accountButton.addEventListener("click", () => {
     openModal("auth");
     return;
   }
+  openModal("account");
+});
+
+function performLogout() {
   api("/api/auth/logout", { method: "POST", body: "{}" })
     .then(() => {
       state.session = {
@@ -727,11 +773,12 @@ els.accountButton.addEventListener("click", () => {
         reactions: state.session.reactions
       };
       els.accountButton.textContent = "登录";
+      closeModal();
       rerenderMovieSurfaces();
       showToast("已退出登录。");
     })
     .catch((error) => showToast(error.message));
-});
+}
 
 document.querySelectorAll("[data-open-modal]").forEach((button) => {
   button.addEventListener("click", () => openModal(button.dataset.openModal));

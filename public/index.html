@@ -146,6 +146,22 @@
       </div>
     </template>
 
+    <template id="accountTemplate">
+      <div class="account-box">
+        <div class="account-identity">
+          <div class="account-avatar" aria-hidden="true"></div>
+          <div class="account-meta">
+            <strong id="accountEmail"></strong>
+            <small>已登录</small>
+          </div>
+        </div>
+        <div class="account-stats">
+          <div><b id="accountFavCount">0</b><small>收藏</small></div>
+        </div>
+        <button type="button" class="ghost-button account-logout" id="accountLogout">退出登录</button>
+      </div>
+    </template>
+
     <div class="toast" id="toast" hidden></div>
     <script type="module" src="/app.js"></script>
   </body>
