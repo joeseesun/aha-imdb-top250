@@ -429,6 +429,17 @@ function plotForDetail(movie) {
   return "暂无中文剧情简介，可先看主创、口碑和相关片线索。";
 }
 
+function synopsisMarkup(movie) {
+  const text = movie?.synopsis?.text;
+  if (!text) return "";
+  return `
+    <section class="synopsis-section" aria-label="剧情梗概">
+      <p class="eyebrow"><span class="eyebrow-dot"></span>剧情梗概</p>
+      <p class="synopsis-text">${escapeHtml(text)}</p>
+    </section>
+  `;
+}
+
 function renderDetail() {
   const movie = state.detail;
   if (!movie) {
@@ -454,6 +465,7 @@ function renderDetail() {
         ${actionControls(movie, "detail")}
       </div>
     </section>
+    ${synopsisMarkup(movie)}
     ${highlightStripMarkup(movie)}
     ${editorialMarkup(movie)}
     <div class="detail-grid">

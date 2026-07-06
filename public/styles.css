@@ -786,6 +786,27 @@ h1 {
   gap: 12px;
 }
 
+/* Synopsis: literary Chinese plot blurb under the hero */
+.synopsis-section {
+  display: grid;
+  gap: 12px;
+  padding: 24px 26px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background:
+    linear-gradient(135deg, rgba(247, 243, 234, 0.05), transparent 55%),
+    var(--surface);
+}
+
+.synopsis-text {
+  margin: 0;
+  max-width: 78ch;
+  color: rgba(247, 243, 234, 0.92);
+  font-size: 16px;
+  line-height: 1.9;
+  text-wrap: pretty;
+}
+
 /* Highlight strip: awards / box office / metacritic, right under the hero */
 .highlight-strip {
   display: grid;
@@ -1278,17 +1299,24 @@ h1 {
   font-family: var(--font-mono);
   font-size: 11px;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 4ch;
 }
 
 .state-button-compact {
   flex: 1 1 0;
   min-height: 36px;
+  height: 36px;
   padding: 0 8px;
   gap: 4px;
+  overflow: hidden;
 }
 
 .state-button-compact small {
   font-size: 10px;
+  max-width: 5ch;
 }
 
 /* Card action buttons: icon + count only, label appears on hover.

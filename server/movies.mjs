@@ -639,6 +639,81 @@ async function ensureEditorial(movie, { generate = false, attempts = 1 } = {}) {
   return null;
 }
 
+// 文学化中文剧情梗概：把英文 plot 改写成有氛围感的中文，不剧透关键转折。
+async function generateSynopsisWithGlm(movie) {
+  if (!config.editorialApiKey) return null;
+  const title = displayMovieTitle(movie);
+  const plot = clean(movie.plot || movie.cn?.plot || "");
+  if (!plot) return null;
+  const meta = [
+    movie.year || movie.chart?.year ? `${movie.year || movie.chart?.year} 年` : "",
+    chineseGenre(movie.genre) || movie.genre,
+    compactPeople(movie.director, 1)
+  ].filter(Boolean).join("，");
+  const prompt = `你是一位资深影评人。下面是一部电影的英文剧情梗概，请改写成一段有文学质感的中文剧情介绍。
+
+要求：
+- 150-250 字中文，自然分段
+- 营造氛围、点出人物处境与核心张力
+- 不要剧透关键转折和结局
+- 不要出现"本片""该片""这部电影"这类指代词
+- 不要加标题、不要列点、不要引号
+
+电影：${title}${meta ? `（${meta}）` : ""}
+英文梗概：${plot}
+
+直接输出中文剧情介绍正文，不要任何前缀说明。`;
+
+  const response = await fetch(`${config.editorialBaseUrl}/chat/completions`, {
+    method: "POST",
+    signal: AbortSignal.timeout(45000),
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${config.editorialApiKey}`
+    },
+    body: JSON.stringify({
+      model: config.editorialModel,
+      thinking: { type: "disabled" },
+      reasoning_effort: "none",
+      messages: [
+        { role: "system", content: "你是电影文案编辑，只输出中文正文。" },
+        { role: "user", content: prompt }
+      ],
+      temperature: 0.7,
+      max_tokens: 700
+    })
+  });
+  if (!response.ok) {
+    throw new Error(`synopsis LLM ${response.status}`);
+  }
+  const data = await response.json();
+  const text = clean(data?.choices?.[0]?.message?.content || "");
+  if (!text || text.length < 40) return null;
+  return text;
+}
+
+const SYNOPSIS_VERSION = 1;
+
+function synopsisIsFresh(movie) {
+  return movie?.synopsis?.version === SYNOPSIS_VERSION
+    && movie?.synopsis?.generatedAt
+    && isFresh(movie.synopsis.generatedAt, RESEARCH_CACHE_MAX_MS)
+    && hasCjk(movie.synopsis.text);
+}
+
+async function ensureSynopsis(movie, { generate = false } = {}) {
+  if (synopsisIsFresh(movie)) return movie.synopsis;
+  if (!generate) return null;
+  try {
+    const text = await generateSynopsisWithGlm(movie);
+    if (!text) return null;
+    return { text, version: SYNOPSIS_VERSION, generatedAt: new Date().toISOString() };
+  } catch {
+    return null;
+  }
+}
+
 function intersect(left, right) {
   const rightSet = new Set(right.map((item) => item.toLowerCase()));
   return left.filter((item) => rightSet.has(item.toLowerCase()));
@@ -916,9 +991,10 @@ export async function getMovie(
   }
 
   if (enrichResearch) {
-    const [research, editorial] = await Promise.all([
+    const [research, editorial, synopsis] = await Promise.all([
       runDetailResearchAgents(movie),
-      ensureEditorial(movie, { generate: generateEditorial, attempts: editorialAttempts })
+      ensureEditorial(movie, { generate: generateEditorial, attempts: editorialAttempts }),
+      ensureSynopsis(movie, { generate: generateEditorial })
     ]);
     const nextMovie = {
       ...movie,
@@ -926,6 +1002,7 @@ export async function getMovie(
     };
     if (editorial) nextMovie.editorial = editorial;
     if (!editorial && !editorialIsFresh(movie)) delete nextMovie.editorial;
+    if (synopsis) nextMovie.synopsis = synopsis;
     movie = nextMovie;
   }
 
