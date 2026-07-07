@@ -16,7 +16,7 @@ import {
   setFavorite,
   setViewerReaction
 } from "./store.mjs";
-import { fetchPoster, getMovie, listTopMovies, posterProxyPath, searchOmdb, topMovieTotal } from "./movies.mjs";
+import { fetchPoster, getMovie, listTopMovies, posterProxyPath, searchOmdb, topMovieTotal, topSeed } from "./movies.mjs";
 import { renderAppHtml, robotsTxt, sitemapXml } from "./seo.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -84,7 +84,7 @@ function getClientIp(req) {
 // In-memory guest rate limiter: { ip: { count, windowStart } }
 const guestChatLimits = new Map();
 const GUEST_CHAT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
-const GUEST_CHAT_MAX = 8; // 8 messages per hour for guests
+const GUEST_CHAT_MAX = 10; // 10 messages per hour for guests
 
 function checkGuestChatLimit(ip) {
   const now = Date.now();
@@ -208,6 +208,79 @@ async function streamMovieChat(res, movie, turns, { isGuest }) {
 
 function writeSse(res, data) {
   res.write(`data: ${JSON.stringify(data)}\n\n`);
+}
+
+// General Top-250 chat (homepage): no specific movie, context is the chart.
+async function streamGeneralChat(res, turns, { isGuest }) {
+  const apiKey = config.deepseekApiKey;
+  if (!apiKey) {
+    writeSse(res, { type: "error", error: "AI 服务未配置" });
+    return;
+  }
+  // Build a compact list of the top movies as context (rank + title).
+  const all = topSeed();
+  const chart = all
+    .slice(0, 60)
+    .map((m) => `${m.rank}. ${m.title}${m.titleCn ? `《${m.titleCn}》` : ""}${m.rating || m.imdbRating ? ` ${m.rating || m.imdbRating}` : ""}`)
+    .join("\n");
+  const payload = {
+    model: config.deepseekModel === "deepseek-v4-flash" ? "deepseek-chat" : config.deepseekModel,
+    stream: true,
+    thinking: { type: "disabled" },
+    messages: [
+      {
+        role: "system",
+        content: [
+          "你是一个嵌入电影指南网站的 AI 助手，用户正在浏览 IMDb Top 250 清单的首页。",
+          "你可以帮用户从清单里挑片子（按心情、类型、时长、年代等），也可以聊某部电影、给观影建议。",
+          "推荐时尽量给出榜单内的具体片名和推荐理由。用中文回答，简洁有判断，可以用 Markdown 列表。",
+          "如果信息不足或不确定，坦诚说明，不要编造榜单上没有的片子。"
+        ].join("\n")
+      },
+      { role: "user", content: `当前榜单（节选前 60 部）：\n${chart}` },
+      { role: "assistant", content: "好的，我已经看了榜单，你可以告诉我你今晚的心情或想看的类型，我来挑。" },
+      ...turns
+    ],
+    max_tokens: isGuest ? 800 : 1500,
+    temperature: 0.5
+  };
+
+  try {
+    const upstream = await fetch(`${config.deepseekBaseUrl}/v1/chat/completions`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(60000)
+    });
+    if (!upstream.ok || !upstream.body) {
+      writeSse(res, { type: "error", error: `AI 请求失败 (${upstream.status})` });
+      return;
+    }
+    const reader = upstream.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split("\n");
+      buffer = lines.pop() || "";
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed || !trimmed.startsWith("data:")) continue;
+        const data = trimmed.slice(5).trim();
+        if (data === "[DONE]") { writeSse(res, { type: "done" }); return; }
+        try {
+          const parsed = JSON.parse(data);
+          const delta = parsed.choices?.[0]?.delta?.content;
+          if (delta) writeSse(res, { type: "delta", text: delta });
+        } catch { /* ignore */ }
+      }
+    }
+    writeSse(res, { type: "done" });
+  } catch (e) {
+    writeSse(res, { type: "error", error: e?.name === "TimeoutError" ? "AI 响应超时" : "AI 服务暂时不可用" });
+  }
 }
 
 function visitorActorId(visitorId) {
@@ -395,6 +468,36 @@ async function handleApi(req, res, url) {
   if (req.method === "GET" && movieMatch) {
     const [movie] = await decorateMovies([await getMovie(movieMatch[1], { generateAi: false, enrichResearch: true })]);
     json(res, 200, { movie });
+    return;
+  }
+
+  // General Top-250 chat (homepage): no specific movie.
+  if (req.method === "POST" && url.pathname === "/api/chat") {
+    const { user } = await currentViewer(req);
+    const body = await parseBody(req);
+    const turns = sanitizeChatTurns(body.messages);
+    if (!turns.length || turns[turns.length - 1].role !== "user") {
+      json(res, 400, { error: "需要至少一条用户消息" });
+      return;
+    }
+    if (!user) {
+      const ip = getClientIp(req);
+      const { allowed, remaining } = checkGuestChatLimit(ip);
+      if (!allowed) {
+        res.setHeader("Retry-After", "3600");
+        json(res, 429, { error: "guest_limit", message: "游客每小时限 10 条消息，登录后可无限对话。", remaining: 0 });
+        return;
+      }
+      res.setHeader("X-Chat-Remaining", String(remaining));
+    }
+    res.writeHead(200, {
+      "Content-Type": "text/event-stream; charset=utf-8",
+      "Cache-Control": "no-cache, no-transform",
+      Connection: "keep-alive",
+      "X-Accel-Buffering": "no"
+    });
+    await streamGeneralChat(res, turns, { isGuest: !user });
+    res.end();
     return;
   }
 

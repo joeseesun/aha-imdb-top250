@@ -25,6 +25,7 @@
 | 观影入口 | 编辑团队撰写的「值得看的地方」引语 + 适合谁看 + 二刷提示 |
 | 去哪看 | 豆瓣（条目/影评）、JustWatch（正版流媒体）、资源搜索三合一跳转 |
 | 相关推荐 | 每部电影配 6 部关联片，每条都带具体的关联理由（去重无套话） |
+| AI 对话 | 首页可问「今晚看什么」，详情页可聊当前电影；DeepSeek 流式输出，游客每小时 10 条 |
 | 看过 / 想看 / 收藏 | 点击卡片底部图标标记，hover 显示中文提示 |
 | SEO 页面 | 详情页输出独立 meta、canonical、结构化数据和 sitemap |
 | WebP 海报缓存 | 海报由服务端压缩为低分辨率 WebP 并持久缓存 |
@@ -132,9 +133,9 @@ pnpm generate:details
 
 # English
 
-Qiaomu Movie List is a self-hosted Chinese movie guide for IMDb Top 250. Each film gets a literary Chinese synopsis, award/box-office highlights, an editorial viewing guide, and search-jump links to Douban / JustWatch / BT search. Related recommendations are curated with specific, non-duplicative reasons.
+Qiaomu Movie List is a self-hosted Chinese movie guide for IMDb Top 250. Each film gets a literary Chinese synopsis, award/box-office highlights, an editorial viewing guide, and search-jump links to Douban / JustWatch / BT search. Related recommendations are curated with specific, non-duplicative reasons. An AI assistant (DeepSeek, streaming) can help pick films from the chart on the homepage or discuss the current film on its detail page.
 
-Users can browse, search, and mark watch states without signing in.
+Users can browse, search, and chat with the AI without signing in (guests: 10 messages/hour).
 
 ## Quick Start
 

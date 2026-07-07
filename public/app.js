@@ -643,7 +643,9 @@ function showHome({ replace = false } = {}) {
   els.homeView.hidden = false;
   els.detailView.hidden = true;
   closeAiPanel();
-  els.aiFab.hidden = true;
+  // Home also has the AI button (general Top-250 chat, no specific movie)
+  state.chat = { movieId: null, turns: [], streaming: false, remaining: null };
+  els.aiFab.hidden = false;
   setDocumentMeta("IMDb Top 250 | 乔木电影清单", "浏览 IMDb Top 250 高分电影，查看中文片名、影片摘要、用户口碑、相关电影推荐，并标记看过、想看和收藏。", "/");
   if (replace) window.history.replaceState({}, "", "/");
 }
@@ -920,17 +922,29 @@ if ("IntersectionObserver" in window) {
 
 // --- AI chat panel ---
 
-const AI_SUGGESTIONS = [
+const AI_SUGGESTIONS_MOVIE = [
   "这部电影值得看吗？",
   "讲的是什么？",
   "导演风格怎么样？",
   "和同类型电影比如何？"
 ];
 
+const AI_SUGGESTIONS_HOME = [
+  "今晚看什么好？",
+  "推荐几部悬疑片",
+  "90 分钟内的高分片",
+  "适合周末和家人看的"
+];
+
+function aiSuggestions() {
+  return state.chat.movieId ? AI_SUGGESTIONS_MOVIE : AI_SUGGESTIONS_HOME;
+}
+
 function openAiPanel() {
-  if (!state.detail) return;
   els.aiPanel.hidden = false;
   document.body.classList.add("ai-panel-open");
+  const titleEl = els.aiPanel.querySelector(".ai-panel-title span:last-child");
+  if (titleEl) titleEl.textContent = state.chat.movieId ? "聊聊这部电影" : "帮你从 Top 250 里挑";
   renderAiMessages();
   renderAiSuggestions();
   updateAiFootNote();
@@ -944,13 +958,16 @@ function closeAiPanel() {
 
 function renderAiMessages() {
   const turns = state.chat.turns;
+  const emptyHint = state.chat.movieId
+    ? `问我任何关于《${escapeHtml(displayTitle(state.detail) || "这部电影")}》的问题。`
+    : "告诉我你今晚的心情或想看的类型，我从 Top 250 里帮你挑。";
   els.aiMessages.innerHTML = turns.map((t, i) => {
     if (t.role === "user") {
       return `<div class="ai-msg ai-msg-user">${escapeHtml(t.content)}</div>`;
     }
     const isStreaming = state.chat.streaming && i === turns.length - 1;
     return `<div class="ai-msg ai-msg-bot">${markdownLite(t.content || "")}${isStreaming ? '<span class="ai-cursor"></span>' : ""}</div>`;
-  }).join("") || `<div class="ai-empty">问我任何关于《${escapeHtml(displayTitle(state.detail) || "这部电影")}》的问题。</div>`;
+  }).join("") || `<div class="ai-empty">${emptyHint}</div>`;
   els.aiMessages.scrollTop = els.aiMessages.scrollHeight;
 }
 
@@ -959,7 +976,7 @@ function renderAiSuggestions() {
     els.aiSuggestions.innerHTML = "";
     return;
   }
-  els.aiSuggestions.innerHTML = AI_SUGGESTIONS
+  els.aiSuggestions.innerHTML = aiSuggestions()
     .map((q) => `<button type="button" class="ai-suggestion" data-q="${escapeHtml(q)}">${escapeHtml(q)}</button>`)
     .join("");
 }
@@ -971,8 +988,8 @@ function updateAiFootNote() {
   }
   const r = state.chat.remaining;
   els.aiFootNote.textContent = r === null
-    ? "游客每小时可对话 8 条，登录后无限"
-    : `游客剩余 ${r}/8 条，登录后无限`;
+    ? "游客每小时可对话 10 条，登录后无限"
+    : `游客剩余 ${r}/10 条，登录后无限`;
 }
 
 function appendAiTurn(role, content) {
@@ -982,7 +999,7 @@ function appendAiTurn(role, content) {
 }
 
 async function sendAiMessage(text) {
-  if (state.chat.streaming || !text.trim() || !state.chat.movieId) return;
+  if (state.chat.streaming || !text.trim()) return;
   appendAiTurn("user", text.trim());
   els.aiInput.value = "";
   state.chat.streaming = true;
@@ -994,7 +1011,10 @@ async function sendAiMessage(text) {
   try {
     // Send all non-empty turns BEFORE the empty streaming placeholder.
     const toSend = state.chat.turns.filter((t) => t.content);
-    const res = await fetch(`/api/movies/${state.chat.movieId}/chat`, {
+    const endpoint = state.chat.movieId
+      ? `/api/movies/${state.chat.movieId}/chat`
+      : `/api/chat`;
+    const res = await fetch(endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
