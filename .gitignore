@@ -8,3 +8,7 @@ storage/
 .tmp/
 npm-debug.log*
 pnpm-debug.log*
+
+# Local agent skills (tooling, not project code)
+.agents/
+skills-lock.json

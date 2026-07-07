@@ -85,6 +85,29 @@
         <article class="detail-page" id="detailView" hidden></article>
       </main>
 
+      <!-- AI 对话侧栏 -->
+      <aside class="ai-panel" id="aiPanel" hidden aria-label="AI 对话">
+        <header class="ai-panel-head">
+          <div class="ai-panel-title">
+            <span class="ai-dot" aria-hidden="true"></span>
+            <span>聊聊这部电影</span>
+          </div>
+          <button class="ai-panel-close" type="button" id="aiPanelClose" aria-label="关闭对话">×</button>
+        </header>
+        <div class="ai-messages" id="aiMessages" aria-live="polite"></div>
+        <div class="ai-suggestions" id="aiSuggestions"></div>
+        <form class="ai-input-row" id="aiForm">
+          <input type="text" id="aiInput" placeholder="问点什么…" autocomplete="off" maxlength="500">
+          <button type="submit" id="aiSend" aria-label="发送">↑</button>
+        </form>
+        <p class="ai-foot-note" id="aiFootNote"></p>
+      </aside>
+
+      <button class="ai-fab" type="button" id="aiFab" hidden aria-label="和 AI 聊聊这部电影">
+        <span class="ai-fab-dot" aria-hidden="true"></span>
+        <span>AI</span>
+      </button>
+
       <footer class="site-footer">
         <div class="footer-brand">
           <span class="footer-dot"></span>

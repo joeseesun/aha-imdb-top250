@@ -73,6 +73,143 @@ async function currentViewer(req) {
   return { session, user };
 }
 
+// --- AI chat helpers (movie-context chat via DeepSeek, SSE streaming) ---
+
+function getClientIp(req) {
+  const fwd = req.headers["x-forwarded-for"];
+  if (typeof fwd === "string" && fwd.trim()) return fwd.split(",")[0].trim();
+  return req.socket?.remoteAddress || "unknown";
+}
+
+// In-memory guest rate limiter: { ip: { count, windowStart } }
+const guestChatLimits = new Map();
+const GUEST_CHAT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+const GUEST_CHAT_MAX = 8; // 8 messages per hour for guests
+
+function checkGuestChatLimit(ip) {
+  const now = Date.now();
+  const entry = guestChatLimits.get(ip);
+  if (!entry || now - entry.windowStart > GUEST_CHAT_WINDOW_MS) {
+    guestChatLimits.set(ip, { count: 1, windowStart: now });
+    return { allowed: true, remaining: GUEST_CHAT_MAX - 1 };
+  }
+  entry.count += 1;
+  return { allowed: entry.count <= GUEST_CHAT_MAX, remaining: Math.max(0, GUEST_CHAT_MAX - entry.count) };
+}
+
+// Periodically purge stale entries to avoid unbounded growth
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, entry] of guestChatLimits) {
+    if (now - entry.windowStart > GUEST_CHAT_WINDOW_MS * 2) guestChatLimits.delete(ip);
+  }
+}, 10 * 60 * 1000).unref();
+
+function buildMovieContext(movie) {
+  const parts = [];
+  parts.push(`片名：${movie.title || ""}${movie.titleCn ? `（${movie.titleCn}）` : ""}`);
+  if (movie.year) parts.push(`年份：${movie.year}`);
+  if (movie.runtime) parts.push(`时长：${movie.runtime}`);
+  if (movie.genre) parts.push(`类型：${movie.genre}`);
+  if (movie.director) parts.push(`导演：${movie.director}`);
+  if (movie.actors) parts.push(`主演：${movie.actors}`);
+  if (movie.imdbRating) parts.push(`IMDb 评分：${movie.imdbRating}`);
+  if (movie.synopsis?.text) parts.push(`剧情梗概：${movie.synopsis.text}`);
+  if (movie.editorial?.hook) parts.push(`影评钩子：${movie.editorial.hook}`);
+  if (movie.editorial?.intro) parts.push(`观影指南：${movie.editorial.intro}`);
+  if (movie.cn?.awards || movie.awards) parts.push(`获奖：${movie.cn?.awards || movie.awards}`);
+  return parts.join("\n");
+}
+
+function sanitizeChatTurns(messages) {
+  if (!Array.isArray(messages)) return [];
+  return messages
+    .filter((m) => m && (m.role === "user" || m.role === "assistant") && m.content)
+    .map((m) => ({ role: m.role, content: String(m.content).slice(0, 2000) }))
+    .slice(-10);
+}
+
+async function streamMovieChat(res, movie, turns, { isGuest }) {
+  const apiKey = config.deepseekApiKey;
+  if (!apiKey) {
+    writeSse(res, { type: "error", error: "AI 服务未配置" });
+    return;
+  }
+  const context = buildMovieContext(movie);
+  const payload = {
+    model: config.deepseekModel === "deepseek-v4-flash" ? "deepseek-chat" : config.deepseekModel,
+    stream: true,
+    thinking: { type: "disabled" },
+    messages: [
+      {
+        role: "system",
+        content: [
+          "你是一个嵌入电影指南网站的 AI 助手，用户正在浏览当前电影的详情页。",
+          "你可以基于当前电影的信息回答用户关于这部电影的问题，也可以聊相关电影、导演风格、观影建议。",
+          "用中文回答，简洁有判断，可以用 Markdown 列表。如果信息不足，坦诚说明，不要编造。",
+          "不要剧透关键剧情转折和结局。"
+        ].join("\n")
+      },
+      { role: "user", content: `当前电影信息：\n${context}` },
+      { role: "assistant", content: "已读取当前电影信息，你可以问我任何关于这部电影的问题。" },
+      ...turns
+    ],
+    max_tokens: isGuest ? 800 : 1500,
+    temperature: 0.5
+  };
+
+  try {
+    const upstream = await fetch(`${config.deepseekBaseUrl}/v1/chat/completions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`
+      },
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(60000)
+    });
+    if (!upstream.ok || !upstream.body) {
+      const text = await upstream.text().catch(() => "");
+      writeSse(res, { type: "error", error: `AI 请求失败 (${upstream.status})` });
+      return;
+    }
+    // Parse SSE chunks from DeepSeek and re-emit content deltas
+    const reader = upstream.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split("\n");
+      buffer = lines.pop() || "";
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed || !trimmed.startsWith("data:")) continue;
+        const data = trimmed.slice(5).trim();
+        if (data === "[DONE]") {
+          writeSse(res, { type: "done" });
+          return;
+        }
+        try {
+          const parsed = JSON.parse(data);
+          const delta = parsed.choices?.[0]?.delta?.content;
+          if (delta) writeSse(res, { type: "delta", text: delta });
+        } catch {
+          // ignore malformed lines
+        }
+      }
+    }
+    writeSse(res, { type: "done" });
+  } catch (e) {
+    writeSse(res, { type: "error", error: e?.name === "TimeoutError" ? "AI 响应超时" : "AI 服务暂时不可用" });
+  }
+}
+
+function writeSse(res, data) {
+  res.write(`data: ${JSON.stringify(data)}\n\n`);
+}
+
 function visitorActorId(visitorId) {
   const value = String(visitorId || "").trim();
   if (!/^[a-zA-Z0-9_-]{8,80}$/.test(value)) return "";
@@ -258,6 +395,41 @@ async function handleApi(req, res, url) {
   if (req.method === "GET" && movieMatch) {
     const [movie] = await decorateMovies([await getMovie(movieMatch[1], { generateAi: false, enrichResearch: true })]);
     json(res, 200, { movie });
+    return;
+  }
+
+  // AI chat: stream responses about the current movie.
+  // Guests: rate-limited (8/hr). Logged-in: unlimited.
+  const chatMatch = url.pathname.match(/^\/api\/movies\/(tt\d+)\/chat$/);
+  if (req.method === "POST" && chatMatch) {
+    const { user } = await currentViewer(req);
+    const movie = await getMovie(chatMatch[1], { generateAi: false, enrichResearch: true });
+    if (!movie) { json(res, 404, { error: "movie_not_found" }); return; }
+    const body = await parseBody(req);
+    const turns = sanitizeChatTurns(body.messages);
+    if (!turns.length || turns[turns.length - 1].role !== "user") {
+      json(res, 400, { error: "需要至少一条用户消息" });
+      return;
+    }
+    // Guest rate limit
+    if (!user) {
+      const ip = getClientIp(req);
+      const { allowed, remaining } = checkGuestChatLimit(ip);
+      if (!allowed) {
+        res.setHeader("Retry-After", "3600");
+        json(res, 429, { error: "guest_limit", message: "游客每小时限 8 条消息，登录后可无限对话。", remaining: 0 });
+        return;
+      }
+      res.setHeader("X-Chat-Remaining", String(remaining));
+    }
+    res.writeHead(200, {
+      "Content-Type": "text/event-stream; charset=utf-8",
+      "Cache-Control": "no-cache, no-transform",
+      Connection: "keep-alive",
+      "X-Accel-Buffering": "no"
+    });
+    await streamMovieChat(res, movie, turns, { isGuest: !user });
+    res.end();
     return;
   }
 

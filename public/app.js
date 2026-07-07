@@ -21,7 +21,8 @@ const state = {
   },
   authMode: "login",
   route: "home",
-  loading: false
+  loading: false,
+  chat: { movieId: null, turns: [], streaming: false, remaining: null }
 };
 
 const els = {
@@ -41,7 +42,16 @@ const els = {
   modalTitle: document.querySelector("#modalTitle"),
   modalBody: document.querySelector("#modalBody"),
   modalClose: document.querySelector("#modalClose"),
-  toast: document.querySelector("#toast")
+  toast: document.querySelector("#toast"),
+  aiPanel: document.querySelector("#aiPanel"),
+  aiPanelClose: document.querySelector("#aiPanelClose"),
+  aiMessages: document.querySelector("#aiMessages"),
+  aiSuggestions: document.querySelector("#aiSuggestions"),
+  aiForm: document.querySelector("#aiForm"),
+  aiInput: document.querySelector("#aiInput"),
+  aiSend: document.querySelector("#aiSend"),
+  aiFab: document.querySelector("#aiFab"),
+  aiFootNote: document.querySelector("#aiFootNote")
 };
 
 function getVisitorId() {
@@ -523,6 +533,7 @@ function renderDetail() {
       </div>
     </section>
     ${synopsisMarkup(movie)}
+    ${externalLinksMarkup(movie)}
     ${highlightStripMarkup(movie)}
     ${editorialMarkup(movie)}
     <div class="detail-grid">
@@ -549,7 +560,6 @@ function renderDetail() {
         </div>
       </section>
     </div>
-    ${externalLinksMarkup(movie)}
     ${relatedMarkup(movie)}
   `;
 }
@@ -632,6 +642,8 @@ function showHome({ replace = false } = {}) {
   state.detail = null;
   els.homeView.hidden = false;
   els.detailView.hidden = true;
+  closeAiPanel();
+  els.aiFab.hidden = true;
   setDocumentMeta("IMDb Top 250 | 乔木电影清单", "浏览 IMDb Top 250 高分电影，查看中文片名、影片摘要、用户口碑、相关电影推荐，并标记看过、想看和收藏。", "/");
   if (replace) window.history.replaceState({}, "", "/");
 }
@@ -684,6 +696,9 @@ async function selectMovie(imdbID, { push = true } = {}) {
   renderMovies();
   setDocumentMeta(`${displayTitle(data.movie)} | 乔木电影清单`, `${displayTitle(data.movie)}：查看影片摘要、用户口碑、相关电影推荐，并标记看过、想看或收藏。`, `/movie/${imdbID}`);
   window.scrollTo({ top: 0, behavior: "smooth" });
+  // Reset AI chat for the new movie and reveal the floating button
+  state.chat = { movieId: imdbID, turns: [], streaming: false, remaining: null };
+  els.aiFab.hidden = false;
 }
 
 async function toggleFavorite(imdbID) {
@@ -902,6 +917,172 @@ if ("IntersectionObserver" in window) {
   }, { rootMargin: "600px 0px" });
   observer.observe(els.scrollSentinel);
 }
+
+// --- AI chat panel ---
+
+const AI_SUGGESTIONS = [
+  "这部电影值得看吗？",
+  "讲的是什么？",
+  "导演风格怎么样？",
+  "和同类型电影比如何？"
+];
+
+function openAiPanel() {
+  if (!state.detail) return;
+  els.aiPanel.hidden = false;
+  document.body.classList.add("ai-panel-open");
+  renderAiMessages();
+  renderAiSuggestions();
+  updateAiFootNote();
+  els.aiInput?.focus();
+}
+
+function closeAiPanel() {
+  els.aiPanel.hidden = true;
+  document.body.classList.remove("ai-panel-open");
+}
+
+function renderAiMessages() {
+  const turns = state.chat.turns;
+  els.aiMessages.innerHTML = turns.map((t, i) => {
+    if (t.role === "user") {
+      return `<div class="ai-msg ai-msg-user">${escapeHtml(t.content)}</div>`;
+    }
+    const isStreaming = state.chat.streaming && i === turns.length - 1;
+    return `<div class="ai-msg ai-msg-bot">${markdownLite(t.content || "")}${isStreaming ? '<span class="ai-cursor"></span>' : ""}</div>`;
+  }).join("") || `<div class="ai-empty">问我任何关于《${escapeHtml(displayTitle(state.detail) || "这部电影")}》的问题。</div>`;
+  els.aiMessages.scrollTop = els.aiMessages.scrollHeight;
+}
+
+function renderAiSuggestions() {
+  if (state.chat.turns.length > 0) {
+    els.aiSuggestions.innerHTML = "";
+    return;
+  }
+  els.aiSuggestions.innerHTML = AI_SUGGESTIONS
+    .map((q) => `<button type="button" class="ai-suggestion" data-q="${escapeHtml(q)}">${escapeHtml(q)}</button>`)
+    .join("");
+}
+
+function updateAiFootNote() {
+  if (state.session.authenticated) {
+    els.aiFootNote.textContent = "";
+    return;
+  }
+  const r = state.chat.remaining;
+  els.aiFootNote.textContent = r === null
+    ? "游客每小时可对话 8 条，登录后无限"
+    : `游客剩余 ${r}/8 条，登录后无限`;
+}
+
+function appendAiTurn(role, content) {
+  state.chat.turns.push({ role, content });
+  renderAiMessages();
+  if (role === "user") renderAiSuggestions();
+}
+
+async function sendAiMessage(text) {
+  if (state.chat.streaming || !text.trim() || !state.chat.movieId) return;
+  appendAiTurn("user", text.trim());
+  els.aiInput.value = "";
+  state.chat.streaming = true;
+  els.aiSend.disabled = true;
+  // placeholder assistant turn for streaming
+  state.chat.turns.push({ role: "assistant", content: "" });
+  renderAiMessages();
+
+  try {
+    // Send all non-empty turns BEFORE the empty streaming placeholder.
+    const toSend = state.chat.turns.filter((t) => t.content);
+    const res = await fetch(`/api/movies/${state.chat.movieId}/chat`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Visitor-Id": getVisitorId()
+      },
+      body: JSON.stringify({ messages: toSend })
+    });
+
+    const remaining = res.headers.get("X-Chat-Remaining");
+    if (remaining !== null) state.chat.remaining = Number(remaining);
+
+    if (res.status === 429) {
+      const data = await res.json().catch(() => ({}));
+      state.chat.turns.pop();
+      appendAiTurn("assistant", data.message || "对话次数已达上限，登录后可继续。");
+      state.chat.streaming = false;
+      els.aiSend.disabled = false;
+      updateAiFootNote();
+      return;
+    }
+    if (!res.ok || !res.body) {
+      throw new Error("AI 暂时不可用");
+    }
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    let acc = "";
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split("\n");
+      buffer = lines.pop() || "";
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed.startsWith("data:")) continue;
+        try {
+          const evt = JSON.parse(trimmed.slice(5).trim());
+          if (evt.type === "delta") {
+            acc += evt.text;
+            state.chat.turns[state.chat.turns.length - 1].content = acc;
+            renderAiMessages();
+          } else if (evt.type === "error") {
+            state.chat.turns[state.chat.turns.length - 1].content = `⚠️ ${evt.error}`;
+            renderAiMessages();
+          } else if (evt.type === "done") {
+            // stream complete
+          }
+        } catch { /* ignore */ }
+      }
+    }
+    if (!acc) {
+      state.chat.turns[state.chat.turns.length - 1].content = "（没有收到回复，请重试）";
+      renderAiMessages();
+    }
+  } catch (e) {
+    state.chat.turns[state.chat.turns.length - 1].content = `⚠️ ${e.message || "请求失败"}`;
+    renderAiMessages();
+  } finally {
+    state.chat.streaming = false;
+    els.aiSend.disabled = false;
+    updateAiFootNote();
+  }
+}
+
+// Minimal inline markdown for chat (bold, code, line breaks, lists)
+function markdownLite(text) {
+  return escapeHtml(text)
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/`(.+?)`/g, "<code>$1</code>")
+    .replace(/\n/g, "<br>");
+}
+
+// Event wiring
+els.aiFab?.addEventListener("click", openAiPanel);
+els.aiPanelClose?.addEventListener("click", closeAiPanel);
+els.aiForm?.addEventListener("submit", (e) => {
+  e.preventDefault();
+  sendAiMessage(els.aiInput.value);
+});
+els.aiSuggestions?.addEventListener("click", (e) => {
+  const btn = e.target.closest(".ai-suggestion");
+  if (btn) sendAiMessage(btn.dataset.q);
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !els.aiPanel.hidden) closeAiPanel();
+});
 
 Promise.all([loadSession(), loadLeaderboards()])
   .then(async () => {
