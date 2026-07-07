@@ -22,7 +22,7 @@ const state = {
   authMode: "login",
   route: "home",
   loading: false,
-  chat: { movieId: null, turns: [], streaming: false, remaining: null }
+  chat: { movieId: null, turns: [], streaming: false, remaining: null, abortController: null }
 };
 
 const els = {
@@ -966,7 +966,7 @@ function renderAiMessages() {
       return `<div class="ai-msg ai-msg-user">${escapeHtml(t.content)}</div>`;
     }
     const isStreaming = state.chat.streaming && i === turns.length - 1;
-    return `<div class="ai-msg ai-msg-bot">${markdownLite(t.content || "")}${isStreaming ? '<span class="ai-cursor"></span>' : ""}</div>`;
+    return `<div class="ai-msg ai-msg-bot">${renderMarkdown(t.content || "")}${isStreaming ? '<span class="ai-cursor"></span>' : ""}</div>`;
   }).join("") || `<div class="ai-empty">${emptyHint}</div>`;
   els.aiMessages.scrollTop = els.aiMessages.scrollHeight;
 }
@@ -992,6 +992,29 @@ function updateAiFootNote() {
     : `游客剩余 ${r}/10 条，登录后无限`;
 }
 
+// Three-state send button: disabled (empty) / sending (stop) / idle (send)
+function updateAiSendButton() {
+  const btn = els.aiSend;
+  if (state.chat.streaming) {
+    btn.disabled = false;
+    btn.dataset.state = "streaming";
+    btn.setAttribute("aria-label", "停止生成");
+    btn.textContent = "■";
+    return;
+  }
+  const hasInput = (els.aiInput.value || "").trim().length > 0;
+  btn.disabled = !hasInput;
+  btn.dataset.state = "idle";
+  btn.setAttribute("aria-label", hasInput ? "发送" : "输入消息后发送");
+  btn.textContent = "↑";
+}
+
+function stopAiGeneration() {
+  if (state.chat.abortController) {
+    state.chat.abortController.abort();
+  }
+}
+
 function appendAiTurn(role, content) {
   state.chat.turns.push({ role, content });
   renderAiMessages();
@@ -1003,7 +1026,8 @@ async function sendAiMessage(text) {
   appendAiTurn("user", text.trim());
   els.aiInput.value = "";
   state.chat.streaming = true;
-  els.aiSend.disabled = true;
+  state.chat.abortController = new AbortController();
+  updateAiSendButton();
   // placeholder assistant turn for streaming
   state.chat.turns.push({ role: "assistant", content: "" });
   renderAiMessages();
@@ -1020,7 +1044,8 @@ async function sendAiMessage(text) {
         "Content-Type": "application/json",
         "X-Visitor-Id": getVisitorId()
       },
-      body: JSON.stringify({ messages: toSend })
+      body: JSON.stringify({ messages: toSend }),
+      signal: state.chat.abortController.signal
     });
 
     const remaining = res.headers.get("X-Chat-Remaining");
@@ -1072,21 +1097,105 @@ async function sendAiMessage(text) {
       renderAiMessages();
     }
   } catch (e) {
-    state.chat.turns[state.chat.turns.length - 1].content = `⚠️ ${e.message || "请求失败"}`;
+    // User-initiated abort: keep the partial content, no error shown
+    if (e?.name === "AbortError") {
+      const last = state.chat.turns[state.chat.turns.length - 1];
+      if (last && !last.content) last.content = "（已停止）";
+    } else {
+      state.chat.turns[state.chat.turns.length - 1].content = `⚠️ ${e.message || "请求失败"}`;
+    }
     renderAiMessages();
   } finally {
     state.chat.streaming = false;
-    els.aiSend.disabled = false;
+    state.chat.abortController = null;
+    updateAiSendButton();
+    renderAiMessages(); // re-render without the streaming cursor
     updateAiFootNote();
   }
 }
 
-// Minimal inline markdown for chat (bold, code, line breaks, lists)
-function markdownLite(text) {
-  return escapeHtml(text)
+// Markdown rendering for chat replies. Lightweight, dependency-free, and
+// streaming-safe: incomplete markers (e.g. a lone "**" or unclosed fence)
+// won't break the layout because we escape first, then transform.
+function renderMarkdown(text) {
+  if (!text) return "";
+  const escaped = escapeHtml(text);
+  const lines = escaped.split("\n");
+  const out = [];
+  let inList = false;
+  let inCode = false;
+  let codeBuf = [];
+
+  const flushList = () => { if (inList) { out.push("</ul>"); inList = false; } };
+
+  for (let i = 0; i < lines.length; i += 1) {
+    let line = lines[i];
+
+    // Code fence
+    if (line.trim().startsWith("```")) {
+      if (inCode) {
+        out.push(`<pre class="md-code-block"><code>${codeBuf.join("\n")}</code></pre>`);
+        codeBuf = [];
+        inCode = false;
+      } else {
+        flushList();
+        inCode = true;
+      }
+      continue;
+    }
+    if (inCode) { codeBuf.push(line); continue; }
+
+    // Headings
+    const h = line.match(/^(#{1,4})\s+(.+)$/);
+    if (h) {
+      flushList();
+      const level = h[1].length;
+      out.push(`<h${level} class="md-h md-h${level}">${inlineMd(h[2])}</h${level}>`);
+      continue;
+    }
+
+    // Unordered list item (- or *)
+    const ul = line.match(/^\s*[-*]\s+(.+)$/);
+    if (ul) {
+      if (!inList) { out.push("<ul class=\"md-ul\">"); inList = true; }
+      out.push(`<li>${inlineMd(ul[1])}</li>`);
+      continue;
+    }
+
+    // Ordered list item (1. 2. etc.) — render as <ol>
+    const ol = line.match(/^\s*\d+\.\s+(.+)$/);
+    if (ol) {
+      flushList();
+      out.push(`<p class=\"md-ol-item\">${inlineMd(ol[1])}</p>`);
+      continue;
+    }
+
+    // Blank line
+    if (line.trim() === "") {
+      flushList();
+      continue;
+    }
+
+    // Regular paragraph
+    flushList();
+    out.push(`<p class="md-p">${inlineMd(line)}</p>`);
+  }
+
+  // Unclosed code fence (streaming mid-block): render what we have so far
+  if (inCode && codeBuf.length) {
+    out.push(`<pre class="md-code-block md-streaming"><code>${codeBuf.join("\n")}</code></pre>`);
+  }
+  flushList();
+  return out.join("");
+}
+
+// Inline markdown: bold, italic, inline code, links.
+function inlineMd(text) {
+  return text
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-    .replace(/`(.+?)`/g, "<code>$1</code>")
-    .replace(/\n/g, "<br>");
+    .replace(/(?<!\*)\*([^*\n]+?)\*(?!\*)/g, "<em>$1</em>")
+    .replace(/`([^`]+?)`/g, "<code class=\"md-code-inline\">$1</code>")
+    .replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer noopener">$1</a>');
 }
 
 // Event wiring
@@ -1094,8 +1203,13 @@ els.aiFab?.addEventListener("click", openAiPanel);
 els.aiPanelClose?.addEventListener("click", closeAiPanel);
 els.aiForm?.addEventListener("submit", (e) => {
   e.preventDefault();
-  sendAiMessage(els.aiInput.value);
+  if (state.chat.streaming) {
+    stopAiGeneration();
+  } else {
+    sendAiMessage(els.aiInput.value);
+  }
 });
+els.aiInput?.addEventListener("input", updateAiSendButton);
 els.aiSuggestions?.addEventListener("click", (e) => {
   const btn = e.target.closest(".ai-suggestion");
   if (btn) sendAiMessage(btn.dataset.q);
@@ -1103,6 +1217,7 @@ els.aiSuggestions?.addEventListener("click", (e) => {
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && !els.aiPanel.hidden) closeAiPanel();
 });
+updateAiSendButton();
 
 Promise.all([loadSession(), loadLeaderboards()])
   .then(async () => {
