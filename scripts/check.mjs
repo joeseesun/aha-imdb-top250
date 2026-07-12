@@ -56,6 +56,7 @@ const css = await readFile(path.join(root, "public/styles.css"), "utf8");
 const app = await readFile(path.join(root, "public/app.js"), "utf8");
 const pkg = JSON.parse(await readFile(path.join(root, "package.json"), "utf8"));
 const serverIndex = await readFile(path.join(root, "server/index.mjs"), "utf8");
+const serverConfig = await readFile(path.join(root, "server/config.mjs"), "utf8");
 const server = await readFile(path.join(root, "server/movies.mjs"), "utf8");
 const warmCache = await readFile(path.join(root, "scripts/warm-cache.mjs"), "utf8");
 const generateDetails = await readFile(path.join(root, "scripts/generate-details.mjs"), "utf8");
@@ -76,6 +77,9 @@ const checks = [
   ["leaderboards hidden by default", /id="leaderboardGrid"[^>]*hidden/.test(html) && app.includes("els.leaderboardGrid.hidden")],
   ["editorial detail UI", app.includes("editorialMarkup") && app.includes("先看这些") && app.includes("放进语境")],
   ["detail API does not generate AI", serverIndex.includes("getMovie(movieMatch[1], { generateAi: false, enrichResearch: true })") && server.includes("generateEditorial = false") && server.includes("if (!generate) return null")],
+  ["DeepSeek is locked to the official endpoint and V4 Flash", serverConfig.includes('DEEPSEEK_FLASH_MODEL = "deepseek-v4-flash"') && serverConfig.includes('DEEPSEEK_OFFICIAL_BASE_URL = "https://api.deepseek.com"') && serverConfig.includes("deepseekBaseUrl: deepseekBaseUrl()") && serverConfig.includes("deepseekModel: DEEPSEEK_FLASH_MODEL")],
+  ["DeepSeek calls use the configured Flash model directly", (serverIndex.match(/model: config\.deepseekModel/g) || []).length === 2 && server.includes("model: config.deepseekModel")],
+  ["no DeepSeek Pro or legacy alias in runtime code", !/deepseek-(?:v4-pro|chat|reasoner)/.test(`${serverConfig}\n${serverIndex}\n${server}`)],
   ["warm script generates full details", pkg.scripts?.["generate:details"]?.includes("scripts/generate-details.mjs") && generateDetails.includes('WARM_LIMIT ||= "250"') && warmCache.includes("generateEditorial: warmEditorial")],
   ["SEO marker", html.includes("<!-- SEO_HEAD -->")],
   ["no provider strip", !html.includes("providerStrip") && !app.includes("renderProviders")],
