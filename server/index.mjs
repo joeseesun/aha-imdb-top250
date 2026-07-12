@@ -137,7 +137,7 @@ async function streamMovieChat(res, movie, turns, { isGuest }) {
   }
   const context = buildMovieContext(movie);
   const payload = {
-    model: config.deepseekModel === "deepseek-v4-flash" ? "deepseek-chat" : config.deepseekModel,
+    model: config.deepseekModel,
     stream: true,
     thinking: { type: "disabled" },
     messages: [
@@ -224,7 +224,7 @@ async function streamGeneralChat(res, turns, { isGuest }) {
     .map((m) => `${m.rank}. ${m.title}${m.titleCn ? `《${m.titleCn}》` : ""}${m.rating || m.imdbRating ? ` ${m.rating || m.imdbRating}` : ""}`)
     .join("\n");
   const payload = {
-    model: config.deepseekModel === "deepseek-v4-flash" ? "deepseek-chat" : config.deepseekModel,
+    model: config.deepseekModel,
     stream: true,
     thinking: { type: "disabled" },
     messages: [
